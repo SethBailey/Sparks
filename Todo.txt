@@ -1,0 +1,86 @@
+Backlog
+-------
+
+
+
+Veersion 1 ( Live )
+------------
+===Happy for anyone to play it==
+
+*multiple levels
+* get more health
+    * There may be multiple ways ... we might break this down into multiple stories.
+        * Sleep
+        * Manna
+* Add a time element ( so you only have N days to save the lady)
+    * running away give you a time penalty ?
+* magic    
+    * possibly magic items
+*EXP
+* have a invetory page ?
+* leaderboard
+* Direction, I can go anywhere, not one of the options
+* Black Dungeon -> If you know I don't have the funds... should you ask me if I want to pay?
+
+
+Version 0.2 (Beta - Sorendo)
+------------
+==Clean Code==
+* Daddy code review
+* Add some more skill to the game .. I feel lucky ( Dad reqeust )
+
+
+Verion 0.1 (Alpha - Pa )
+-----------
+==Working Game==
+
+
+Bugs
+----
+* Name
+
+
+
+
+
+
+In Progress
+-----------
+* QA Testing 
+
+
+
+
+Done
+----
+* Game flow
+* Gold
+* Health
+* Multi state fight scene
+* Running away during a fight
+* story line
+* Work around that the game can be beaten easily by just running away
+    * This task will not result in any new code... but just a bunch of new pieces of work ( which we call Stories )
+        * Perhaps you only get gold if you fight ... maybe you never just find it?
+* get more health
+    * Medicine
+     * find / drop
+       * monster reward
+* Add Black Dungeon to "direction", but only after you have enough money
+* different monsters with different strenghts and weaknesses and gold 
+* What can you do with gold ?
+    * buy armour
+    * buy weapons
+    * buy Medicine 
+* how to fight baddie
+    * how to pay randsom / kill final boss   
+* readabilty (output like a typewriter effect)
+*multiple files
+* Making restart possible
+* No final score when the game ends
+* call stack
+* clear screen
+* deal with upper case issues 
+* I can't see what my current gold is unless I get more
+    * alway display health / gold ?
+* error checking for user input
