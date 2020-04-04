@@ -297,9 +297,9 @@ namespace game
             }
         }
         private void blackDungeonKill()
-            {             
-                 Fight(new Monster("Dark high mage", 100, 300, 300));
-            }
+        {             
+            Fight(new Monster("Dark high mage", 100, 300, 300));
+        }
 
         private void blackDungeonPay()
         {
