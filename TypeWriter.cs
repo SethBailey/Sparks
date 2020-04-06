@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace game
@@ -17,21 +18,33 @@ namespace game
             Console.WriteLine();
         }
 
-        static public void WriteLine(string message, Speed speed = Speed.List, int wait = 0 )
+        static public void WriteLine(List<Text> texts, int wait=0)
         {
-            if (speed == Speed.Immediate)
+            ConsoleColor original = Console.ForegroundColor;
+            foreach (var text in texts)
             {
-                Console.WriteLine(message);
-                return;
-            }
+                Console.ForegroundColor = text.ConsoleColor;
+                Type(text.text, text.speed);
+            }            
+            Console.ForegroundColor = original;
+            Console.WriteLine();
+            Thread.Sleep(wait);
+        }
 
-            foreach ( var c in message)
+        public static void WriteLine(string text, Speed speed = Speed.List, int wait = 0)
+        {
+            Type(text, speed);
+            Console.WriteLine();
+            Thread.Sleep(wait);
+        }
+
+        private static void Type(string text, Speed speed)
+        {
+            foreach (var c in text)
             {
                 Console.Write(c);
                 Thread.Sleep((int)speed);
             }
-            Console.WriteLine();
-            Thread.Sleep(wait);
         }
     }
 }
