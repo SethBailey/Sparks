@@ -28,6 +28,7 @@ Version 0.2 (Beta - Sorendo)
 ==Clean Code==
 * Daddy code review
 * Add some more skill to the game .. I feel lucky ( Dad reqeust )
+* QA Testing 
 
 
 Verion 0.1 (Alpha - Pa )
@@ -37,7 +38,7 @@ Verion 0.1 (Alpha - Pa )
 
 Bugs
 ----
-* Name
+
 
 
 
@@ -46,7 +47,7 @@ Bugs
 
 In Progress
 -----------
-* QA Testing 
+* emotion text
 
 
 
@@ -84,3 +85,4 @@ Done
 * I can't see what my current gold is unless I get more
     * alway display health / gold ?
 * error checking for user input
+* Name
