@@ -18,7 +18,12 @@ namespace game
             Console.WriteLine();
         }
 
-        static public void WriteLine(List<Text> texts, int wait=0)
+        static public void WriteLine(List<Text> texts)
+        {
+            WriteLine(texts.ToArray());
+        }
+
+        public static void WriteLine(params Text[] texts)
         {
             ConsoleColor original = Console.ForegroundColor;
             foreach (var text in texts)
@@ -28,14 +33,12 @@ namespace game
             }            
             Console.ForegroundColor = original;
             Console.WriteLine();
-            Thread.Sleep(wait);
         }
 
-        public static void WriteLine(string text, Speed speed = Speed.List, int wait = 0)
+        public static void WriteLine(string text, Speed speed = Speed.List)
         {
             Type(text, speed);
             Console.WriteLine();
-            Thread.Sleep(wait);
         }
 
         private static void Type(string text, Speed speed)
