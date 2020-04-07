@@ -21,11 +21,12 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
-    - name: PUblish-x86
-      run: dotnet publish --self-contained true -r win-x86 -c release
     - name: PUblish-x64
-      run: dotnet publish --self-contained true -r win-x64 -c release
+      run: dotnet publish --self-contained true -r win-x64 -c release -o ./bin/x64/
+    - name : Upload Artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: sparks-x64
+        path: ./bin/x64/
 
 
