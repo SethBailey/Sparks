@@ -85,12 +85,12 @@ namespace game
             List<Text> messsage = new List<Text>();
             messsage.Add( new Text("You have "));
             messsage.Add( new Text($"{playerHP} HP ", ConsoleColor.Green));
-            messsage.Add( new Text($"and "));
+            messsage.Add( new Text("and "));
             messsage.Add( new Text($"{playerGold} Gold", ConsoleColor.DarkYellow));
             
             if (playerWeapon != null )
             {
-                messsage.Add( new Text($" and a "));
+                messsage.Add( new Text(" and a "));
                 messsage.Add( new Text($"{playerWeapon.name} ", ConsoleColor.DarkCyan));
             }
             if ( playerArmour != null)
@@ -129,7 +129,7 @@ namespace game
                         else
                         {
                             TypeWriter.WriteLine($"{userName} you ran from the fight and make it back to safety ",TypeWriter.Speed.List);
-                            TypeWriter.WriteLine(new Text($"But you lost "),
+                            TypeWriter.WriteLine(new Text("But you lost "),
                                                  new Text($"{runCost} Gold ", ConsoleColor.DarkYellow),
                                                  new Text("by paying the monster to let you go"));
                             playerGold -= runCost;
@@ -147,7 +147,7 @@ namespace game
 
                 if (whoStrikes == 1)
                 {
-                    TypeWriter.WriteLine( new Text($"You strike a blow and deal "),
+                    TypeWriter.WriteLine( new Text("You strike a blow and deal "),
                                           new Text($"{playerAP} damage",ConsoleColor.Red));
 
                     monster.healthPoints -= playerAP;
@@ -290,9 +290,9 @@ namespace game
         private void FoundGold()
         {
             int foundGold = new Random().Next(1, 81);
-            TypeWriter.WriteLine(new Text($"You found "),
+            TypeWriter.WriteLine(new Text("You found "),
                                  new Text($"{foundGold} gold coins ",ConsoleColor.DarkYellow),
-                                 new Text($"on the road", ConsoleColor.White,TypeWriter.Speed.List));
+                                 new Text("on the road", ConsoleColor.White,TypeWriter.Speed.List));
             playerGold += foundGold;
             List<Text> goldList = new List<Text>();
             goldList.Add( new Text("You now have "));
@@ -356,7 +356,7 @@ namespace game
         private void endMessageKill()
         {
             TypeWriter.WriteLine($"Very well done {userName}, hats off to you and so on and so forth",TypeWriter.Speed.Talk);
-            TypeWriter.WriteLine($"If you were a chess piece you would be a queen, my most powerfull piece",TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine("If you were a chess piece you would be a queen, my most powerfull piece",TypeWriter.Speed.Talk);
             TypeWriter.WriteLine("...",TypeWriter.Speed.Talk);
             TypeWriter.WriteLine("Oh and well done for rescuing Kafe as well",TypeWriter.Speed.Talk);
             TypeWriter.WriteLine("...",TypeWriter.Speed.Talk);
@@ -704,27 +704,7 @@ namespace game
     class Program
     {
         static void Main(string[] args)
-        {
-         /*   int variable = 100;
-   
-            List<Text> list = new List<Text>();
-            list.Add( new Text("hello"));
-            list.Add( new Text($" World {variable}", ConsoleColor.DarkRed, TypeWriter.Speed.Talk));
-            TypeWriter.WriteLine(list);
-            
-            TypeWriter.WriteLine( new List<Text>() {
-                new Text("hello "),
-                new Text($"World {variable}",ConsoleColor.DarkRed)
-            });
-
-            TypeWriter.WriteLine( new Text($"Hello "), 
-                                  new Text($"World {variable}", ConsoleColor.DarkRed));
-            
-
-
-            return;
-*/
-
+        {      
             TheGame theGame = new TheGame();
              
             bool replay = true;
