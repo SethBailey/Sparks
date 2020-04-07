@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace game
 {
@@ -31,13 +32,14 @@ namespace game
                 //Do player introductions
                 TypeWriter.WriteLine("Enter your name:",TypeWriter.Speed.Talk); 
                 userName = Console.ReadLine();
-                 List<Text> startList = new List<Text>();
-                startList.Add( new Text($"Nice to meet you {userName} my name is ", ConsoleColor.White, TypeWriter.Speed.Talk));
-                startList.Add( new Text("Sparks", ConsoleColor.DarkBlue, TypeWriter.Speed.Talk));
-                TypeWriter.WriteLine(startList);
+                 
+                TypeWriter.WriteLine(new Text($"Nice to meet you {userName} my name is ", ConsoleColor.White, TypeWriter.Speed.Talk),
+                                     new Text("Sparks", ConsoleColor.DarkBlue, TypeWriter.Speed.Talk));
 
                 TypeWriter.WriteLine($"You {userName} are a knight and princess Kafe has been taken hostage by the high dark mage",TypeWriter.Speed.Talk);
-                TypeWriter.WriteLine("however his prices are steep, and he is demanding 2000 gold coins for her freedom",TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine(new Text("however his prices are steep, and he is demanding "),
+                                     new Text("2000 gold coins ", ConsoleColor.DarkYellow),
+                                     new Text("for her freedom",ConsoleColor.White,TypeWriter.Speed.Talk));
                 TypeWriter.WriteLine("You have two options: collect the gold and pay the mage or",TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine("Slay him, take back princess Kafe and rid the land of his vile existance",TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine("But there is a reason he is still alive, are you up for the challange? time to find out.",TypeWriter.Speed.Talk);
@@ -82,19 +84,19 @@ namespace game
         {
             List<Text> messsage = new List<Text>();
             messsage.Add( new Text("You have "));
-            messsage.Add( new Text($"{playerHP} HP ", ConsoleColor.Red));
+            messsage.Add( new Text($"{playerHP} HP ", ConsoleColor.Green));
             messsage.Add( new Text($"and "));
             messsage.Add( new Text($"{playerGold} Gold", ConsoleColor.DarkYellow));
             
-            //string playerStatus = $"You have {playerHP} HP and {playerGold} Gold";
             if (playerWeapon != null )
             {
                 messsage.Add( new Text($" and a "));
-                messsage.Add( new Text($"{playerWeapon.name} ", ConsoleColor.Cyan));
+                messsage.Add( new Text($"{playerWeapon.name} ", ConsoleColor.DarkCyan));
             }
             if ( playerArmour != null)
             {
-                messsage.Add( new Text($" and a {playerArmour.name}" , ConsoleColor.Blue));
+                messsage.Add( new Text(" and a "));
+                messsage.Add( new Text($"{playerArmour.name}" , ConsoleColor.Blue));
             }
 
             TypeWriter.WriteLine(messsage);
@@ -104,7 +106,8 @@ namespace game
         public void Fight( Monster monster )
         {
             TypeWriter.WriteLine($"You run into a {monster.spices}",TypeWriter.Speed.List);
-            TypeWriter.WriteLine($"The {monster.spices} has {monster.healthPoints} HP",TypeWriter.Speed.List);
+            TypeWriter.WriteLine(new Text($"The {monster.spices} has "),
+                                 new Text($"{monster.healthPoints} HP",ConsoleColor.DarkGreen));
             playerStats();
             
             while (playerHP > 0 && monster.healthPoints > 0)
@@ -125,8 +128,10 @@ namespace game
                         }
                         else
                         {
-                            TypeWriter.WriteLine($"{userName} you ran from the fight and make it back to safety",TypeWriter.Speed.List);
-                            TypeWriter.WriteLine($"But you lost {runCost} Gold by paying the monster to let you go",TypeWriter.Speed.List);
+                            TypeWriter.WriteLine($"{userName} you ran from the fight and make it back to safety ",TypeWriter.Speed.List);
+                            TypeWriter.WriteLine(new Text($"But you lost "),
+                                                 new Text($"{runCost} Gold ", ConsoleColor.DarkYellow),
+                                                 new Text("by paying the monster to let you go"));
                             playerGold -= runCost;
                             playerStats();
                             return;
@@ -142,14 +147,17 @@ namespace game
 
                 if (whoStrikes == 1)
                 {
-                    TypeWriter.WriteLine($"You strike a blow and deal {playerAP} damage",TypeWriter.Speed.List);
+                    TypeWriter.WriteLine( new Text($"You strike a blow and deal "),
+                                          new Text($"{playerAP} damage",ConsoleColor.Red));
+
                     monster.healthPoints -= playerAP;
                     if (monster.healthPoints < 0)
                     {
                         monster.healthPoints = 0;
                     }
-                    TypeWriter.WriteLine($"The {monster.spices} has {monster.healthPoints} HP",TypeWriter.Speed.List);
-                    playerStats();
+                    TypeWriter.WriteLine( new Text($"The {monster.spices} has "),
+                                          new Text($"{monster.healthPoints} HP", ConsoleColor.DarkGreen));
+                    playerStats();                      
                     TypeWriter.WriteLine();
                 }
                 else
@@ -160,14 +168,16 @@ namespace game
                         damage = 0;
                         TypeWriter.WriteLine($"Your {playerArmour.name} deflected the attack",TypeWriter.Speed.List);
                     }
-                     TypeWriter.WriteLine($"The {monster.spices} strike's a blow and deals {damage} damage",TypeWriter.Speed.List);
+                     TypeWriter.WriteLine(new Text($"The {monster.spices} strike's a blow and deals "),
+                                          new Text($"{damage} damage",ConsoleColor.Red));
 
                     playerHP -= damage;
                     if (playerHP < 0)
                     {
                         playerHP = 0;
                     }
-                    TypeWriter.WriteLine($"The monster has {monster.healthPoints} HP",TypeWriter.Speed.List);
+                    TypeWriter.WriteLine(new Text($"The {monster.spices} has "),
+                                         new Text($"{monster.healthPoints} HP",ConsoleColor.DarkGreen));
                     playerStats();
                     TypeWriter.WriteLine();
                 }
@@ -189,7 +199,8 @@ namespace game
                     winMesssage.Add( new Text($"{goldReward} Gold coins", ConsoleColor.DarkYellow));
                     playerGold += goldReward;
                     TypeWriter.WriteLine(winMesssage);
-                    AwardMedicine();         
+                    AwardMedicine();
+                    playerStats();         
                     Console.WriteLine();
                 }
                 else
@@ -235,7 +246,10 @@ namespace game
         public static string showPlayerOptions()
         {
             TypeWriter.WriteLine();
-            TypeWriter.WriteLine("Where would you like to go: north, south, east, west, the (sh)shop or to the (bd)black dungeon:", TypeWriter.Speed.List);
+            TypeWriter.WriteLine(new Text("Where would you like to go: north, south, east, west, the "),
+                                 new Text("(sh)shop ",ConsoleColor.DarkMagenta),
+                                 new Text("or to the "),
+                                 new Text("(bd)black dungeon:", ConsoleColor.DarkBlue,TypeWriter.Speed.List));
             string playerDirection = Console.ReadLine();
             return playerDirection;
         }
@@ -276,7 +290,9 @@ namespace game
         private void FoundGold()
         {
             int foundGold = new Random().Next(1, 81);
-            TypeWriter.WriteLine($"You found {foundGold} gold coins on the road", TypeWriter.Speed.List);
+            TypeWriter.WriteLine(new Text($"You found "),
+                                 new Text($"{foundGold} gold coins ",ConsoleColor.DarkYellow),
+                                 new Text($"on the road", ConsoleColor.White,TypeWriter.Speed.List));
             playerGold += foundGold;
             List<Text> goldList = new List<Text>();
             goldList.Add( new Text("You now have "));
@@ -345,7 +361,7 @@ namespace game
             TypeWriter.WriteLine("Oh and well done for rescuing Kafe as well",TypeWriter.Speed.Talk);
             TypeWriter.WriteLine("...",TypeWriter.Speed.Talk);
             TypeWriter.WriteLine("Why are you still here, you can leve now you have no futher use",TypeWriter.Speed.Talk);
-            TypeWriter.WriteLine("Check Mate",TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine(new Text("Check Mate",ConsoleColor.DarkRed,TypeWriter.Speed.Talk));
         }
 
         private void endMessagePay()
@@ -431,7 +447,12 @@ namespace game
                 cottonIntro = true;
             }
             
-            TypeWriter.WriteLine($"Hello {cottonUserName} are you looking for (w)weapons, (a)armour or (m)medicine :)",TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine(new Text($"Hello {cottonUserName} are you looking for "),
+                                 new Text("(w)weapons, ",ConsoleColor.DarkCyan, TypeWriter.Speed.Talk),
+                                 new Text("(a)armour ", ConsoleColor.Blue, TypeWriter.Speed.Talk),
+                                 new Text("or ",ConsoleColor.White, TypeWriter.Speed.Talk),
+                                 new Text("(m)medicine ",ConsoleColor.Green, TypeWriter.Speed.Talk),
+                                 new Text(":)",ConsoleColor.White,TypeWriter.Speed.Talk));
             TypeWriter.WriteLine("Or (l) to leave",TypeWriter.Speed.Talk);
             
             string playerItemType = Console.ReadLine();
@@ -474,7 +495,8 @@ namespace game
             }
             catch (Exception)
             {
-                TypeWriter.WriteLine("Sorry but I couldn't hear you over the sound of my world collapsing because of an error",TypeWriter.Speed.Talk,1000);
+                TypeWriter.WriteLine("Sorry but I couldn't hear you over the sound of my world collapsing because of an error",TypeWriter.Speed.Talk);
+                Thread.Sleep(1000);
                 BuyMedicine();
                 return;
             }
@@ -533,7 +555,8 @@ namespace game
             }
             catch (Exception)
             {
-                TypeWriter.WriteLine("Sorry but I couldn't hear you over the sound of my world collapsing because of an error",TypeWriter.Speed.Talk,1000);
+                TypeWriter.WriteLine("Sorry but I couldn't hear you over the sound of my world collapsing because of an error",TypeWriter.Speed.Talk);
+                Thread.Sleep(1000);
                 BuyArmour();
                 return;
             }
@@ -590,7 +613,8 @@ namespace game
             }
             catch (Exception)
             {
-                TypeWriter.WriteLine("Sorry but I couldn't hear you over the sound of my world collapsing because of an error",TypeWriter.Speed.Talk,1000);
+                TypeWriter.WriteLine("Sorry but I couldn't hear you over the sound of my world collapsing because of an error",TypeWriter.Speed.Talk);
+                Thread.Sleep(1000);
                 BuyWeapon();
                 return;
             }
@@ -608,7 +632,8 @@ namespace game
         {
             if (playerGold < shopWeapons[playerChoice].price)
             {
-               TypeWriter.WriteLine($"Sorry {cottonUserName} you don't have enough gold", TypeWriter.Speed.Talk, 1000);
+               TypeWriter.WriteLine($"Sorry {cottonUserName} you don't have enough gold", TypeWriter.Speed.Talk);
+               Thread.Sleep(1000);
                BuyWeapon();
             }
             else
@@ -679,12 +704,24 @@ namespace game
     class Program
     {
         static void Main(string[] args)
-        {   
-            /*
+        {
+         /*   int variable = 100;
+   
             List<Text> list = new List<Text>();
-            list.Add( new Text("hello", ConsoleColor.DarkBlue, TypeWriter.Speed.List));
-            list.Add( new Text(" World", ConsoleColor.DarkRed, TypeWriter.Speed.Talk));
+            list.Add( new Text("hello"));
+            list.Add( new Text($" World {variable}", ConsoleColor.DarkRed, TypeWriter.Speed.Talk));
             TypeWriter.WriteLine(list);
+            
+            TypeWriter.WriteLine( new List<Text>() {
+                new Text("hello "),
+                new Text($"World {variable}",ConsoleColor.DarkRed)
+            });
+
+            TypeWriter.WriteLine( new Text($"Hello "), 
+                                  new Text($"World {variable}", ConsoleColor.DarkRed));
+            
+
+
             return;
 */
 
