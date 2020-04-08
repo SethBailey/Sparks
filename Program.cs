@@ -8,14 +8,14 @@ namespace game
     {
        int playerHP = 100;
        string userName;
-       public int playerGold = 0;
+       private const int startingGold = 300;
+       public int playerGold = startingGold;
        public string cottonUserName;
        bool cottonIntro = false;
        int protection;
        bool canPlayerRun = false;
        bool isPlayerWithMage = false;
        public bool isPlayerNew = true;
-       int spendingGolld = 300;
        
        Weapon playerWeapon;
        Armour playerArmour;
@@ -26,20 +26,16 @@ namespace game
 
         public void Begin()
         {
-           
-
-             if (isPlayerNew)
+            if (isPlayerNew)
             {
                 //Do player introductions
                 TypeWriter.WriteLine("Enter your name:", TypeWriter.Speed.Talk);
                 userName = Console.ReadLine();
-
                 TypeWriter.WriteLine(new Text($"Nice to meet you {userName} my name is ", ConsoleColor.White, TypeWriter.Speed.Talk),
                                      new Text("Sparks", ConsoleColor.DarkBlue, TypeWriter.Speed.Talk));
-
                 TypeWriter.WriteLine($"You {userName} are a knight and princess Kafe has been taken hostage by the high dark mage", TypeWriter.Speed.Talk);
-                TypeWriter.WriteLine(new Text("however his prices are steep, and he is demanding "),
-                                     new Text("2000 gold coins ", ConsoleColor.Yellow),
+                TypeWriter.WriteLine(new Text("however his prices are steep, and he is demanding ", ConsoleColor.White, TypeWriter.Speed.Talk),
+                                     new Text("2000 gold coins ", ConsoleColor.Yellow, TypeWriter.Speed.Talk),
                                      new Text("for her freedom", ConsoleColor.White, TypeWriter.Speed.Talk));
                 TypeWriter.WriteLine("You have two options: collect the gold and pay the mage or", TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine("Slay him, take back princess Kafe and rid the land of his vile existance", TypeWriter.Speed.Talk);
@@ -47,26 +43,19 @@ namespace game
                 TypeWriter.WriteLine(new Text("I will give you "),
                                      new Text("300 gold coins ", ConsoleColor.Yellow),
                                      new Text("to start you off with"));
-                sparksBeginGold();
                 TypeWriter.WriteLine();
                 playerStats();
                 FillShopWithArmour();
                 FillShopWithWeapons();
             }
             else
-             {
-                 TypeWriter.WriteLine();
-                 TypeWriter.WriteLine($"Welcome back {userName}",TypeWriter.Speed.Talk);
-                 TypeWriter.WriteLine("Lets just get on with it",TypeWriter.Speed.Talk);
-                 TypeWriter.WriteLine();
-                 sparksBeginGold();
-                 playerStats();
-             }           
-        }
-
-        private void sparksBeginGold()
-        {
-            playerGold += spendingGolld;
+            {
+                TypeWriter.WriteLine();
+                TypeWriter.WriteLine($"Welcome back {userName}",TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine("Lets just get on with it",TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine();
+                playerStats();
+            }           
         }
 
         private void FillShopWithArmour()
@@ -686,7 +675,7 @@ namespace game
                 shopWeapons.Add(playerWeapon); 
             }
             playerWeapon = null;
-            playerGold = 0;
+            playerGold = startingGold;
             playerHP = 100;
             isPlayerNew = false;
             isPlayerWithMage = false;
