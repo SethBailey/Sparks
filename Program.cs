@@ -41,7 +41,7 @@ namespace game
                 TypeWriter.WriteLine("Slay him, take back princess Kafe and rid the land of his vile existance", TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine("But there is a reason he is still alive, are you up for the challange? time to find out.", TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine(new Text("I will give you "),
-                                     new Text("300 gold coins ", ConsoleColor.Yellow),
+                                     new Text($"{startingGold} gold coins ", ConsoleColor.Yellow),
                                      new Text("to start you off with"));
                 TypeWriter.WriteLine();
                 playerStats();
