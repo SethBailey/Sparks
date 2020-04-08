@@ -8,7 +8,8 @@ namespace game
     {
        int playerHP = 100;
        string userName;
-       public int playerGold = 0;
+       private const int startingGold = 300;
+       public int playerGold = startingGold;
        public string cottonUserName;
        bool cottonIntro = false;
        int protection;
@@ -25,37 +26,36 @@ namespace game
 
         public void Begin()
         {
-           
-
-             if (isPlayerNew)
-             {
+            if (isPlayerNew)
+            {
                 //Do player introductions
-                TypeWriter.WriteLine("Enter your name:",TypeWriter.Speed.Talk); 
+                TypeWriter.WriteLine("Enter your name:", TypeWriter.Speed.Talk);
                 userName = Console.ReadLine();
-                 
                 TypeWriter.WriteLine(new Text($"Nice to meet you {userName} my name is ", ConsoleColor.White, TypeWriter.Speed.Talk),
                                      new Text("Sparks", ConsoleColor.DarkBlue, TypeWriter.Speed.Talk));
-
-                TypeWriter.WriteLine($"You {userName} are a knight and princess Kafe has been taken hostage by the high dark mage",TypeWriter.Speed.Talk);
-                TypeWriter.WriteLine(new Text("however his prices are steep, and he is demanding "),
-                                     new Text("2000 gold coins ", ConsoleColor.DarkYellow),
-                                     new Text("for her freedom",ConsoleColor.White,TypeWriter.Speed.Talk));
-                TypeWriter.WriteLine("You have two options: collect the gold and pay the mage or",TypeWriter.Speed.Talk);
-                TypeWriter.WriteLine("Slay him, take back princess Kafe and rid the land of his vile existance",TypeWriter.Speed.Talk);
-                TypeWriter.WriteLine("But there is a reason he is still alive, are you up for the challange? time to find out.",TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine($"You {userName} are a knight and princess Kafe has been taken hostage by the high dark mage", TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine(new Text("however his prices are steep, and he is demanding ", ConsoleColor.White, TypeWriter.Speed.Talk),
+                                     new Text("2000 gold coins ", ConsoleColor.Yellow, TypeWriter.Speed.Talk),
+                                     new Text("for her freedom", ConsoleColor.White, TypeWriter.Speed.Talk));
+                TypeWriter.WriteLine("You have two options: collect the gold and pay the mage or", TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine("Slay him, take back princess Kafe and rid the land of his vile existance", TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine("But there is a reason he is still alive, are you up for the challange? time to find out.", TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine(new Text("I will give you "),
+                                     new Text($"{startingGold} gold coins ", ConsoleColor.Yellow),
+                                     new Text("to start you off with"));
                 TypeWriter.WriteLine();
                 playerStats();
                 FillShopWithArmour();
                 FillShopWithWeapons();
-             }
-             else
-             {
-                 TypeWriter.WriteLine();
-                 TypeWriter.WriteLine($"Welcome back {userName}",TypeWriter.Speed.Talk);
-                 TypeWriter.WriteLine("Lets just get on with it",TypeWriter.Speed.Talk);
-                 TypeWriter.WriteLine();
-                 playerStats();
-             }           
+            }
+            else
+            {
+                TypeWriter.WriteLine();
+                TypeWriter.WriteLine($"Welcome back {userName}",TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine("Lets just get on with it",TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine();
+                playerStats();
+            }           
         }
 
         private void FillShopWithArmour()
@@ -86,7 +86,7 @@ namespace game
             messsage.Add( new Text("You have "));
             messsage.Add( new Text($"{playerHP} HP ", ConsoleColor.Green));
             messsage.Add( new Text("and "));
-            messsage.Add( new Text($"{playerGold} Gold", ConsoleColor.DarkYellow));
+            messsage.Add( new Text($"{playerGold} Gold", ConsoleColor.Yellow));
             
             if (playerWeapon != null )
             {
@@ -166,7 +166,9 @@ namespace game
                     if ( damage < 0 )
                     {
                         damage = 0;
-                        TypeWriter.WriteLine($"Your {playerArmour.name} deflected the attack",TypeWriter.Speed.List);
+                        TypeWriter.WriteLine(new Text($"Your "),
+                                             new Text($"{playerArmour.name} ",ConsoleColor.Blue),
+                                             new Text("deflected the attack", ConsoleColor.White, TypeWriter.Speed.List));
                     }
                      TypeWriter.WriteLine(new Text($"The {monster.spices} strike's a blow and deals "),
                                           new Text($"{damage} damage",ConsoleColor.Red));
@@ -196,7 +198,7 @@ namespace game
 
                     List<Text> winMesssage = new List<Text>();
                     winMesssage.Add( new Text($"{userName} won the fight and got "));
-                    winMesssage.Add( new Text($"{goldReward} Gold coins", ConsoleColor.DarkYellow));
+                    winMesssage.Add( new Text($"{goldReward} Gold coins", ConsoleColor.Yellow));
                     playerGold += goldReward;
                     TypeWriter.WriteLine(winMesssage);
                     AwardMedicine();
@@ -247,9 +249,9 @@ namespace game
         {
             TypeWriter.WriteLine();
             TypeWriter.WriteLine(new Text("Where would you like to go: north, south, east, west, the "),
-                                 new Text("(sh)shop ",ConsoleColor.DarkMagenta),
+                                 new Text("(sh)shop ",ConsoleColor.Magenta),
                                  new Text("or to the "),
-                                 new Text("(bd)black dungeon:", ConsoleColor.DarkBlue,TypeWriter.Speed.List));
+                                 new Text("(bd)black dungeon:", ConsoleColor.Blue,TypeWriter.Speed.List));
             string playerDirection = Console.ReadLine();
             return playerDirection;
         }
@@ -673,7 +675,7 @@ namespace game
                 shopWeapons.Add(playerWeapon); 
             }
             playerWeapon = null;
-            playerGold = 0;
+            playerGold = startingGold;
             playerHP = 100;
             isPlayerNew = false;
             isPlayerWithMage = false;
