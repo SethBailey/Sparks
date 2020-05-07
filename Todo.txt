@@ -1,6 +1,6 @@
 Backlog
 -------
-Look I can edit your code ... :) [touch file to test build]
+
 
 
 Veersion 1 ( Live )
@@ -47,10 +47,11 @@ Bugs
 
 In Progress
 -----------
-* emotion text
+* player Type
+    * Knight or Mage
 
 
-
+git
 
 Done
 ----
@@ -86,3 +87,4 @@ Done
     * alway display health / gold ?
 * error checking for user input
 * Name
+* emotion text

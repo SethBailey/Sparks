@@ -16,7 +16,9 @@ namespace game
        bool canPlayerRun = false;
        bool isPlayerWithMage = false;
        public bool isPlayerNew = true;
-       
+       string knightOrMage;
+       bool isPlayerKnight;
+
        Weapon playerWeapon;
        Armour playerArmour;
        private int healing;
@@ -24,8 +26,12 @@ namespace game
         List<Armour> bunchOfArmour = new List<Armour>();
         List<Weapon> shopWeapons = new List<Weapon>();
 
+      
+
         public void Begin()
         {
+            playerType();
+
             if (isPlayerNew)
             {
                 //Do player introductions
@@ -33,7 +39,7 @@ namespace game
                 userName = Console.ReadLine();
                 TypeWriter.WriteLine(new Text($"Nice to meet you {userName} my name is ", ConsoleColor.White, TypeWriter.Speed.Talk),
                                      new Text("Sparks", ConsoleColor.DarkBlue, TypeWriter.Speed.Talk));
-                TypeWriter.WriteLine($"You {userName} are a knight and princess Kafe has been taken hostage by the high dark mage", TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine($"You {userName} are a {isPlayerKnight} and princess Kafe has been taken hostage by the high dark mage", TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine(new Text("however his prices are steep, and he is demanding ", ConsoleColor.White, TypeWriter.Speed.Talk),
                                      new Text("2000 gold coins ", ConsoleColor.Yellow, TypeWriter.Speed.Talk),
                                      new Text("for her freedom", ConsoleColor.White, TypeWriter.Speed.Talk));
@@ -57,27 +63,71 @@ namespace game
                 playerStats();
             }           
         }
+          public void playerType()
+        {
+            TypeWriter.WriteLine("Are you a (k)Knight or a (m)Mage", TypeWriter.Speed.Talk);
+            knightOrMage = Console.ReadLine();
+
+            switch (knightOrMage)
+            {
+                case "k":
+                    isPlayerKnight = true;
+                    break;
+                case "m":
+                    isPlayerKnight = false;
+                    break;
+                default:
+                    TypeWriter.WriteLine("That was not an option", TypeWriter.Speed.Talk);
+                    break;
+            }
+        }
 
         private void FillShopWithArmour()
         {
-            //Create our set of armour
-            bunchOfArmour.Add(new Armour("shinGuard", 100, 25, "Achillyes would be proud"));
-            bunchOfArmour.Add(new Armour("KneeGuard", 200, 45, "Because all the best warriors need one ;)"));
-            bunchOfArmour.Add(new Armour("helmet", 250, 65, "Keeps your head safe and works as a hat"));
-            bunchOfArmour.Add(new Armour("brestplate", 340, 80, "To keep them pecks from geting any unwanted scars"));
-            bunchOfArmour.Add(new Armour("shield", 400, 100, "You should never leave home without one"));
-            bunchOfArmour.Add(new Armour("ToothGuard", 500, 130, "Mmmifffmm mmmfmmm immmmfmm"));
+            if (isPlayerKnight == true)
+            {
+                    //Create our set of armour
+                bunchOfArmour.Add(new Armour("shinGuard", 100, 25, "Achillyes would be proud"));
+                bunchOfArmour.Add(new Armour("KneeGuard", 200, 45, "Because all the best warriors need one ;)"));
+                bunchOfArmour.Add(new Armour("helmet", 250, 65, "Keeps your head safe and works as a hat"));
+                bunchOfArmour.Add(new Armour("brestplate", 340, 80, "To keep them pecks from geting any unwanted scars"));
+                bunchOfArmour.Add(new Armour("shield", 400, 100, "You should never leave home without one"));
+                bunchOfArmour.Add(new Armour("ToothGuard", 500, 130, "Mmmifffmm mmmfmmm immmmfmm"));
+            }
+            else 
+            {
+                bunchOfArmour.Add(new Armour("cloke", 50, 10, "The fabric is so thick and heavy that it protects"));
+                bunchOfArmour.Add(new Armour("red ring", 230, 50, "No blood can be lost while wearing it"));
+                bunchOfArmour.Add(new Armour("enchanted gold brestplate", 300, 65, "About as inconspicuas as a hippo on a trapolene"));
+                bunchOfArmour.Add(new Armour("complex enchantment", 370, 80, "Lots of math and long word went into making this"));
+                bunchOfArmour.Add(new Armour("full magus getup", 450, 100, "protects just because of how cool it looks"));
+                bunchOfArmour.Add(new Armour("extreme enchantment", 550, 135, "This thing is so strong that it can even sting a littil"));
+            }    
+            
         }
 
         private void FillShopWithWeapons()
         {
-            //Create our set of weapons
-            shopWeapons.Add(new Weapon("knuckle duster", 150, 20, "Not recomended for real dusting"));
-            shopWeapons.Add(new Weapon("sword", 250, 35, "Very standed sword but still good to have in a fight"));
-            shopWeapons.Add(new Weapon("nunchuck", 300, 45, "it's a nunnnnnchuuuuuckk!!!"));
-            shopWeapons.Add(new Weapon("axe", 400, 60, "A bit to heavy for me but the bigger thay are the harder they fall"));
-            shopWeapons.Add(new Weapon("spear", 700, 100, "Got this one stright out of a Chinese myth"));
-            shopWeapons.Add(new Weapon("revolver", 1700, 250, "The newest type of weapon, but it's very very loud"));
+            if (isPlayerKnight == true)
+            {
+                    //Create our set of weapons
+                shopWeapons.Add(new Weapon("knuckle duster", 150, 20, "Not recomended for real dusting"));
+                shopWeapons.Add(new Weapon("sword", 250, 35, "Very standed sword but still good to have in a fight"));
+                shopWeapons.Add(new Weapon("nunchuck", 300, 45, "it's a nunnnnnchuuuuuckk!!!"));
+                shopWeapons.Add(new Weapon("axe", 400, 60, "A bit to heavy for me but the bigger thay are the harder they fall"));
+                shopWeapons.Add(new Weapon("spear", 700, 100, "Got this one stright out of a Chinese myth"));
+                shopWeapons.Add(new Weapon("revolver", 1700, 250, "The newest type of weapon, but it's very very loud"));
+            }
+            else 
+            {
+                shopWeapons.Add(new Weapon("charm", 100, 15, "Granted it's plastic but it should work just as well"));
+                shopWeapons.Add(new Weapon("wand", 200, 40, "More of a wizard thing but you can probably use it"));
+                shopWeapons.Add(new Weapon("staff", 400, 55, "A repurposed chair leg... it was a very tall chair"));
+                shopWeapons.Add(new Weapon("encantis", 500, 70, "Like an encyclopidia for magic"));
+                shopWeapons.Add(new Weapon("enchanted sword", 700, 100, "Acording to this it has unbreaking and sharpness VI"));
+                shopWeapons.Add(new Weapon("black clover grimware", 1800, 300, "A book full of the most powerfull spells I have ever seen"));
+            }
+            
         }
 
         public void playerStats()
@@ -86,16 +136,16 @@ namespace game
             messsage.Add( new Text("You have "));
             messsage.Add( new Text($"{playerHP} HP ", ConsoleColor.Green));
             messsage.Add( new Text("and "));
-            messsage.Add( new Text($"{playerGold} Gold", ConsoleColor.Yellow));
+            messsage.Add( new Text($"{playerGold} Gold ", ConsoleColor.Yellow));
             
             if (playerWeapon != null )
             {
-                messsage.Add( new Text(" and a "));
+                messsage.Add( new Text("and a "));
                 messsage.Add( new Text($"{playerWeapon.name} ", ConsoleColor.DarkCyan));
             }
             if ( playerArmour != null)
             {
-                messsage.Add( new Text(" and a "));
+                messsage.Add( new Text("and a "));
                 messsage.Add( new Text($"{playerArmour.name}" , ConsoleColor.Blue));
             }
 
@@ -328,6 +378,7 @@ namespace game
                        TypeWriter.WriteLine();
                        playerStats();
                        endMessagePay();
+                       TypeWriter.WriteLine("Next level coming soon", TypeWriter.Speed.Talk);
                        throw new Exception("");
                     }
 
@@ -339,7 +390,7 @@ namespace game
         }
         private void blackDungeonKill()
         {             
-            Fight(new Monster("Dark high mage", 100, 300, 300));
+            Fight(new Monster("Dark high mage", 100, 500, 1000));
         }
 
         private void blackDungeonPay()
