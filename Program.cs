@@ -17,7 +17,7 @@ namespace game
        bool isPlayerWithMage = false;
        public bool isPlayerNew = true;
        string knightOrMage;
-       bool isPlayerKnight;
+       string isPlayerKnight;
 
        Weapon playerWeapon;
        Armour playerArmour;
@@ -63,7 +63,7 @@ namespace game
                 playerStats();
             }           
         }
-          public void playerType()
+        public void playerType()
         {
             TypeWriter.WriteLine("Are you a (k)Knight or a (m)Mage", TypeWriter.Speed.Talk);
             knightOrMage = Console.ReadLine();
@@ -71,20 +71,21 @@ namespace game
             switch (knightOrMage)
             {
                 case "k":
-                    isPlayerKnight = true;
+                    isPlayerKnight = "knight";
                     break;
                 case "m":
-                    isPlayerKnight = false;
+                    isPlayerKnight = "mage";
                     break;
                 default:
                     TypeWriter.WriteLine("That was not an option", TypeWriter.Speed.Talk);
+                    playerType();
                     break;
             }
         }
 
         private void FillShopWithArmour()
         {
-            if (isPlayerKnight == true)
+            if (isPlayerKnight == "knight")
             {
                     //Create our set of armour
                 bunchOfArmour.Add(new Armour("shinGuard", 100, 25, "Achillyes would be proud"));
@@ -108,7 +109,7 @@ namespace game
 
         private void FillShopWithWeapons()
         {
-            if (isPlayerKnight == true)
+            if (isPlayerKnight == "knight")
             {
                     //Create our set of weapons
                 shopWeapons.Add(new Weapon("knuckle duster", 150, 20, "Not recomended for real dusting"));
