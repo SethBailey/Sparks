@@ -30,10 +30,10 @@ namespace game
 
         public void Begin()
         {
-            playerType();
-
             if (isPlayerNew)
             {
+                playerType();
+
                 //Do player introductions
                 TypeWriter.WriteLine("Enter your name:", TypeWriter.Speed.Talk);
                 userName = Console.ReadLine();
