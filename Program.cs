@@ -30,10 +30,12 @@ namespace game
 
         public void Begin()
         {
+            playerType();
+            FillShopWithArmour();
+            FillShopWithWeapons();
+ 
             if (isPlayerNew)
             {
-                playerType();
-
                 //Do player introductions
                 TypeWriter.WriteLine("Enter your name:", TypeWriter.Speed.Talk);
                 userName = Console.ReadLine();
@@ -49,21 +51,16 @@ namespace game
                 TypeWriter.WriteLine(new Text("I will give you "),
                                      new Text($"{startingGold} gold coins ", ConsoleColor.Yellow),
                                      new Text("to start you off with"));
-                TypeWriter.WriteLine();
-                playerStats();
-                FillShopWithArmour();
-                FillShopWithWeapons();
             }
             else
             {
-                playerType();
-
                 TypeWriter.WriteLine();
                 TypeWriter.WriteLine($"Welcome back {userName}",TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine("Lets just get on with it",TypeWriter.Speed.Talk);
-                TypeWriter.WriteLine();
-                playerStats();
             }           
+            
+            TypeWriter.WriteLine();
+            playerStats();
         }
         public void playerType()
         {
@@ -817,6 +814,9 @@ namespace game
             playerHP = 100;
             isPlayerNew = false;
             isPlayerWithMage = false;
+
+            bunchOfArmour.Clear();
+            shopWeapons.Clear();           
         }
 
         internal bool End()
