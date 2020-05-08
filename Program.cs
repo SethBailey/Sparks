@@ -90,19 +90,19 @@ namespace game
                     //Create our set of armour
                 bunchOfArmour.Add(new Armour("shinGuard", 100, 25, "Achillyes would be proud"));
                 bunchOfArmour.Add(new Armour("KneeGuard", 200, 45, "Because all the best warriors need one ;)"));
-                bunchOfArmour.Add(new Armour("helmet", 250, 65, "Keeps your head safe and works as a hat"));
-                bunchOfArmour.Add(new Armour("brestplate", 340, 80, "To keep them pecks from geting any unwanted scars"));
-                bunchOfArmour.Add(new Armour("shield", 400, 100, "You should never leave home without one"));
-                bunchOfArmour.Add(new Armour("ToothGuard", 500, 130, "Mmmifffmm mmmfmmm immmmfmm"));
+                bunchOfArmour.Add(new Armour("helmet", 400, 65, "Keeps your head safe and works as a hat"));
+                bunchOfArmour.Add(new Armour("brestplate", 550, 80, "To keep them pecks from geting any unwanted scars"));
+                bunchOfArmour.Add(new Armour("shield", 700, 100, "You should never leave home without one"));
+                bunchOfArmour.Add(new Armour("ToothGuard", 950, 130, "Mmmifffmm mmmfmmm immmmfmm"));
             }
             else 
             {
                 bunchOfArmour.Add(new Armour("cloke", 50, 10, "The fabric is so thick and heavy that it protects"));
                 bunchOfArmour.Add(new Armour("red ring", 230, 50, "No blood can be lost while wearing it"));
-                bunchOfArmour.Add(new Armour("enchanted gold brestplate", 300, 65, "About as inconspicuas as a hippo on a trapolene"));
-                bunchOfArmour.Add(new Armour("complex enchantment", 370, 80, "Lots of math and long word went into making this"));
-                bunchOfArmour.Add(new Armour("full magus getup", 450, 100, "protects just because of how cool it looks"));
-                bunchOfArmour.Add(new Armour("extreme enchantment", 550, 135, "This thing is so strong that it can even sting a littil"));
+                bunchOfArmour.Add(new Armour("enchanted gold brestplate", 500, 65, "About as inconspicuas as a hippo on a trapolene"));
+                bunchOfArmour.Add(new Armour("complex enchantment", 650, 80, "Lots of math and long word went into making this"));
+                bunchOfArmour.Add(new Armour("full magus getup", 800, 100, "protects just because of how cool it looks"));
+                bunchOfArmour.Add(new Armour("extreme enchantment", 1000, 135, "This thing is so strong that it can even sting a littil"));
             }    
             
         }
@@ -483,7 +483,14 @@ namespace game
 
         private void DispalyArmour(Armour armour, int index)
         {
-            TypeWriter.WriteLine($"[{index}] {armour.name} - {armour.price} Gold - {armour.protection} protection - {armour.discription}",TypeWriter.Speed.List);
+            TypeWriter.WriteLine(new Text($"[{index}] "),
+                                 new Text($"{armour.name} " , ConsoleColor.DarkBlue),
+                                 new Text($"- "),
+                                 new Text($"{armour.price} Gold " , ConsoleColor.DarkYellow),
+                                 new Text($"- "),
+                                 new Text($"{armour.protection} protection " , ConsoleColor.Blue),
+                                 new Text("- "),
+                                 new Text($"{armour.discription}"));
         }
 
         public void itemShop()
@@ -584,7 +591,14 @@ namespace game
         private void DisplayMedicine(Medicine medicine, int i)
         {
             
-            TypeWriter.WriteLine($"[{i}] {medicine.name} - {medicine.price} Gold - {medicine.healing} healing - {medicine.discription}",TypeWriter.Speed.List);
+            TypeWriter.WriteLine(new Text($"[{i}] "),
+                                 new Text($"{medicine.name} ", ConsoleColor.DarkGreen),
+                                 new Text($"- "),
+                                 new Text($"{medicine.price} Gold ", ConsoleColor.DarkYellow),
+                                 new Text($"- "),
+                                 new Text($"{medicine.healing} healing ", ConsoleColor.Green),
+                                 new Text($"- "),
+                                 new Text($"{medicine.discription}"));
         }
 
 
@@ -710,9 +724,15 @@ namespace game
             playerGold -= playerWeapon.price;
         }
 
-        private static void DisplayWeapons(Weapon weapon, int index)
+        private static void DisplayWeapons(Weapon weapon, int index) 
         {
-            TypeWriter.WriteLine($"[{index}] {weapon.name} - {weapon.price} Gold - {weapon.damage} Extra Damage - {weapon.discription}",TypeWriter.Speed.List);
+            TypeWriter.WriteLine(new Text($"[{index}] "),
+                                 new Text($"{weapon.name} ", ConsoleColor.DarkCyan), 
+                                 new Text("- "),
+                                 new Text($"{weapon.price} Gold ", ConsoleColor.DarkYellow), 
+                                 new Text("- "),
+                                 new Text($"{weapon.damage} Extra Damage ", ConsoleColor.DarkRed),
+                                 new Text($"- {weapon.discription}"));
         }
 
         public void playerReset()
