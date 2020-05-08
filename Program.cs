@@ -56,6 +56,8 @@ namespace game
             }
             else
             {
+                playerType();
+
                 TypeWriter.WriteLine();
                 TypeWriter.WriteLine($"Welcome back {userName}",TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine("Lets just get on with it",TypeWriter.Speed.Talk);
