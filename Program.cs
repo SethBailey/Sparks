@@ -240,6 +240,8 @@ namespace game
 
             if (playerHP == 0)
             {
+                fightDescriptionDie(monster);
+                TypeWriter.WriteLine("");
                 throw new Exception("You Died");
             }
             else
@@ -248,6 +250,9 @@ namespace game
                 {
                     
                     int goldReward = new Random().Next(1,101); 
+
+                    fightDescriptionWin(monster);
+                    TypeWriter.WriteLine("");
 
                     List<Text> winMesssage = new List<Text>();
                     winMesssage.Add( new Text($"{userName} won the fight and got "));
@@ -296,6 +301,65 @@ namespace game
                 protection += playerArmour.protection;
             }
             return protection;
+        }
+
+        private void fightDescriptionDie( Monster monster )
+        {
+            int dieDescription = new Random().Next(1,6);
+            switch ( dieDescription )
+            {
+                case 1: TypeWriter.WriteLine(new Text($"The {monster.spices} "),
+                                             new Text("stabed you through the hart ", ConsoleColor.DarkRed),
+                                             new Text("and danced on your grave!")); break;
+                case 2: TypeWriter.WriteLine(new Text($"the {monster.spices} "),
+                                             new Text("choped your head off ", ConsoleColor.DarkRed),
+                                             new Text("and took it as a trophy")); break;
+                case 3: TypeWriter.WriteLine(new Text($"The {monster.spices}" ),
+                                             new Text("got you with such a mean "),
+                                             new Text("left hook ", ConsoleColor.DarkRed),
+                                             new Text("that you died")); break;
+                case 4: TypeWriter.WriteLine(new Text($"The {monster.spices} "),
+                                             new Text("made shuch a scary face ", ConsoleColor.DarkRed),
+                                             new Text("that you got a heart attack")); break;
+                case 5: TypeWriter.WriteLine(new Text($"The {monster.spices} stepped on you and was so heavy that you were "),
+                                             new Text("instantly squished", ConsoleColor.DarkRed)); break;                                                          
+            }
+
+        }
+
+        private void fightDescriptionWin( Monster monster )
+        {
+            
+            if (knightOrMage == "m")
+            {
+                int winDescription = new Random().Next(1,4);
+                            switch ( winDescription )
+                            {
+                                case 1: TypeWriter.WriteLine(new Text($"You shoot a "),
+                                                             new Text("lightning bolt ", ConsoleColor.DarkCyan),
+                                                             new Text($"at the {monster.spices}, making them explode")); break;
+                                case 2: TypeWriter.WriteLine(new Text($"You summon a "),
+                                                             new Text("fireball ", ConsoleColor.DarkCyan),
+                                                             new Text("which turns them to ash")); break;
+                                case 3: TypeWriter.WriteLine(new Text("You "),
+                                                             new Text("freeze ", ConsoleColor.DarkCyan),
+                                                             new Text($"the {monster.spices} in a block of ice")); break;
+                            }
+            }
+            else if (knightOrMage == "k")
+            {
+                int winDescription = new Random().Next(1,4);
+                            switch ( winDescription )
+                            {
+                                case 1: TypeWriter.WriteLine(new Text("With one mighty blow you "),
+                                                             new Text("decapatated them")); break;
+                                case 2: TypeWriter.WriteLine(new Text("You "),
+                                                             new Text("split them in half ", ConsoleColor.DarkCyan),
+                                                             new Text("in one go")); break;
+                                case 3: TypeWriter.WriteLine(new Text("You pick up a peble and using a sling shot get a direct "),
+                                                             new Text("head shot", ConsoleColor.DarkCyan)); break;                                                       
+                            }
+            }
         }
 
         public static string showPlayerOptions()
