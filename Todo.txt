@@ -8,28 +8,20 @@ Veersion 1 ( Live )
 ===Happy for anyone to play it==
 
 *multiple levels
-* get more health
-    * There may be multiple ways ... we might break this down into multiple stories.
-        * Sleep
-        * Manna
 * Add a time element ( so you only have N days to save the lady)
     * running away give you a time penalty ?
 * magic    
     * possibly magic items
-*EXP
-* have a invetory page ?
+* EXP
 * leaderboard
 * Direction, I can go anywhere, not one of the options
-* Black Dungeon -> If you know I don't have the funds... should you ask me if I want to pay?
 
 
 Version 0.2 (Beta - Sorendo)
 ------------
 ==Clean Code==
-* Daddy code review
 * Add some more skill to the game .. I feel lucky ( Dad reqeust )
-* QA Testing 
-
+gt
 
 Verion 0.1 (Alpha - Pa )
 -----------
@@ -47,10 +39,8 @@ Bugs
 
 In Progress
 -----------
-fight Descriptions
 
 
-git
 
 Done
 ----
@@ -89,3 +79,5 @@ Done
 * emotion text
 * player Type
     * Knight or Mage
+fight Descriptions
+
