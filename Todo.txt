@@ -47,8 +47,7 @@ Bugs
 
 In Progress
 -----------
-* player Type
-    * Knight or Mage
+fight Descriptions
 
 
 git
@@ -88,3 +87,5 @@ Done
 * error checking for user input
 * Name
 * emotion text
+* player Type
+    * Knight or Mage
