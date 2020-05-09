@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 
 namespace game
@@ -86,22 +87,12 @@ namespace game
         {
             if (isPlayerKnight == "knight")
             {
-                    //Create our set of armour
-                bunchOfArmour.Add(new Armour("shinGuard", 100, 25, "Achillyes would be proud"));
-                bunchOfArmour.Add(new Armour("KneeGuard", 200, 45, "Because all the best warriors need one ;)"));
-                bunchOfArmour.Add(new Armour("helmet", 400, 65, "Keeps your head safe and works as a hat"));
-                bunchOfArmour.Add(new Armour("brestplate", 550, 80, "To keep them pecks from geting any unwanted scars"));
-                bunchOfArmour.Add(new Armour("shield", 700, 100, "You should never leave home without one"));
-                bunchOfArmour.Add(new Armour("ToothGuard", 950, 130, "Mmmifffmm mmmfmmm immmmfmm"));
+               //Create our set of armour
+               LoadArmour("./Config/Armour-Knight.csv");
             }
             else 
             {
-                bunchOfArmour.Add(new Armour("cloke", 50, 10, "The fabric is so thick and heavy that it protects"));
-                bunchOfArmour.Add(new Armour("red ring", 230, 50, "No blood can be lost while wearing it"));
-                bunchOfArmour.Add(new Armour("enchanted gold brestplate", 500, 65, "About as inconspicuas as a hippo on a trapolene"));
-                bunchOfArmour.Add(new Armour("complex enchantment", 650, 80, "Lots of math and long word went into making this"));
-                bunchOfArmour.Add(new Armour("full magus getup", 800, 100, "protects just because of how cool it looks"));
-                bunchOfArmour.Add(new Armour("extreme enchantment", 1000, 135, "This thing is so strong that it can even sting a littil"));
+               LoadArmour("./Config/Armour-Mage.csv");
             }    
             
         }
@@ -110,24 +101,69 @@ namespace game
         {
             if (isPlayerKnight == "knight")
             {
-                    //Create our set of weapons
-                shopWeapons.Add(new Weapon("knuckle duster", 150, 20, "Not recomended for real dusting"));
-                shopWeapons.Add(new Weapon("sword", 250, 35, "Very standed sword but still good to have in a fight"));
-                shopWeapons.Add(new Weapon("nunchuck", 300, 45, "it's a nunnnnnchuuuuuckk!!!"));
-                shopWeapons.Add(new Weapon("axe", 400, 60, "A bit to heavy for me but the bigger thay are the harder they fall"));
-                shopWeapons.Add(new Weapon("spear", 700, 100, "Got this one stright out of a Chinese myth"));
-                shopWeapons.Add(new Weapon("revolver", 1700, 250, "The newest type of weapon, but it's very very loud"));
+                LoadWeapons("./Config/Weapons-knight.csv");
             }
             else 
             {
-                shopWeapons.Add(new Weapon("charm", 100, 15, "Granted it's plastic but it should work just as well"));
-                shopWeapons.Add(new Weapon("wand", 200, 40, "More of a wizard thing but you can probably use it"));
-                shopWeapons.Add(new Weapon("staff", 400, 55, "A repurposed chair leg... it was a very tall chair"));
-                shopWeapons.Add(new Weapon("encantis", 500, 70, "Like an encyclopidia for magic"));
-                shopWeapons.Add(new Weapon("enchanted sword", 700, 100, "Acording to this it has unbreaking and sharpness VI"));
-                shopWeapons.Add(new Weapon("black clover grimware", 1800, 300, "A book full of the most powerfull spells I have ever seen"));
+                LoadWeapons("./Config/Weapons-mage.csv");
             }
             
+        }
+
+        private void LoadWeapons(string file)
+        {
+            using (StreamReader sr = new StreamReader(file))
+            {
+                string currentLine;
+                // currentLine will be null when the StreamReader reaches the end of file
+                while ((currentLine = sr.ReadLine()) != null)
+                {
+                    var values = currentLine.Split(",");
+                    var name = values[0];
+                    var price = int.Parse(values[1]);
+                    var damage = int.Parse(values[2]);
+                    var description = values[3];
+                    shopWeapons.Add(new Weapon(name, price, damage, description));
+                }
+            }
+        }
+
+        private void LoadArmour(string file)
+        {
+            using (StreamReader sr = new StreamReader(file))
+            {
+                string currentLine;
+                // currentLine will be null when the StreamReader reaches the end of file
+                while ((currentLine = sr.ReadLine()) != null)
+                {
+                    var values = currentLine.Split(",");
+                    var name = values[0];
+                    var price = int.Parse(values[1]);
+                    var protection = int.Parse(values[2]);
+                    var description = values[3];
+                    bunchOfArmour.Add(new Armour(name, price, protection, description));
+                }
+            }
+        }
+
+        private List<Medicine> LoadMedicine(string file)
+        {
+            List<Medicine> medicines = new List<Medicine>();
+            using (StreamReader sr = new StreamReader(file))
+            {
+                string currentLine;
+                // currentLine will be null when the StreamReader reaches the end of file
+                while ((currentLine = sr.ReadLine()) != null)
+                {
+                    var values = currentLine.Split(",");
+                    var name = values[0];
+                    var price = int.Parse(values[1]);
+                    var healing = int.Parse(values[2]);
+                    var description = values[3];
+                    medicines.Add(new Medicine(name, price, healing, description));
+                }
+            }
+            return medicines;
         }
 
         public void playerStats()
@@ -302,7 +338,7 @@ namespace game
 
         private void fightDescriptionDie( Monster monster )
         {
-            int dieDescription = new Random().Next(1,6);
+            int dieDescription = new Random().Next(1,8);
             switch ( dieDescription )
             {
                 case 1: TypeWriter.WriteLine(new Text($" The {monster.spices} "),
@@ -318,7 +354,12 @@ namespace game
                                              new Text("made shuch a scary face ", ConsoleColor.DarkRed),
                                              new Text("that you got a heart attack")); break;
                 case 5: TypeWriter.WriteLine(new Text($" The {monster.spices} stepped on you and was so heavy that you were "),
-                                             new Text("instantly squished", ConsoleColor.DarkRed)); break;                                                          
+                                             new Text("instantly squished", ConsoleColor.DarkRed)); break;
+                case 6: TypeWriter.WriteLine(new Text($"The {monster.spices} takes you prisoner and conducts "),
+                                             new Text("scientific experiments ", ConsoleColor.DarkRed),
+                                             new Text("on you")); break;
+                case 7: TypeWriter.WriteLine(new Text($"The {monster.spices} dunked you in oil and "),
+                                             new Text("set you on fire", ConsoleColor.DarkRed)); break;                                                                                                                    
             }
 
         }
@@ -328,7 +369,7 @@ namespace game
             
             if (knightOrMage == "m")
             {
-                int winDescription = new Random().Next(1,4);
+                int winDescription = new Random().Next(1,6);
                 switch ( winDescription )
                 {
                     case 1: TypeWriter.WriteLine(new Text($"You shoot a "),
@@ -340,11 +381,15 @@ namespace game
                     case 3: TypeWriter.WriteLine(new Text("You "),
                                                  new Text("freeze ", ConsoleColor.DarkCyan),
                                                  new Text($"the {monster.spices} in a block of ice")); break;
+                    case 4: TypeWriter.WriteLine(new Text($"You summon a hole under the {monster.spices} that takes them to the "),
+                                                 new Text("earths' core", ConsoleColor.DarkCyan)); break;
+                    case 5: TypeWriter.WriteLine(new Text($"You hit the {monster.spices} round the head with a "),
+                                                 new Text("chair", ConsoleColor.DarkCyan)); break;                             
                 }
             }
             else if (knightOrMage == "k")
             {
-                int winDescription = new Random().Next(1,4);
+                int winDescription = new Random().Next(1,6);
                 switch ( winDescription )           
                 {
                     case 1: TypeWriter.WriteLine(new Text("With one mighty blow you "),
@@ -353,7 +398,11 @@ namespace game
                                                  new Text($"split the {monster.spices} in half ", ConsoleColor.DarkCyan),
                                                  new Text("in one go")); break;
                     case 3: TypeWriter.WriteLine(new Text("You pick up a peble and using a sling shot get a direct "),
-                                                 new Text("head shot", ConsoleColor.DarkCyan)); break;                                                       
+                                                 new Text("head shot", ConsoleColor.DarkCyan)); break;
+                    case 4: TypeWriter.WriteLine(new Text($"You kick up so much dust that the {monster.spices}"),
+                                                 new Text("suffocates", ConsoleColor.DarkCyan)); break;
+                    case 5: TypeWriter.WriteLine(new Text($"you slice the {monster.spices} into a "),
+                                                 new Text("million tiny cubes", ConsoleColor.DarkCyan)); break;                                                                                    
                 }
             }
         }
@@ -595,13 +644,7 @@ namespace game
         {
             Console.Clear();
             playerStats();
-
-            List<Medicine> shopMedicine = new List<Medicine>();
-            shopMedicine.Add(new Medicine("plaster", 30, 10, "Perfect for all flesh wounds"));
-            shopMedicine.Add(new Medicine("bandade", 70, 50, "Sould stop the bleeding from most cuts"));
-            shopMedicine.Add(new Medicine("chicken soup", 100, 70, "Made it my self"));
-            shopMedicine.Add(new Medicine("Green Liquid", 300, 150, "It's green, so it's ether very good for you or very bad for you"));
-
+            List<Medicine> shopMedicine = LoadMedicine("./Config/Medicine.csv");
 
             for (int i = 0; i < shopMedicine.Count; i++)
             {
