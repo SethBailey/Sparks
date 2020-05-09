@@ -101,11 +101,11 @@ namespace game
         {
             if (isPlayerKnight == "knight")
             {
-                LoadWeapons("./Config/Weapons-knight.csv");
+                LoadWeapons("./Config/Weapons-Knight.csv");
             }
             else 
             {
-                LoadWeapons("./Config/Weapons-mage.csv");
+                LoadWeapons("./Config/Weapons-Mage.csv");
             }
             
         }
