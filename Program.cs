@@ -345,7 +345,7 @@ namespace game
             else if (knightOrMage == "k")
             {
                 int winDescription = new Random().Next(1,4);
-                 switch ( winDescription )           
+                switch ( winDescription )           
                 {
                     case 1: TypeWriter.WriteLine(new Text("With one mighty blow you "),
                                                  new Text($"decapitated the {monster.spices}", ConsoleColor.DarkCyan)); break;
