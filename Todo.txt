@@ -17,24 +17,8 @@ Veersion 1 ( Live )
 * Direction, I can go anywhere, not one of the options
 
 
-Version 0.2 (Beta - Sorendo)
-------------
-==Clean Code==
-* Add some more skill to the game .. I feel lucky ( Dad reqeust )
-gt
-
-Verion 0.1 (Alpha - Pa )
------------
-==Working Game==
-
-
 Bugs
 ----
-
-
-
-
-
 
 
 In Progress

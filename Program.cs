@@ -339,73 +339,49 @@ namespace game
 
         private void fightDescriptionDie( Monster monster )
         {
-            int dieDescription = new Random().Next(1,8);
-            switch ( dieDescription )
-            {
-                case 1: TypeWriter.WriteLine(new Text($"The {monster.spices} "),
-                                             new Text("stabbed you through the heart ", Colours.Damage),
-                                             new Text("and danced on your grave!")); break;
-                case 2: TypeWriter.WriteLine(new Text($"The {monster.spices} "),
-                                             new Text("chopped your head off ", Colours.Damage),
-                                             new Text("and took it as a trophy")); break;
-                case 3: TypeWriter.WriteLine(new Text($"The {monster.spices} got you with such a mean "),                                           
-                                             new Text("left hook ", Colours.Damage),
-                                             new Text("that you died")); break;
-                case 4: TypeWriter.WriteLine(new Text($"The {monster.spices} "),
-                                             new Text("made shuch a scary face ", Colours.Damage),
-                                             new Text("that you got a heart attack")); break;
-                case 5: TypeWriter.WriteLine(new Text($"The {monster.spices} stepped on you and was so heavy that you were "),
-                                             new Text("instantly squished", Colours.Damage)); break;
-                case 6: TypeWriter.WriteLine(new Text($"The {monster.spices} takes you prisoner and conducts "),
-                                             new Text("scientific experiments ", Colours.Damage),
-                                             new Text("on you")); break;
-                case 7: TypeWriter.WriteLine(new Text($"The {monster.spices} dunked you in oil and "),
-                                             new Text("set you on fire", Colours.Damage)); break;                                                                                                                    
-            }
+            var lines = LoadCSVFile("./Config/DieDescriptions.csv");
+            int pick = new Random().Next(0,lines.Count);
+            var values = lines[pick];
 
+            var dieIntroduction = values[0].Replace("{monster.spices}",$"{monster.spices}");
+            var dieWinWay = values[1].Replace("{monster.spices}",$"{monster.spices}");
+            var dieEnd = values[2].Replace("{monster.spices}",$"{monster.spices}");
+
+            TypeWriter.WriteLine( new Text(dieIntroduction),
+                                  new Text(dieWinWay,Colours.Damage),
+                                  new Text(dieEnd));  
         }
 
         private void fightDescriptionWin( Monster monster )
         {
-            
             if (knightOrMage == "m")
             {
-                int winDescription = new Random().Next(1,6);
-                switch ( winDescription )
-                {
-                    case 1: TypeWriter.WriteLine(new Text($"You shoot a "),
-                                                 new Text("lightning bolt ",Colours.Attack),
-                                                 new Text($"making the {monster.spices} explode")); break;
-                    case 2: TypeWriter.WriteLine(new Text($"You summon a "),
-                                                 new Text("fireball ",Colours.Attack),
-                                                 new Text($"which turns the {monster.spices} to ash")); break;
-                    case 3: TypeWriter.WriteLine(new Text("You "),
-                                                 new Text("freeze ",Colours.Attack),
-                                                 new Text($"the {monster.spices} in a block of ice")); break;
-                    case 4: TypeWriter.WriteLine(new Text($"You summon a hole under the {monster.spices} that takes them to the "),
-                                                 new Text("earths' core",Colours.Attack)); break;
-                    case 5: TypeWriter.WriteLine(new Text($"You hit the {monster.spices} round the head with a "),
-                                                 new Text("chair",Colours.Attack)); break;                             
-                }
+                var lines = LoadCSVFile("./Config/WinDescriptions-Knight.csv");
+                int pick = new Random().Next(0,lines.Count);
+                var values = lines[pick];
+
+                var mageIntroduction = values[0].Replace("{monster.spices}",$"{monster.spices}");
+                var mageWinWay = values[1].Replace("{monster.spices}",$"{monster.spices}");
+                var mageEnd = values[2].Replace("{monster.spices}",$"{monster.spices}");
+
+                TypeWriter.WriteLine( new Text(mageIntroduction),
+                                      new Text(mageWinWay,Colours.Attack),
+                                      new Text(mageEnd));
             }
             else if (knightOrMage == "k")
             {
-                int winDescription = new Random().Next(1,6);
-                switch ( winDescription )           
-                {
-                    case 1: TypeWriter.WriteLine(new Text("With one mighty blow you "),
-                                                 new Text($"decapitated the {monster.spices}",Colours.Attack)); break;
-                    case 2: TypeWriter.WriteLine(new Text("You "),
-                                                 new Text($"split the {monster.spices} in half ",Colours.Attack),
-                                                 new Text("in one go")); break;
-                    case 3: TypeWriter.WriteLine(new Text("You pick up a peble and using a sling shot get a direct "),
-                                                 new Text("head shot",Colours.Attack)); break;
-                    case 4: TypeWriter.WriteLine(new Text($"You kick up so much dust that the {monster.spices} "),
-                                                 new Text("suffocates",Colours.Attack)); break;
-                    case 5: TypeWriter.WriteLine(new Text($"you slice the {monster.spices} into a "),
-                                                 new Text("million tiny cubes",Colours.Attack)); break;                                                                                    
-                }
-            }
+                var lines = LoadCSVFile("./Config/WinDescriptions-Knight.csv");
+                int pick = new Random().Next(0,lines.Count);
+                var values = lines[pick];
+
+                var kinghtIntroduction = values[0].Replace("{monster.spices}",$"{monster.spices}");
+                var kinghtWinWay = values[1].Replace("{monster.spices}",$"{monster.spices}");
+                var knightEnd = values[2].Replace("{monster.spices}",$"{monster.spices}");
+
+                TypeWriter.WriteLine( new Text(kinghtIntroduction),
+                                      new Text(kinghtWinWay,Colours.Attack),
+                                      new Text(knightEnd));
+            }                                                                   
         }
 
         public static string showPlayerOptions()
