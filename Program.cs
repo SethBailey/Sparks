@@ -19,6 +19,7 @@ namespace game
        public bool isPlayerNew = true;
        string knightOrMage;
        string isPlayerKnight;
+       int magePayGold = 2000;
 
        Weapon playerWeapon;
        Armour playerArmour;
@@ -44,7 +45,7 @@ namespace game
                                      new Text("Sparks",Colours.Sparks, TypeWriter.Speed.Talk));
                 TypeWriter.WriteLine($"You {userName} are a {isPlayerKnight} and princess Kafe has been taken hostage by the high dark mage", TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine(new Text("however his prices are steep, and he is demanding ", Colours.Speech, TypeWriter.Speed.Talk),
-                                     new Text("2000 gold coins ",Colours.GoldReward, TypeWriter.Speed.Talk),
+                                     new Text($"{magePayGold} gold coins ",Colours.GoldReward, TypeWriter.Speed.Talk),
                                      new Text("for her freedom", Colours.Speech, TypeWriter.Speed.Talk));
                 TypeWriter.WriteLine("You have two options: collect the gold and pay the mage or", TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine("Slay him, take back princess Kafe and rid the land of his vile existance", TypeWriter.Speed.Talk);
@@ -507,9 +508,9 @@ namespace game
 
         private void blackDungeonPay()
         {
-            if (playerGold >= 2000)
+            if (playerGold >= magePayGold)
             {
-                playerGold -= 2000;
+                playerGold -= magePayGold;
             }
             else
             {
