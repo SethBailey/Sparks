@@ -111,58 +111,58 @@ namespace game
             
         }
 
-        private void LoadWeapons(string file)
+        private List<string[]> LoadCSVFile(string file)
         {
+            var fileData = new List<string[]>();
             using (StreamReader sr = new StreamReader(file))
             {
                 string currentLine;
                 // currentLine will be null when the StreamReader reaches the end of file
                 while ((currentLine = sr.ReadLine()) != null)
                 {
-                    var values = currentLine.Split(",");
-                    var name = values[0];
-                    var price = int.Parse(values[1]);
-                    var damage = int.Parse(values[2]);
-                    var description = values[3];
-                    shopWeapons.Add(new Weapon(name, price, damage, description));
+                    fileData.Add( currentLine.Split(","));
                 }
+            }
+            return fileData;
+        }
+
+        private void LoadWeapons(string file)
+        {
+            var lines = LoadCSVFile(file);
+            foreach ( var values in lines)
+            {
+                var name = values[0];
+                var price = int.Parse(values[1]);
+                var damage = int.Parse(values[2]);
+                var description = values[3];
+                shopWeapons.Add(new Weapon(name, price, damage, description));
             }
         }
 
         private void LoadArmour(string file)
         {
-            using (StreamReader sr = new StreamReader(file))
+            var lines = LoadCSVFile(file);
+            foreach( var values in lines)
             {
-                string currentLine;
-                // currentLine will be null when the StreamReader reaches the end of file
-                while ((currentLine = sr.ReadLine()) != null)
-                {
-                    var values = currentLine.Split(",");
-                    var name = values[0];
-                    var price = int.Parse(values[1]);
-                    var protection = int.Parse(values[2]);
-                    var description = values[3];
-                    bunchOfArmour.Add(new Armour(name, price, protection, description));
-                }
+                var name = values[0];
+                var price = int.Parse(values[1]);
+                var protection = int.Parse(values[2]);
+                var description = values[3];
+                bunchOfArmour.Add(new Armour(name, price, protection, description));
             }
         }
 
         private List<Medicine> LoadMedicine(string file)
         {
             List<Medicine> medicines = new List<Medicine>();
-            using (StreamReader sr = new StreamReader(file))
+            var lines = LoadCSVFile(file);
+            foreach (var values in lines)
             {
-                string currentLine;
-                // currentLine will be null when the StreamReader reaches the end of file
-                while ((currentLine = sr.ReadLine()) != null)
-                {
-                    var values = currentLine.Split(",");
-                    var name = values[0];
-                    var price = int.Parse(values[1]);
-                    var healing = int.Parse(values[2]);
-                    var description = values[3];
-                    medicines.Add(new Medicine(name, price, healing, description));
-                }
+                var name = values[0];
+                var price = int.Parse(values[1]);
+                var healing = int.Parse(values[2]);
+                var description = values[3];
+                medicines.Add(new Medicine(name, price, healing, description));
             }
             return medicines;
         }
@@ -574,19 +574,17 @@ namespace game
         public Monster PickMonsterForEveryDayFight()
         {
             List<Monster> monsters = new List<Monster>();
-            monsters.Add( new Monster("Goblin", 1, 101, new Random().Next(1,101)));
-            monsters.Add( new Monster("Hobgoblin", 20, 151, new Random().Next(50,151)));
-            monsters.Add( new Monster("Skeleton", 1, 101, new Random().Next(1,171)));
-            monsters.Add( new Monster("Giant Spider", 1, 101, new Random().Next(10,121)));
-            monsters.Add( new Monster("Troll", 40, 201, new Random().Next(50, 301)));
-            monsters.Add( new Monster("starving villager", 1, 81, new Random().Next(1, 101)));
-            monsters.Add( new Monster("Giant", 60, 301, new Random().Next(80, 401)));
-            monsters.Add( new Monster("Dark knight", 20, 100, new Random().Next(50, 150)));
-            monsters.Add( new Monster("Zombie", 1, 50, new Random().Next(1, 50)));
-            monsters.Add( new Monster("Lesser dragon", 50, 150, new Random().Next(1, 100)));
-            monsters.Add( new Monster("Dragon", 50, 200, new Random().Next(100, 150)));
-            monsters.Add( new Monster("Fairy", 1, 50, new Random().Next(1, 50)));
-            monsters.Add( new Monster("Knight", 1, 100, new Random().Next(1, 120)));
+           
+            var lines = LoadCSVFile("./Config/Monsters.csv");
+            foreach (var values in lines)
+            {
+                var name = values[0];
+                var MinDamage = int.Parse(values[1]);
+                var MaxDamage = int.Parse(values[2]);
+                var MinHealthPoints = int.Parse(values[3]);
+                var MaxHealthpoints = int.Parse(values[4]);
+                monsters.Add(new Monster(name, MinDamage, MaxDamage, new Random().Next(MinHealthPoints, MaxHealthpoints)));
+            }
 
             int monsterPick = new Random().Next(0, monsters.Count);
             return monsters[monsterPick];
