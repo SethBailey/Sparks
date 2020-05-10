@@ -341,19 +341,19 @@ namespace game
             int dieDescription = new Random().Next(1,8);
             switch ( dieDescription )
             {
-                case 1: TypeWriter.WriteLine(new Text($" The {monster.spices} "),
+                case 1: TypeWriter.WriteLine(new Text($"The {monster.spices} "),
                                              new Text("stabbed you through the heart ", ConsoleColor.DarkRed),
                                              new Text("and danced on your grave!")); break;
-                case 2: TypeWriter.WriteLine(new Text($" the {monster.spices} "),
+                case 2: TypeWriter.WriteLine(new Text($"The {monster.spices} "),
                                              new Text("chopped your head off ", ConsoleColor.DarkRed),
                                              new Text("and took it as a trophy")); break;
-                case 3: TypeWriter.WriteLine(new Text($" The {monster.spices} got you with such a mean "),                                           
+                case 3: TypeWriter.WriteLine(new Text($"The {monster.spices} got you with such a mean "),                                           
                                              new Text("left hook ", ConsoleColor.DarkRed),
                                              new Text("that you died")); break;
-                case 4: TypeWriter.WriteLine(new Text($" The {monster.spices} "),
+                case 4: TypeWriter.WriteLine(new Text($"The {monster.spices} "),
                                              new Text("made shuch a scary face ", ConsoleColor.DarkRed),
                                              new Text("that you got a heart attack")); break;
-                case 5: TypeWriter.WriteLine(new Text($" The {monster.spices} stepped on you and was so heavy that you were "),
+                case 5: TypeWriter.WriteLine(new Text($"The {monster.spices} stepped on you and was so heavy that you were "),
                                              new Text("instantly squished", ConsoleColor.DarkRed)); break;
                 case 6: TypeWriter.WriteLine(new Text($"The {monster.spices} takes you prisoner and conducts "),
                                              new Text("scientific experiments ", ConsoleColor.DarkRed),
@@ -399,7 +399,7 @@ namespace game
                                                  new Text("in one go")); break;
                     case 3: TypeWriter.WriteLine(new Text("You pick up a peble and using a sling shot get a direct "),
                                                  new Text("head shot", ConsoleColor.DarkCyan)); break;
-                    case 4: TypeWriter.WriteLine(new Text($"You kick up so much dust that the {monster.spices}"),
+                    case 4: TypeWriter.WriteLine(new Text($"You kick up so much dust that the {monster.spices} "),
                                                  new Text("suffocates", ConsoleColor.DarkCyan)); break;
                     case 5: TypeWriter.WriteLine(new Text($"you slice the {monster.spices} into a "),
                                                  new Text("million tiny cubes", ConsoleColor.DarkCyan)); break;                                                                                    
