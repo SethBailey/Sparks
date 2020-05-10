@@ -41,7 +41,7 @@ namespace game
                 TypeWriter.WriteLine("Enter your name:", TypeWriter.Speed.Talk);
                 userName = Console.ReadLine();
                 TypeWriter.WriteLine(new Text($"Nice to meet you {userName} my name is ", Colours.Speech, TypeWriter.Speed.Talk),
-                                     new Text("Sparks",Colours.Armour, TypeWriter.Speed.Talk));
+                                     new Text("Sparks",Colours.Sparks, TypeWriter.Speed.Talk));
                 TypeWriter.WriteLine($"You {userName} are a {isPlayerKnight} and princess Kafe has been taken hostage by the high dark mage", TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine(new Text("however his prices are steep, and he is demanding ", Colours.Speech, TypeWriter.Speed.Talk),
                                      new Text("2000 gold coins ",Colours.GoldReward, TypeWriter.Speed.Talk),
@@ -193,7 +193,7 @@ namespace game
         {
             TypeWriter.WriteLine($"You run into a {monster.spices}",TypeWriter.Speed.List);
             TypeWriter.WriteLine(new Text($"The {monster.spices} has "),
-                                 new Text($"{monster.healthPoints} HP",Colours.Medicine));
+                                 new Text($"{monster.healthPoints} HP",Colours.Monsterhealth));
             playerStats();
             
             while (playerHP > 0 && monster.healthPoints > 0)
@@ -242,7 +242,7 @@ namespace game
                         monster.healthPoints = 0;
                     }
                     TypeWriter.WriteLine( new Text($"The {monster.spices} has "),
-                                          new Text($"{monster.healthPoints} HP",Colours.Medicine));
+                                          new Text($"{monster.healthPoints} HP",Colours.Monsterhealth));
                     playerStats();                      
                     TypeWriter.WriteLine();
                 }
@@ -265,7 +265,7 @@ namespace game
                         playerHP = 0;
                     }
                     TypeWriter.WriteLine(new Text($"The {monster.spices} has "),
-                                         new Text($"{monster.healthPoints} HP", Colours.Medicine));
+                                         new Text($"{monster.healthPoints} HP", Colours.Monsterhealth));
                     playerStats();
                     TypeWriter.WriteLine();
                 }
@@ -413,7 +413,7 @@ namespace game
             TypeWriter.WriteLine(new Text("Where would you like to go: north, south, east, west, the "),
                                  new Text("(sh)shop ",Colours.Cotton),
                                  new Text("or to the "),
-                                 new Text("(bd)black dungeon:",Colours.Protection,TypeWriter.Speed.List));
+                                 new Text("(bd)black dungeon:",Colours.BlackDungeon,TypeWriter.Speed.List));
             string playerDirection = Console.ReadLine();
             return playerDirection;
         }
