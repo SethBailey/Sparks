@@ -4,6 +4,7 @@ namespace game
 {
     internal class Colours
     {
+        public static ConsoleColor Hidden { get { return ConsoleColor.Black;}}
         public static ConsoleColor BlackDungeon { get { return ConsoleColor.Blue;}}
         public static ConsoleColor GoldReward { get { return ConsoleColor.Yellow;}}
         public static ConsoleColor Gold { get { return ConsoleColor.DarkYellow;}}

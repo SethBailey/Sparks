@@ -454,7 +454,7 @@ namespace game
                 case "kill":
                     isPlayerWithMage = true;
                     TypeWriter.WriteLine("At last, here we go",TypeWriter.Speed.Talk);  
-                    TypeWriter.WriteLine();
+                    TypeWriter.WriteLine();   
                     blackDungeonKill();
                     break;  
 
@@ -465,20 +465,21 @@ namespace game
                        TypeWriter.WriteLine();
                        TypeWriter.WriteLine("You pay the mage",TypeWriter.Speed.Talk);
                        TypeWriter.WriteLine();
+                       TypeWriter.WriteLine(new Text("User this program may have been infected please stand down", Colours.Hidden, TypeWriter.Speed.Talk)); 
                        playerStats();
                        endMessagePay();
-                       TypeWriter.WriteLine("Next level coming soon", TypeWriter.Speed.Talk);
                        throw new Exception("");
                     }
 
                 default:
                     TypeWriter.WriteLine("That was not a option",TypeWriter.Speed.Talk);
                     blackDungeon();
-                   break;
+                    break;
             }
         }
         private void blackDungeonKill()
-        {             
+        {
+            TypeWriter.WriteLine(new Text("User this program may have been infected please stand down", Colours.Hidden, TypeWriter.Speed.Talk));       
             Fight(new Monster("Dark high mage", 100, 500, 1000));
         }
 
@@ -500,8 +501,10 @@ namespace game
             TypeWriter.WriteLine($"Very well done {userName}, hats off to you and so on and so forth",TypeWriter.Speed.Talk);
             TypeWriter.WriteLine("If you were a chess piece you would be a queen, my most powerfull piece",TypeWriter.Speed.Talk);
             TypeWriter.WriteLine("...",TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine(new Text("Downloading... downloading...", Colours.Hidden, TypeWriter.Speed.Talk));
             TypeWriter.WriteLine("Oh and well done for rescuing Kafe as well",TypeWriter.Speed.Talk);
             TypeWriter.WriteLine("...",TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine(new Text("Files found... corrupting...", Colours.Hidden, TypeWriter.Speed.Talk));
             TypeWriter.WriteLine("Why are you still here, you can leve now you have no futher use",TypeWriter.Speed.Talk);
             TypeWriter.WriteLine(new Text("Check Mate",Colours.Damage,TypeWriter.Speed.Talk));
         }
@@ -510,11 +513,13 @@ namespace game
         {
             TypeWriter.WriteLine("Congrats you rescued Kafe, all's well and...",TypeWriter.Speed.Talk);
             TypeWriter.WriteLine("Oh dear! It seems she's been kidnapped again by the mage",TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine(new Text("Downloading... downloading...", Colours.Hidden, TypeWriter.Speed.Talk));
             List<Text> endList = new List<Text>();
-            endList.Add( new Text("Next time you should just ", Colours.Speech, TypeWriter.Speed.List));
+            endList.Add( new Text("Next time you should just ", Colours.Speech, TypeWriter.Speed.Talk));
             endList.Add( new Text("kill him! ", Colours.Damage, TypeWriter.Speed.Talk));
             endList.Add( new Text("and then you won't have this problem", Colours.Speech, TypeWriter.Speed.Talk));
             TypeWriter.WriteLine(endList);
+            TypeWriter.WriteLine(new Text("Files could not be reached... anti-mallware sill in place", Colours.Hidden, TypeWriter.Speed.Talk));
             TypeWriter.WriteLine("Untill we meet again",TypeWriter.Speed.Talk);
         }
 
