@@ -25,13 +25,16 @@ namespace game
 
         public static void WriteLine(params Text[] texts)
         {
-            ConsoleColor original = Console.ForegroundColor;
+            ConsoleColor originalFg = Console.ForegroundColor;
+            ConsoleColor originalBg = Console.BackgroundColor;
             foreach (var text in texts)
             {
-                Console.ForegroundColor = text.ConsoleColor;
+                Console.ForegroundColor = text.ForegroundColor;
+                Console.BackgroundColor = text.backgroundColour;
                 Type(text.text, text.speed);
             }            
-            Console.ForegroundColor = original;
+            Console.ForegroundColor = originalFg;
+            Console.BackgroundColor = originalBg;
             Console.WriteLine();
         }
 

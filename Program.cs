@@ -64,6 +64,31 @@ namespace game
             TypeWriter.WriteLine();
             playerStats();
         }
+
+        private void backGroundTest()
+        {
+            { 
+        
+                
+        
+                // Set the Background color to blue 
+                Console.BackgroundColor 
+                    = ConsoleColor.Blue; 
+        
+                // Display current Background color 
+                TypeWriter.WriteLine(new Text("Changed Background Color: {0}", Console.BackgroundColor)); 
+
+                                
+                // Set the Background color to black
+                Console.BackgroundColor
+                    = ConsoleColor.Black;    
+
+                // Display current Background color 
+                TypeWriter.WriteLine(new Text("Default Background Color: {0}",  Console.BackgroundColor));
+                                           
+            } 
+        }
+
         public void playerType()
         {
             TypeWriter.WriteLine("Are you a (k)Knight or a (m)Mage", TypeWriter.Speed.Talk);
@@ -356,7 +381,7 @@ namespace game
         {
             if (knightOrMage == "m")
             {
-                var lines = LoadCSVFile("./Config/WinDescriptions-Knight.csv");
+                var lines = LoadCSVFile("./Config/WinDescriptions-Mage.csv");
                 int pick = new Random().Next(0,lines.Count);
                 var values = lines[pick];
 
@@ -422,7 +447,6 @@ namespace game
                 default: AwardMedicine(); break;
             }
         }
-
         private static void FoundNothing()
         {
             TypeWriter.WriteLine("Nothing happend", TypeWriter.Speed.List);
@@ -618,6 +642,11 @@ namespace game
                 default: TypeWriter.WriteLine("Sorry but I don't understand", TypeWriter.Speed.Talk); itemShop(); break;
             }
             
+        }
+
+        private void morseCodeMessage()
+        {
+            Console.Beep(100, 100);
         }
 
         private void BuyMedicine()
@@ -866,7 +895,13 @@ namespace game
     class Program
     {
         static void Main(string[] args)
-        {      
+        {           
+            /*Console.Beep(250, 2000);
+            Console.Beep(450, 900);
+            Console.Beep(700, 3000);
+            Console.Beep(250, 2000);
+            return;
+*/
             TheGame theGame = new TheGame();
              
             bool replay = true;
