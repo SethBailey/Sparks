@@ -9,7 +9,7 @@ namespace game
     {
        int playerHP = 100;
        string userName;
-       private const int startingGold = 300;
+       private const int startingGold = 3000;
        public int playerGold = startingGold;
        public string cottonUserName;
        bool cottonIntro = false;
