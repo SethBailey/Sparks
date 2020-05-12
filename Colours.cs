@@ -17,7 +17,7 @@ namespace game
         public static ConsoleColor Speech { get {return ConsoleColor.White;}}
         public static ConsoleColor Cotton { get {return ConsoleColor.Magenta;}}
         public static ConsoleColor FightDamage { get {return ConsoleColor.Red;}}
-        public static ConsoleColor Sparks { get {return ConsoleColor.DarkBlue;}}
+        public static ConsoleColor Sparks { get {return ConsoleColor.DarkCyan;}}
         public static ConsoleColor Monsterhealth { get {return ConsoleColor.DarkGreen;}}
     }
 }
