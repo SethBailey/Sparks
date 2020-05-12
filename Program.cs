@@ -604,17 +604,18 @@ namespace game
             if (hasPlayerBeenInShop == true)
             {
                 somethingCool();
+                shopCommonPlace();
             }
             else
             {   
                 TypeWriter.WriteLine($"Hello {cottonUserName} ");
-                shopCommanPlace();
+                shopCommonPlace();
                 hasPlayerBeenInShop = true;
             }
 
         }
 
-        private void shopCommanPlace()
+        private void shopCommonPlace()
         {
             TypeWriter.WriteLine(new Text("Are you looking for "),
                                  new Text("(w)weapons, ", Colours.Attack, TypeWriter.Speed.Talk),
@@ -647,13 +648,13 @@ namespace game
                 case "m": BuyMedicine(); break;
                 case "l": TypeWriter.WriteLine($"Bye {cottonUserName} :)", TypeWriter.Speed.Talk); break;
                 case "h": TypeWriter.WriteLine("Sure thing");
-                morseCodeMessage();
-                shopCommanPlace();
+                          morseCodeMessage();
+                          shopCommonPlace();
                 break;
 
                 default: TypeWriter.WriteLine("Sorry but I don't understand", TypeWriter.Speed.Talk);
-                itemShop(); 
-                break;
+                         itemShop(); 
+                         break;
             }
         }
 
@@ -672,24 +673,21 @@ namespace game
                         morseCodeMessage();
                         Thread.Sleep(1000);
                         TypeWriter.WriteLine("strange huh?... but anyway are you looking for");  
-                        shopCommanPlace();
                         break;
 
                     case "no":
                         TypeWriter.WriteLine($"O.K {cottonUserName} ");  
-                        shopCommanPlace();
                         break;
 
                     default:
                         TypeWriter.WriteLine("Sorry but I don't understand");  
-                        somethingCool();
                         break;
                 }
             }
             else
             {
                 TypeWriter.WriteLine($"Hello {cottonUserName}");
-                shopCommanPlace();
+                shopCommonPlace();
             }
            
         }
