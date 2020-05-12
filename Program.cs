@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 
 namespace game
@@ -19,6 +20,8 @@ namespace game
        public bool isPlayerNew = true;
        string knightOrMage;
        string isPlayerKnight;
+       bool hasPlayerBeenInShop = false;
+       bool playerHasSeenMorse = false;
        int magePayGold = 2000;
 
        Weapon playerWeapon;
@@ -63,30 +66,6 @@ namespace game
             
             TypeWriter.WriteLine();
             playerStats();
-        }
-
-        private void backGroundTest()
-        {
-            { 
-        
-                
-        
-                // Set the Background color to blue 
-                Console.BackgroundColor 
-                    = ConsoleColor.Blue; 
-        
-                // Display current Background color 
-                TypeWriter.WriteLine(new Text("Changed Background Color: {0}", Console.BackgroundColor)); 
-
-                                
-                // Set the Background color to black
-                Console.BackgroundColor
-                    = ConsoleColor.Black;    
-
-                // Display current Background color 
-                TypeWriter.WriteLine(new Text("Default Background Color: {0}",  Console.BackgroundColor));
-                                           
-            } 
         }
 
         public void playerType()
@@ -614,39 +593,134 @@ namespace game
             if (cottonIntro == false)
             {
                 List<Text> cottonList = new List<Text>();
-                cottonList.Add( new Text("hello traveller, I'm ", Colours.Speech, TypeWriter.Speed.Talk));
-                cottonList.Add( new Text("Cotton ", Colours.Cotton, TypeWriter.Speed.Talk));
-                cottonList.Add( new Text("and this is my shop, whats your name?", Colours.Speech, TypeWriter.Speed.Talk));
+                cottonList.Add(new Text("hello traveller, I'm ", Colours.Speech, TypeWriter.Speed.Talk));
+                cottonList.Add(new Text("Cotton ", Colours.Cotton, TypeWriter.Speed.Talk));
+                cottonList.Add(new Text("and this is my shop, whats your name?", Colours.Speech, TypeWriter.Speed.Talk));
                 TypeWriter.WriteLine(cottonList);
                 cottonUserName = Console.ReadLine();
                 TypeWriter.WriteLine($"{cottonUserName}, hmm ... nice!");
                 cottonIntro = true;
             }
-            
-            TypeWriter.WriteLine(new Text($"Hello {cottonUserName} are you looking for "),
-                                 new Text("(w)weapons, ",Colours.Attack, TypeWriter.Speed.Talk),
-                                 new Text("(a)armour ",Colours.Protection, TypeWriter.Speed.Talk),
-                                 new Text("or ",Colours.Speech, TypeWriter.Speed.Talk),
-                                 new Text("(m)medicine ",Colours.Health, TypeWriter.Speed.Talk),
-                                 new Text(":)",Colours.Speech,TypeWriter.Speed.Talk));
-            TypeWriter.WriteLine("Or (l) to leave",TypeWriter.Speed.Talk);
-            
+            if (hasPlayerBeenInShop == true)
+            {
+                somethingCool();
+            }
+            else
+            {   
+                TypeWriter.WriteLine($"Hello {cottonUserName} ");
+                shopCommanPlace();
+                hasPlayerBeenInShop = true;
+            }
+
+        }
+
+        private void shopCommanPlace()
+        {
+            TypeWriter.WriteLine(new Text("Are you looking for "),
+                                 new Text("(w)weapons, ", Colours.Attack, TypeWriter.Speed.Talk),
+                                 new Text("(a)armour ", Colours.Protection, TypeWriter.Speed.Talk),
+                                 new Text("or ", Colours.Speech, TypeWriter.Speed.Talk),
+                                 new Text("(m)medicine ", Colours.Health, TypeWriter.Speed.Talk),
+                                 new Text(":)", Colours.Speech, TypeWriter.Speed.Talk));
+            if (hasPlayerBeenInShop == true)
+            {
+               if (playerHasSeenMorse == true)
+               {
+                   TypeWriter.WriteLine("(h) to hear it again or (l) to leave", TypeWriter.Speed.Talk);
+               }
+               else if (playerHasSeenMorse == false)
+               {
+                   TypeWriter.WriteLine("(h) to hear something cool or (l) to leave", TypeWriter.Speed.Talk);
+               }
+            }
+            else
+            {
+               TypeWriter.WriteLine("or (l) to leave", TypeWriter.Speed.Talk);  
+            }
+
             string playerItemType = Console.ReadLine();
-            
+
             switch (playerItemType.ToLower())
             {
-                case "w" : BuyWeapon(); break;
-                case "a" : BuyArmour(); break;
-                case "m" : BuyMedicine(); break;
-                case "l" : TypeWriter.WriteLine($"Bye {cottonUserName} :)",TypeWriter.Speed.Talk); break;
-                default: TypeWriter.WriteLine("Sorry but I don't understand", TypeWriter.Speed.Talk); itemShop(); break;
+                case "w": BuyWeapon(); break;
+                case "a": BuyArmour(); break;
+                case "m": BuyMedicine(); break;
+                case "l": TypeWriter.WriteLine($"Bye {cottonUserName} :)", TypeWriter.Speed.Talk); break;
+                case "h": TypeWriter.WriteLine("Sure thing");
+                morseCodeMessage();
+                shopCommanPlace();
+                break;
+
+                default: TypeWriter.WriteLine("Sorry but I don't understand", TypeWriter.Speed.Talk);
+                itemShop(); 
+                break;
             }
-            
+        }
+
+        private void somethingCool()
+        {
+            if (playerHasSeenMorse == false)
+            {
+                TypeWriter.WriteLine(new Text($"Hello {cottonUserName}, you want to hear somthing cool: yes/no"));
+                string somthingCoolAwnser = Console.ReadLine();
+
+                switch (somthingCoolAwnser)
+                {
+                    case "yes":
+                        playerHasSeenMorse = true;
+                        TypeWriter.WriteLine(new Text("Some guy came the other day and gave me this tape (make shure you can hear it :)", Colours.Speech, TypeWriter.Speed.Talk));
+                        morseCodeMessage();
+                        Thread.Sleep(1000);
+                        TypeWriter.WriteLine("strange huh?... but anyway are you looking for");  
+                        shopCommanPlace();
+                        break;
+
+                    case "no":
+                        TypeWriter.WriteLine($"O.K {cottonUserName} ");  
+                        shopCommanPlace();
+                        break;
+
+                    default:
+                        TypeWriter.WriteLine("Sorry but I don't understand");  
+                        somethingCool();
+                        break;
+                }
+            }
+            else
+            {
+                TypeWriter.WriteLine($"Hello {cottonUserName}");
+                shopCommanPlace();
+            }
+           
         }
 
         private void morseCodeMessage()
         {
-            Console.Beep(100, 100);
+            var sequence = Enumerable.Range(0, 3).ToList();
+            
+            foreach (var e in sequence)
+            {
+                Console.Beep(650, 100);
+                Console.Write(".");
+                Thread.Sleep(100);
+                
+            }
+            
+            foreach (var e in sequence)
+            {
+                Console.Beep(650, 400);
+                Console.Write("-");
+                Thread.Sleep(400);
+            }
+            
+            foreach (var e in sequence)
+            {
+                Console.Beep(650, 100);
+                Thread.Sleep(100);
+                Console.Write(".");
+            }
+            Console.WriteLine();
+            Thread.Sleep(500);
         }
 
         private void BuyMedicine()
@@ -896,12 +970,6 @@ namespace game
     {
         static void Main(string[] args)
         {           
-            /*Console.Beep(250, 2000);
-            Console.Beep(450, 900);
-            Console.Beep(700, 3000);
-            Console.Beep(250, 2000);
-            return;
-*/
             TheGame theGame = new TheGame();
              
             bool replay = true;
