@@ -23,7 +23,6 @@ namespace game
        bool hasPlayerBeenInShop = false;
        bool playerHasSeenMorse = false;
        int magePayGold = 2000;
-       int XPNumber;
        int killXP = 0;
        int cottonXP = 0;
        bool morseXPAwarded = false;
@@ -979,8 +978,9 @@ namespace game
 
         internal bool End()
         {
+            var totalXP = killXP + cottonXP;
             TypeWriter.WriteLine();
-            TypeWriter.WriteLine($"Final score: {killXP}");
+            TypeWriter.WriteLine($"Final score: {totalXP}");
             TypeWriter.WriteLine();
             TypeWriter.WriteLine("Game Over",TypeWriter.Speed.Talk);    
             TypeWriter.WriteLine($"psst {cottonUserName} do you want to try again: yes / no",TypeWriter.Speed.Talk);
@@ -993,16 +993,68 @@ namespace game
                     return true;
 
                 default:
-                    TypeWriter.WriteLine("bye for now :)",TypeWriter.Speed.Talk);
+                    TypeWriter.WriteLine("bye for now :)", TypeWriter.Speed.Talk);
+                    TypeWriter.WriteLine("");
+                    UpdateLeaderBoard(totalXP);
                     return false;
             }
+        }
+
+        private void UpdateLeaderBoard(int totalXP)
+        {
+            //read the leaderboard
+            var fileName = @".\Data\LeaderBoard.txt";
+            var rawLeaderBoard = new List<string>();
+            Directory.CreateDirectory(@".\Data");
+            if (File.Exists(fileName))
+            {
+                rawLeaderBoard = File.ReadAllLines(fileName).ToList();
+            }
+            var leaderBoard = new List<LeaderBoardEntry>();
+            
+            //add to the leaderboard
+            var currentGameEntry = new LeaderBoardEntry(userName, totalXP);
+            leaderBoard.Add( currentGameEntry);
+
+            //fill the leaderboard will the raw leaderboard
+            foreach( var rawEntry in rawLeaderBoard)
+            {
+                leaderBoard.Add( new LeaderBoardEntry( rawEntry ) );
+            }
+            
+            leaderBoard.Sort();
+            leaderBoard.Reverse();
+
+            if (leaderBoard.Count > 9)
+            {
+                leaderBoard.RemoveAt(10); 
+            }
+            
+            //write to file
+            rawLeaderBoard.Clear();
+            foreach (var entry in leaderBoard)
+            {
+                rawLeaderBoard.Add(entry.GetRawString());
+            }
+            File.WriteAllLines(@".\Data\LeaderBoard.txt", rawLeaderBoard.ToArray());
+
+            //write to screen
+            TypeWriter.WriteLine("Leaderboard");
+            TypeWriter.WriteLine("");
+            int position = 1;
+            foreach (var entry in leaderBoard)
+            {
+                TypeWriter.WriteLine($"{position}: {entry.GetRawString()} XP");
+                position++;
+            }
+            TypeWriter.WriteLine();
         }
     }
 
     class Program
     {
         static void Main(string[] args)
-        {           
+        {   
             TheGame theGame = new TheGame();
              
             bool replay = true;
