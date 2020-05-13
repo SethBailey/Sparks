@@ -1033,7 +1033,7 @@ namespace game
             File.WriteAllLines(@".\Data\LeaderBoard.txt", rawLeaderBoard.ToArray());
 
             //write to screen
-            TypeWriter.WriteLine("Leader board");
+            TypeWriter.WriteLine("Leaderboard");
             TypeWriter.WriteLine("");
             int position = 1;
             foreach (var entry in leaderBoard)
