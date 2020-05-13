@@ -1003,7 +1003,13 @@ namespace game
         private void UpdateLeaderBoard(int totalXP)
         {
             //read the leaderboard
-            var rawLeaderBoard = new List<string>(File.ReadAllLines(@".\Data\LeaderBoard.txt"));
+            var fileName = @".\Data\LeaderBoard.txt";
+            var rawLeaderBoard = new List<string>();
+            Directory.CreateDirectory(@".\Data");
+            if (File.Exists(fileName))
+            {
+                rawLeaderBoard = File.ReadAllLines(fileName).ToList();
+            }
             var leaderBoard = new List<LeaderBoardEntry>();
             
             //add to the leaderboard
