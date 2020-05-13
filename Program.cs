@@ -23,6 +23,11 @@ namespace game
        bool hasPlayerBeenInShop = false;
        bool playerHasSeenMorse = false;
        int magePayGold = 2000;
+       int XPNumber;
+       int killXP = 0;
+       int cottonXP = 0;
+       bool morseXPAwarded = false;
+       
 
        Weapon playerWeapon;
        Armour playerArmour;
@@ -178,6 +183,9 @@ namespace game
             messsage.Add( new Text($"{playerHP} HP ",Colours.Health));
             messsage.Add( new Text("and "));
             messsage.Add( new Text($"{playerGold} Gold ",Colours.GoldReward));
+            messsage.Add( new Text("and "));
+            var totalXP = killXP + cottonXP;
+            messsage.Add( new Text($"{totalXP} XP ", Colours.XP));
             
             if (playerWeapon != null )
             {
@@ -200,7 +208,8 @@ namespace game
             TypeWriter.WriteLine(new Text($"The {monster.spices} has "),
                                  new Text($"{monster.healthPoints} HP",Colours.Monsterhealth));
             playerStats();
-            
+            var xpWin = CalcXPWin(monster);
+
             while (playerHP > 0 && monster.healthPoints > 0)
             {
                 int playerAP = new Random().Next(GetPlayerMinDamage(),GetPlayerMaxDamage());
@@ -284,21 +293,25 @@ namespace game
             }
             else
             {
+                killXP += xpWin;
+
                 if (isPlayerWithMage == false)
                 {
-                    
-                    int goldReward = new Random().Next(1,101); 
+
+                    int goldReward = new Random().Next(1, 101);
 
                     fightDescriptionWin(monster);
                     TypeWriter.WriteLine("");
 
                     List<Text> winMesssage = new List<Text>();
-                    winMesssage.Add( new Text($"{userName} won the fight and got "));
-                    winMesssage.Add( new Text($"{goldReward} Gold coins", Colours.GoldReward));
+                    winMesssage.Add(new Text($"{userName} won the fight and got "));
+                    winMesssage.Add(new Text($"{goldReward} Gold coins ", Colours.GoldReward));
                     playerGold += goldReward;
                     TypeWriter.WriteLine(winMesssage);
+                    
+                    XPMessage(xpWin);
                     AwardMedicine();
-                    playerStats();         
+                    playerStats();
                     Console.WriteLine();
                 }
                 else
@@ -309,6 +322,19 @@ namespace game
                 }
                
             }
+        }
+
+        private int CalcXPWin(Monster monster)
+        {
+            return monster.healthPoints;
+        }
+
+        private void XPMessage(int xpWin)
+        {
+            List<Text> XPMessage = new List<Text>();
+            XPMessage.Add(new Text("You learned something from the experience and gained "));
+            XPMessage.Add(new Text($"{xpWin} XP", Colours.XP));
+            TypeWriter.WriteLine(XPMessage);
         }
 
         private int GetPlayerMaxDamage()
@@ -694,6 +720,14 @@ namespace game
 
         private void morseCodeMessage()
         {
+            if (morseXPAwarded == false)
+            {
+                int award = 30;
+                cottonXP += award;
+                TypeWriter.WriteLine(new Text($"Cotton awards you {award} XP", Colours.Cotton));       
+                morseXPAwarded = true; 
+            }   
+
             var sequence = Enumerable.Range(0, 3).ToList();
             
             foreach (var e in sequence)
@@ -937,6 +971,7 @@ namespace game
             playerHP = 100;
             isPlayerNew = false;
             isPlayerWithMage = false;
+            killXP = 0;
 
             bunchOfArmour.Clear();
             shopWeapons.Clear();           
@@ -945,7 +980,7 @@ namespace game
         internal bool End()
         {
             TypeWriter.WriteLine();
-            TypeWriter.WriteLine($"Final score: {playerGold}");
+            TypeWriter.WriteLine($"Final score: {killXP}");
             TypeWriter.WriteLine();
             TypeWriter.WriteLine("Game Over",TypeWriter.Speed.Talk);    
             TypeWriter.WriteLine($"psst {cottonUserName} do you want to try again: yes / no",TypeWriter.Speed.Talk);
@@ -985,7 +1020,7 @@ namespace game
                         string direction = TheGame.showPlayerOptions();
                         Console.Clear();
                         theGame.playerStats();
-                        TypeWriter.WriteLine("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ",TypeWriter.Speed.List);
+                        TypeWriter.WriteLine("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _",TypeWriter.Speed.List);
                         TypeWriter.WriteLine();
                         theGame.Move( direction.ToLower() );
                     }

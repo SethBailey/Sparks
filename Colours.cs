@@ -19,5 +19,6 @@ namespace game
         public static ConsoleColor FightDamage { get {return ConsoleColor.Red;}}
         public static ConsoleColor Sparks { get {return ConsoleColor.DarkCyan;}}
         public static ConsoleColor Monsterhealth { get {return ConsoleColor.DarkGreen;}}
+        public static ConsoleColor XP { get {return ConsoleColor.Cyan;}}
     }
 }
