@@ -629,7 +629,6 @@ namespace game
             if (hasPlayerBeenInShop == true)
             {
                 somethingCool();
-                shopCommonPlace();
             }
             else
             {   
@@ -697,15 +696,18 @@ namespace game
                         TypeWriter.WriteLine(new Text("Some guy came the other day and gave me this tape (make shure you can hear it :)", Colours.Speech, TypeWriter.Speed.Talk));
                         morseCodeMessage();
                         Thread.Sleep(1000);
-                        TypeWriter.WriteLine("strange huh?... but anyway are you looking for");  
+                        TypeWriter.WriteLine("strange huh?... but anyway");
+                        shopCommonPlace(); 
                         break;
 
                     case "no":
-                        TypeWriter.WriteLine($"O.K {cottonUserName} ");  
+                        TypeWriter.WriteLine($"O.K {cottonUserName} ");
+                        shopCommonPlace();  
                         break;
 
                     default:
-                        TypeWriter.WriteLine("Sorry but I don't understand");  
+                        TypeWriter.WriteLine("Sorry but I don't understand");
+                        shopCommonPlace();  
                         break;
                 }
             }
