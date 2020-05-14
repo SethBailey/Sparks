@@ -629,6 +629,7 @@ namespace game
             if (hasPlayerBeenInShop == true)
             {
                 somethingCool();
+                shopCommonPlace();
             }
             else
             {   
@@ -636,7 +637,7 @@ namespace game
                 shopCommonPlace();
                 hasPlayerBeenInShop = true;
             }
-
+            
         }
 
         private void shopCommonPlace()
@@ -686,35 +687,31 @@ namespace game
         {
             if (playerHasSeenMorse == false)
             {
-                TypeWriter.WriteLine(new Text($"Hello {cottonUserName}, you want to hear somthing cool: yes/no"));
+                TypeWriter.WriteLine(new Text($"Hello {cottonUserName}, you want to hear something cool: yes/no"));
                 string somthingCoolAwnser = Console.ReadLine();
 
                 switch (somthingCoolAwnser)
                 {
                     case "yes":
                         playerHasSeenMorse = true;
-                        TypeWriter.WriteLine(new Text("Some guy came the other day and gave me this tape (make shure you can hear it :)", Colours.Speech, TypeWriter.Speed.Talk));
+                        TypeWriter.WriteLine(new Text("Some guy came the other day and gave me this tape (make sure you can hear it :)", Colours.Speech, TypeWriter.Speed.Talk));
                         morseCodeMessage();
                         Thread.Sleep(1000);
                         TypeWriter.WriteLine("strange huh?... but anyway");
-                        shopCommonPlace(); 
                         break;
 
                     case "no":
                         TypeWriter.WriteLine($"O.K {cottonUserName} ");
-                        shopCommonPlace();  
                         break;
 
                     default:
                         TypeWriter.WriteLine("Sorry but I don't understand");
-                        shopCommonPlace();  
                         break;
                 }
             }
             else
             {
                 TypeWriter.WriteLine($"Hello {cottonUserName}");
-                shopCommonPlace();
             }
            
         }
