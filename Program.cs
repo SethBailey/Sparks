@@ -23,9 +23,13 @@ namespace game
        bool hasPlayerBeenInShop = false;
        bool playerHasSeenMorse = false;
        int magePayGold = 2000;
-       int killXP = 0;
+       int killXP = 300;
        int cottonXP = 0;
        bool morseXPAwarded = false;
+       int daysTillEnd = 70;
+       bool isGameCorrupted = false;
+       int priceForWatch = 200;
+       bool playerHasWatch = false;
        
 
        Weapon playerWeapon;
@@ -191,10 +195,16 @@ namespace game
                 messsage.Add( new Text("and a "));
                 messsage.Add( new Text($"{playerWeapon.name} ",Colours.Attack));
             }
-            if ( playerArmour != null)
+            if (playerArmour != null)
             {
                 messsage.Add( new Text("and a "));
-                messsage.Add( new Text($"{playerArmour.name}" ,Colours.Protection));
+                messsage.Add( new Text($"{playerArmour.name} " ,Colours.Protection));
+            }
+            if (playerHasWatch == true)
+            {
+                messsage.Add( new Text("and a "));
+                messsage.Add( new Text("pocket watch ", Colours.Cotton));
+                messsage.Add( new Text($"that says: {daysTillEnd} days left"));
             }
 
             TypeWriter.WriteLine(messsage);
@@ -429,28 +439,41 @@ namespace game
             endGameCheck();
 
             //adjust user short cut to full string
-            switch( playerDirection )
+            switch (playerDirection)
             {
-                case "bd" : playerDirection = "black dungeon"; break;
-                case "sh" : playerDirection = "shop"; break;
-            }    
+                case "bd": playerDirection = "black dungeon"; break;
+                case "sh": playerDirection = "shop"; break;
+            }
 
             TypeWriter.WriteLine($"You have moved to the {playerDirection}", TypeWriter.Speed.List);
-            switch( playerDirection )
+            switch (playerDirection)
             {
-                case "black dungeon" : blackDungeon(); break;
-                case "shop" : itemShop(); break;
-            }    
+                case "black dungeon": blackDungeon(); break;
+                case "shop": itemShop(); break;
+            }
 
             int monsterGoldOrNothing = new Random().Next(1, 5);
             switch (monsterGoldOrNothing)
             {
-                case 1: Fight(PickMonsterForEveryDayFight());  break;
+                case 1: Fight(PickMonsterForEveryDayFight()); break;
                 case 2: FoundNothing(); break;
                 case 3: FoundGold(); break;
                 default: AwardMedicine(); break;
             }
+            EndTime();
         }
+
+        private void EndTime()
+        {
+            daysTillEnd -= 1;
+
+            if (daysTillEnd == 0)
+            {
+                isGameCorrupted = true;
+                throw new Exception("Game has been corrupted");
+            }
+        }
+
         private static void FoundNothing()
         {
             TypeWriter.WriteLine("Nothing happend", TypeWriter.Speed.List);
@@ -614,6 +637,8 @@ namespace game
 
         public void itemShop()
         {
+            var totalXP = killXP + cottonXP;
+
             TypeWriter.WriteLine();
             if (cottonIntro == false)
             {
@@ -629,57 +654,93 @@ namespace game
             if (hasPlayerBeenInShop == true)
             {
                 somethingCool();
+                if (playerHasWatch == false)
+                {
+                    GetWatch(totalXP);
+                }
                 shopCommonPlace();
             }
             else
             {   
-                TypeWriter.WriteLine($"Hello {cottonUserName} ");
                 shopCommonPlace();
                 hasPlayerBeenInShop = true;
             }
             
         }
 
+        private void GetWatch(int totalXP)
+        {
+            if (totalXP >= 300)
+            {
+                TypeWriter.WriteLine($"Hey {cottonUserName} do you want to trade {priceForWatch} Gold for my pocket watch: yes/no", TypeWriter.Speed.Talk);
+                string Awnser = Console.ReadLine();
+                if (Awnser == "yes")
+                {
+                    TypeWriter.WriteLine();
+                    TypeWriter.WriteLine("Great you've got a pocket watch :)", TypeWriter.Speed.Talk);
+                    TypeWriter.WriteLine();
+                    Thread.Sleep(100);
+                    playerGold -= 150;
+                    playerHasWatch = true;
+                }
+                else
+                {
+                    TypeWriter.WriteLine();
+                    TypeWriter.WriteLine("Fine just take it");
+                    TypeWriter.WriteLine();
+                    Thread.Sleep(100);
+                    playerHasWatch = true;
+                }
+            }
+        }
+
         private void shopCommonPlace()
         {
-            TypeWriter.WriteLine(new Text("Are you looking for "),
-                                 new Text("(w)weapons, ", Colours.Attack, TypeWriter.Speed.Talk),
-                                 new Text("(a)armour ", Colours.Protection, TypeWriter.Speed.Talk),
-                                 new Text("or ", Colours.Speech, TypeWriter.Speed.Talk),
-                                 new Text("(m)medicine ", Colours.Health, TypeWriter.Speed.Talk),
-                                 new Text(":)", Colours.Speech, TypeWriter.Speed.Talk));
-            if (hasPlayerBeenInShop == true)
+            bool leaveShop = false;
+            while (leaveShop != true )
             {
-               if (playerHasSeenMorse == true)
-               {
-                   TypeWriter.WriteLine("(h) to hear it again or (l) to leave", TypeWriter.Speed.Talk);
-               }
-               else if (playerHasSeenMorse == false)
-               {
-                   TypeWriter.WriteLine("(h) to hear something cool or (l) to leave", TypeWriter.Speed.Talk);
-               }
-            }
-            else
-            {
-               TypeWriter.WriteLine("or (l) to leave", TypeWriter.Speed.Talk);  
-            }
 
-            string playerItemType = Console.ReadLine();
+                TypeWriter.WriteLine(new Text($"Hello {cottonUserName} are you looking for "),
+                                    new Text("(w)weapons, ", Colours.Attack, TypeWriter.Speed.Talk),
+                                    new Text("(a)armour ", Colours.Protection, TypeWriter.Speed.Talk),
+                                    new Text("or ", Colours.Speech, TypeWriter.Speed.Talk),
+                                    new Text("(m)medicine ", Colours.Health, TypeWriter.Speed.Talk),
+                                    new Text(":)", Colours.Speech, TypeWriter.Speed.Talk));
+                if (hasPlayerBeenInShop == true)
+                {
+                    if (playerHasSeenMorse == true)
+                    {
+                        TypeWriter.WriteLine("(h) to hear it again or (l) to leave", TypeWriter.Speed.Talk);
+                    }
+                    else if (playerHasSeenMorse == false)
+                    {
+                        TypeWriter.WriteLine("(h) to hear something cool or (l) to leave", TypeWriter.Speed.Talk);
+                    }
+                }
+                else
+                {
+                    TypeWriter.WriteLine("or (l) to leave", TypeWriter.Speed.Talk);  
+                }
 
-            switch (playerItemType.ToLower())
-            {
-                case "w": BuyWeapon(); break;
-                case "a": BuyArmour(); break;
-                case "m": BuyMedicine(); break;
-                case "l": TypeWriter.WriteLine($"Bye {cottonUserName} :)", TypeWriter.Speed.Talk); break;
-                case "h": TypeWriter.WriteLine("Sure thing");
-                          morseCodeMessage();
-                          shopCommonPlace();
-                break;
+                string playerItemType = Console.ReadLine();
 
-                default: TypeWriter.WriteLine("Sorry but I don't understand", TypeWriter.Speed.Talk);
-                         itemShop(); 
-                         break;
+                switch (playerItemType.ToLower())
+                {
+                    case "w": BuyWeapon(); break;
+                    case "a": BuyArmour(); break;
+                    case "m": BuyMedicine(); break;
+                    case "l": 
+                        TypeWriter.WriteLine($"Bye {cottonUserName} :)", TypeWriter.Speed.Talk); 
+                        leaveShop = true;
+                    break;
+                    case "h": TypeWriter.WriteLine("Sure thing");
+                            morseCodeMessage();
+                    break;
+
+                    default: 
+                        TypeWriter.WriteLine("Sorry but I don't understand", TypeWriter.Speed.Talk);
+                        break;
+                }
             }
         }
 
@@ -711,7 +772,7 @@ namespace game
             }
             else
             {
-                TypeWriter.WriteLine($"Hello {cottonUserName}");
+                TypeWriter.WriteLine($"Hello {cottonUserName} are you looking for ");
             }
            
         }
@@ -755,46 +816,47 @@ namespace game
 
         private void BuyMedicine()
         {
-            Console.Clear();
-            playerStats();
-            List<Medicine> shopMedicine = LoadMedicine("./Config/Medicine.csv");
+            bool leave = false;
+            while ( leave != true )
+            {
+                Console.Clear();
+                playerStats();
+                List<Medicine> shopMedicine = LoadMedicine("./Config/Medicine.csv");
 
-            for (int i = 0; i < shopMedicine.Count; i++)
-            {
-                DisplayMedicine(shopMedicine[i], i);
-            }
-            TypeWriter.WriteLine($"[{shopMedicine.Count}] Exit this part of shop",TypeWriter.Speed.List);
+                for (int i = 0; i < shopMedicine.Count; i++)
+                {
+                    DisplayMedicine(shopMedicine[i], i);
+                }
+                TypeWriter.WriteLine($"[{shopMedicine.Count}] Exit this part of shop",TypeWriter.Speed.List);
 
-            string userMedicineChoice = Console.ReadLine();
-            //making shure that the user inputs a valid awnswer
-            int purchaseChoice = 0;
-            try 
-            {
-                purchaseChoice = Int32.Parse(userMedicineChoice);
-            }
-            catch (Exception)
-            {
-                TypeWriter.WriteLine("Sorry but I couldn't hear you over the sound of my world collapsing because of an error",TypeWriter.Speed.Talk);
-                Thread.Sleep(1000);
-                BuyMedicine();
-                return;
-            }
+                string userMedicineChoice = Console.ReadLine();
+                //making shure that the user inputs a valid awnswer
+                int purchaseChoice = 0;
+                try 
+                {
+                    purchaseChoice = Int32.Parse(userMedicineChoice);
+                }
+                catch (Exception)
+                {
+                    TypeWriter.WriteLine("Sorry but I couldn't hear you over the sound of my world collapsing because of an error",TypeWriter.Speed.Talk);
+                    Thread.Sleep(1000);
+                    continue;
+                }
 
-            if (purchaseChoice >= shopMedicine.Count)
-            {
-                itemShop();
-                return;
+                if (purchaseChoice >= shopMedicine.Count)
+                {
+                    leave = true;
+                    continue;
+                }
+                if (playerGold >= shopMedicine[purchaseChoice].price)
+                {
+                    MedicineChosen(shopMedicine[purchaseChoice]);
+                }
+                else
+                {
+                    TypeWriter.WriteLine($"Sorry {cottonUserName} you don't have enough gold",TypeWriter.Speed.Talk);
+                }
             }
-            if (playerGold >= shopMedicine[purchaseChoice].price)
-            {
-                MedicineChosen(shopMedicine[purchaseChoice]);
-            }
-            else
-            {
-                TypeWriter.WriteLine($"Sorry {cottonUserName} you don't have enough gold",TypeWriter.Speed.Talk);
-                BuyMedicine();
-            }
-
         }
 
         private void MedicineChosen(Medicine medicine)
@@ -803,7 +865,6 @@ namespace game
             healing = medicine.healing;
             playerHP += healing;
             playerGold -= medicine.price;
-            BuyMedicine();
         }
 
         private void DisplayMedicine(Medicine medicine, int i)
@@ -823,53 +884,55 @@ namespace game
 
         private void BuyArmour()
         {
-            Console.Clear();
-            playerStats();
+            bool leave = false;
+            while (leave != true)
+            {   
+                Console.Clear();
+                playerStats();
 
-            for (int i = 0; i < bunchOfArmour.Count; i++)
-            {
-                DispalyArmour(bunchOfArmour[i], i);
-            }
-            TypeWriter.WriteLine($"[{bunchOfArmour.Count}] Exit this part of shop",TypeWriter.Speed.List);
+                for (int i = 0; i < bunchOfArmour.Count; i++)
+                {
+                    DispalyArmour(bunchOfArmour[i], i);
+                }
+                TypeWriter.WriteLine($"[{bunchOfArmour.Count}] Exit this part of shop",TypeWriter.Speed.List);
 
-            string userArmorChoice = Console.ReadLine();
+                string userArmorChoice = Console.ReadLine();
 
-            int purchaseChoice = 0;
-            try 
-            {
-                purchaseChoice = Int32.Parse(userArmorChoice);
-            }
-            catch (Exception)
-            {
-                TypeWriter.WriteLine("Sorry but I couldn't hear you over the sound of my world collapsing because of an error",TypeWriter.Speed.Talk);
-                Thread.Sleep(1000);
-                BuyArmour();
-                return;
-            }
+                int purchaseChoice = 0;
+                try 
+                {
+                    purchaseChoice = Int32.Parse(userArmorChoice);
+                }
+                catch (Exception)
+                {
+                    TypeWriter.WriteLine("Sorry but I couldn't hear you over the sound of my world collapsing because of an error",TypeWriter.Speed.Talk);
+                    Thread.Sleep(1000);
+                    continue;
+                }
+                
+                if (purchaseChoice >= bunchOfArmour.Count)
+                {
+                    leave = true;
+                    continue;
+                }
+
+                if (playerGold < bunchOfArmour[purchaseChoice].price)
+                {
+                    TypeWriter.WriteLine($"Sorry {cottonUserName} you don't have enough gold",TypeWriter.Speed.Talk);
+                    Thread.Sleep(1000);
+                    continue;
+                }
+
             
-            if (purchaseChoice >= bunchOfArmour.Count)
-            {
-                itemShop();
-                return;
+                //first return any itme you may already have
+                if (playerArmour != null)
+                {
+                    bunchOfArmour.Add(playerArmour);
+                }
+                ArmourChosen(bunchOfArmour[purchaseChoice]);
+                bunchOfArmour.RemoveAt(purchaseChoice);
+                TypeWriter.WriteLine($"Good chioce, you've got your self a {playerArmour.name}",TypeWriter.Speed.Talk);    
             }
-
-            if (playerGold < bunchOfArmour[purchaseChoice].price)
-            {
-                TypeWriter.WriteLine($"Sorry {cottonUserName} you don't have enough gold",TypeWriter.Speed.Talk);
-                BuyArmour();
-                return;
-            }
-
-          
-            //first return any itme you may already have
-            if (playerArmour != null)
-            {
-                bunchOfArmour.Add(playerArmour);
-            }
-            ArmourChosen(bunchOfArmour[purchaseChoice]);
-            bunchOfArmour.RemoveAt(purchaseChoice);
-            TypeWriter.WriteLine($"Good chioce, you've got your self a {playerArmour.name}",TypeWriter.Speed.Talk);
-            BuyArmour(); 
         }
 
         private void ArmourChosen(Armour armour)
@@ -881,37 +944,42 @@ namespace game
 
         private void BuyWeapon()
         {
-            Console.Clear();
-            playerStats();
-
-            for (int i = 0; i < shopWeapons.Count; i++)
+            bool leave = false;
+            while (leave != true)
             {
-                DisplayWeapons(shopWeapons[i], i);
-            }
-            TypeWriter.WriteLine($"[{shopWeapons.Count}] Exit this part of shop",TypeWriter.Speed.List);
+                Console.Clear();
+                playerStats();
 
-            string playerChoiceString = Console.ReadLine();
+                for (int i = 0; i < shopWeapons.Count; i++)
+                {
+                    DisplayWeapons(shopWeapons[i], i);
+                }
+                TypeWriter.WriteLine($"[{shopWeapons.Count}] Exit this part of shop",TypeWriter.Speed.List);
 
-               int playerChoice = 0;
-            try 
-            {
-                playerChoice = Int32.Parse(playerChoiceString);
-            }
-            catch (Exception)
-            {
-                TypeWriter.WriteLine("Sorry but I couldn't hear you over the sound of my world collapsing because of an error",TypeWriter.Speed.Talk);
-                Thread.Sleep(1000);
-                BuyWeapon();
-                return;
-            }
+                string playerChoiceString = Console.ReadLine();
 
-            if (playerChoice >= shopWeapons.Count)
-            {
-                itemShop();
-                return;
-            }
+                int playerChoice = 0;
+                try 
+                {
+                    playerChoice = Int32.Parse(playerChoiceString);
+                }
+                catch (Exception)
+                {
+                    TypeWriter.WriteLine("Sorry but I couldn't hear you over the sound of my world collapsing because of an error",TypeWriter.Speed.Talk);
+                    Thread.Sleep(1000);
+                    continue;
+                }
 
-            WeaponChosen(shopWeapons, playerChoice);
+                if (playerChoice >= shopWeapons.Count)
+                {
+                    leave = true;
+                    continue;
+                }
+                else
+                {
+                    WeaponChosen(shopWeapons, playerChoice);
+                }
+            }
         }
 
         private void WeaponChosen(List<Weapon> shopWeapons, int playerChoice)
@@ -920,7 +988,6 @@ namespace game
             {
                TypeWriter.WriteLine($"Sorry {cottonUserName} you don't have enough gold", TypeWriter.Speed.Talk);
                Thread.Sleep(1000);
-               BuyWeapon();
             }
             else
             {
@@ -932,7 +999,6 @@ namespace game
                 chosenWeapon(shopWeapons[playerChoice]);
                 shopWeapons.RemoveAt(playerChoice);
                 TypeWriter.WriteLine($"Good chioce you've got your self a {playerWeapon.name}", TypeWriter.Speed.Talk);
-                BuyWeapon();
             }
         }
 
@@ -970,6 +1036,7 @@ namespace game
             isPlayerNew = false;
             isPlayerWithMage = false;
             killXP = 0;
+            playerHasWatch = false;
 
             bunchOfArmour.Clear();
             shopWeapons.Clear();           
@@ -981,22 +1048,30 @@ namespace game
             TypeWriter.WriteLine();
             TypeWriter.WriteLine($"Final score: {totalXP}");
             TypeWriter.WriteLine();
-            TypeWriter.WriteLine("Game Over",TypeWriter.Speed.Talk);    
-            TypeWriter.WriteLine($"psst {cottonUserName} do you want to try again: yes / no",TypeWriter.Speed.Talk);
-            
-            string tryAgain = Console.ReadLine();
-            switch(tryAgain.ToLower())
-            {
-                case "yes":
-                    playerReset();
-                    return true;
+            TypeWriter.WriteLine("Game Over",TypeWriter.Speed.Talk);
 
-                default:
-                    TypeWriter.WriteLine("bye for now :)", TypeWriter.Speed.Talk);
-                    TypeWriter.WriteLine("");
-                    UpdateLeaderBoard(totalXP);
-                    return false;
+            if (isGameCorrupted == false)
+            {   
+                TypeWriter.WriteLine($"psst {cottonUserName} do you want to try again: yes / no",TypeWriter.Speed.Talk);
+                
+                string tryAgain = Console.ReadLine();
+                switch(tryAgain.ToLower())
+                {
+                    case "yes":
+                        playerReset();
+                        return true;
+
+                    default:
+                        TypeWriter.WriteLine("bye for now :)", TypeWriter.Speed.Talk);
+                        TypeWriter.WriteLine("");
+                        UpdateLeaderBoard(totalXP);
+                        return false;
+                }
             }
+            else
+            {
+                return false;
+            }   
         }
 
         private void UpdateLeaderBoard(int totalXP)
@@ -1071,7 +1146,7 @@ namespace game
                         string direction = TheGame.showPlayerOptions();
                         Console.Clear();
                         theGame.playerStats();
-                        TypeWriter.WriteLine("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _",TypeWriter.Speed.List);
+                        TypeWriter.WriteLine("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _",TypeWriter.Speed.List);
                         TypeWriter.WriteLine();
                         theGame.Move( direction.ToLower() );
                     }

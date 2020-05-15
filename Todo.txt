@@ -8,8 +8,7 @@ Veersion 1 ( Live )
 ===Happy for anyone to play it==
 
 *multiple levels
-* Add a time element ( so you only have N days to save the lady)
-    * running away give you a time penalty ?
+
 * magic    
     * possibly magic items
 * EXP
@@ -23,7 +22,8 @@ Bugs
 
 In Progress
 -----------
-
+* Add a time element ( so you only have N days to save the lady)
+    * running away give you a time penalty ?
 
 
 Done
