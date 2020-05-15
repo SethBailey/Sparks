@@ -52,7 +52,7 @@ namespace game
             {
                 //Do player introductions
                 TypeWriter.WriteLine("Enter your name:", TypeWriter.Speed.Talk);
-                userName = GetAwnserThenTurnLower();
+                userName = Console.ReadLine();
                 TypeWriter.WriteLine(new Text($"Nice to meet you {userName} my name is ", Colours.Speech, TypeWriter.Speed.Talk),
                                      new Text("Sparks",Colours.Sparks, TypeWriter.Speed.Talk));
                 TypeWriter.WriteLine($"You {userName} are a {isPlayerKnight} and princess Kafe has been taken hostage by the high dark mage", TypeWriter.Speed.Talk);
@@ -80,7 +80,7 @@ namespace game
         public void playerType()
         {
             TypeWriter.WriteLine("Are you a (k)Knight or a (m)Mage", TypeWriter.Speed.Talk);
-            knightOrMage = GetAwnserThenTurnLower();
+            knightOrMage = GetLowerReply();
 
             switch (knightOrMage)
             {
@@ -229,7 +229,7 @@ namespace game
                 
                 if (canPlayerRun == false)
                 {  TypeWriter.WriteLine($"To flee will cost you {runCost} Gold, will you fight?: yes / no",TypeWriter.Speed.List);
-                   string playerFlee = GetAwnserThenTurnLower();
+                   string playerFlee = GetLowerReply();
                     if (playerFlee.ToLower() == "no")
                     {
                         if (playerGold < runCost)
@@ -251,7 +251,7 @@ namespace game
                 else
                 {
                     TypeWriter.WriteLine("There is no running",TypeWriter.Speed.Talk);
-                    GetAwnserThenTurnLower();
+                    GetLowerReply();
                 }
               
 
@@ -500,7 +500,7 @@ namespace game
             TypeWriter.WriteLine("the gates close behind you, there is no runing",TypeWriter.Speed.Talk);
 
             TypeWriter.WriteLine($"{userName} the time has come, will you kill the mage or pay him?: kill / pay",TypeWriter.Speed.Talk);
-            string killOrPay = GetAwnserThenTurnLower();
+            string killOrPay = GetLowerReply();
             switch (killOrPay)
             {
                 case "kill":
@@ -582,7 +582,7 @@ namespace game
 
                 TypeWriter.WriteLine($"{userName} you have the required funds to confront the high dark mage",TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine("Are you ready: yes / no",TypeWriter.Speed.Talk);
-                string playerAwnser = GetAwnserThenTurnLower(); 
+                string playerAwnser = GetLowerReply(); 
                 if (playerAwnser == "yes")
                 {
                     TypeWriter.WriteLine("He is located in the black dungeon",TypeWriter.Speed.Talk);
@@ -636,7 +636,7 @@ namespace game
                                  new Text($"{armour.discription}"));
         }
 
-        private string GetAwnserThenTurnLower()
+        private string GetLowerReply()
         {
             return Console.ReadLine().ToLower();
         }
@@ -653,14 +653,14 @@ namespace game
                 cottonList.Add(new Text("Cotton ", Colours.Cotton, TypeWriter.Speed.Talk));
                 cottonList.Add(new Text("and this is my shop, whats your name?", Colours.Speech, TypeWriter.Speed.Talk));
                 TypeWriter.WriteLine(cottonList);
-                cottonUserName = GetAwnserThenTurnLower();
+                cottonUserName = GetLowerReply();
                 TypeWriter.WriteLine($"{cottonUserName}, hmm ... nice!");
                 cottonIntro = true;
             }
             if (hasPlayerBeenInShop == true)
             {
                 somethingCool();
-                if (playerHasWatch == false)
+                if (playerHasWatch == false && playerGold >= priceForWatch)
                 {
                     GetWatch(totalXP);
                 }
@@ -684,13 +684,13 @@ namespace game
             if (totalXP >= XPNeededForWatch)
             {
                 TypeWriter.WriteLine($"Hey {cottonUserName} do you want to trade {priceForWatch} Gold for my pocket watch: yes/no", TypeWriter.Speed.Talk);
-                string Awnser = GetAwnserThenTurnLower();
+                string Awnser = GetLowerReply();
                 if (Awnser == "yes")
                 {
                     TypeWriter.WriteLine();
                     TypeWriter.WriteLine("Great you've got a pocket watch :)", TypeWriter.Speed.Talk);
                     TypeWriter.WriteLine();
-                    Thread.Sleep(200);
+                    Thread.Sleep(1000);
                     playerGold -= 150;
                     playerHasWatch = true;
                 }
@@ -699,7 +699,7 @@ namespace game
                     TypeWriter.WriteLine();
                     TypeWriter.WriteLine("Fine just take it");
                     TypeWriter.WriteLine();
-                    Thread.Sleep(200);
+                    Thread.Sleep(1000);
                     playerHasWatch = true;
                 }
             }
@@ -733,7 +733,7 @@ namespace game
                     TypeWriter.WriteLine("or (l) to leave", TypeWriter.Speed.Talk);  
                 }
 
-                string playerItemType = GetAwnserThenTurnLower();
+                string playerItemType = GetLowerReply();
 
                 switch (playerItemType)
                 {
@@ -760,7 +760,7 @@ namespace game
             if (playerHasSeenMorse == false)
             {
                 TypeWriter.WriteLine(new Text($"Hello {cottonUserName}, you want to hear something cool: yes/no"));
-                string somthingCoolAwnser = GetAwnserThenTurnLower();
+                string somthingCoolAwnser = GetLowerReply();
 
                 switch (somthingCoolAwnser)
                 {
@@ -835,7 +835,7 @@ namespace game
                 }
                 TypeWriter.WriteLine($"[{shopMedicine.Count}] Exit this part of shop",TypeWriter.Speed.List);
 
-                string userMedicineChoice = GetAwnserThenTurnLower();
+                string userMedicineChoice = GetLowerReply();
                 //making shure that the user inputs a valid awnswer
                 int purchaseChoice = 0;
                 try 
@@ -902,7 +902,7 @@ namespace game
                 }
                 TypeWriter.WriteLine($"[{bunchOfArmour.Count}] Exit this part of shop",TypeWriter.Speed.List);
 
-                string userArmorChoice = GetAwnserThenTurnLower();
+                string userArmorChoice = GetLowerReply();
 
                 int purchaseChoice = 0;
                 try 
@@ -962,7 +962,7 @@ namespace game
                 }
                 TypeWriter.WriteLine($"[{shopWeapons.Count}] Exit this part of shop",TypeWriter.Speed.List);
 
-                string playerChoiceString = GetAwnserThenTurnLower();
+                string playerChoiceString = GetLowerReply();
 
                 int playerChoice = 0;
                 try 
@@ -1060,7 +1060,7 @@ namespace game
             {   
                 TypeWriter.WriteLine($"psst {cottonUserName} do you want to try again: yes / no",TypeWriter.Speed.Talk);
                 
-                string tryAgain = GetAwnserThenTurnLower();
+                string tryAgain = GetLowerReply();
                 switch(tryAgain)
                 {
                     case "yes":
