@@ -23,13 +23,14 @@ namespace game
        bool hasPlayerBeenInShop = false;
        bool playerHasSeenMorse = false;
        int magePayGold = 2000;
-       int killXP = 300;
+       int killXP = 0;
        int cottonXP = 0;
        bool morseXPAwarded = false;
        int daysTillEnd = 70;
        bool isGameCorrupted = false;
        int priceForWatch = 200;
        bool playerHasWatch = false;
+       int XPNeededForWatch = 300;
        
 
        Weapon playerWeapon;
@@ -51,7 +52,7 @@ namespace game
             {
                 //Do player introductions
                 TypeWriter.WriteLine("Enter your name:", TypeWriter.Speed.Talk);
-                userName = Console.ReadLine();
+                userName = GetAwnserThenTurnLower();
                 TypeWriter.WriteLine(new Text($"Nice to meet you {userName} my name is ", Colours.Speech, TypeWriter.Speed.Talk),
                                      new Text("Sparks",Colours.Sparks, TypeWriter.Speed.Talk));
                 TypeWriter.WriteLine($"You {userName} are a {isPlayerKnight} and princess Kafe has been taken hostage by the high dark mage", TypeWriter.Speed.Talk);
@@ -79,7 +80,7 @@ namespace game
         public void playerType()
         {
             TypeWriter.WriteLine("Are you a (k)Knight or a (m)Mage", TypeWriter.Speed.Talk);
-            knightOrMage = Console.ReadLine();
+            knightOrMage = GetAwnserThenTurnLower();
 
             switch (knightOrMage)
             {
@@ -228,7 +229,7 @@ namespace game
                 
                 if (canPlayerRun == false)
                 {  TypeWriter.WriteLine($"To flee will cost you {runCost} Gold, will you fight?: yes / no",TypeWriter.Speed.List);
-                   string playerFlee = Console.ReadLine();
+                   string playerFlee = GetAwnserThenTurnLower();
                     if (playerFlee.ToLower() == "no")
                     {
                         if (playerGold < runCost)
@@ -250,7 +251,7 @@ namespace game
                 else
                 {
                     TypeWriter.WriteLine("There is no running",TypeWriter.Speed.Talk);
-                    Console.ReadLine();
+                    GetAwnserThenTurnLower();
                 }
               
 
@@ -499,8 +500,8 @@ namespace game
             TypeWriter.WriteLine("the gates close behind you, there is no runing",TypeWriter.Speed.Talk);
 
             TypeWriter.WriteLine($"{userName} the time has come, will you kill the mage or pay him?: kill / pay",TypeWriter.Speed.Talk);
-            string killOrPay = Console.ReadLine();
-            switch (killOrPay.ToLower())
+            string killOrPay = GetAwnserThenTurnLower();
+            switch (killOrPay)
             {
                 case "kill":
                     isPlayerWithMage = true;
@@ -581,8 +582,8 @@ namespace game
 
                 TypeWriter.WriteLine($"{userName} you have the required funds to confront the high dark mage",TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine("Are you ready: yes / no",TypeWriter.Speed.Talk);
-                string playerAwnser = Console.ReadLine(); 
-                if (playerAwnser.ToLower() == "yes")
+                string playerAwnser = GetAwnserThenTurnLower(); 
+                if (playerAwnser == "yes")
                 {
                     TypeWriter.WriteLine("He is located in the black dungeon",TypeWriter.Speed.Talk);
                 }
@@ -635,9 +636,14 @@ namespace game
                                  new Text($"{armour.discription}"));
         }
 
+        private string GetAwnserThenTurnLower()
+        {
+            return Console.ReadLine().ToLower();
+        }
+
         public void itemShop()
         {
-            var totalXP = killXP + cottonXP;
+            int totalXP = TotalXP();
 
             TypeWriter.WriteLine();
             if (cottonIntro == false)
@@ -647,7 +653,7 @@ namespace game
                 cottonList.Add(new Text("Cotton ", Colours.Cotton, TypeWriter.Speed.Talk));
                 cottonList.Add(new Text("and this is my shop, whats your name?", Colours.Speech, TypeWriter.Speed.Talk));
                 TypeWriter.WriteLine(cottonList);
-                cottonUserName = Console.ReadLine();
+                cottonUserName = GetAwnserThenTurnLower();
                 TypeWriter.WriteLine($"{cottonUserName}, hmm ... nice!");
                 cottonIntro = true;
             }
@@ -661,25 +667,30 @@ namespace game
                 shopCommonPlace();
             }
             else
-            {   
+            {
                 shopCommonPlace();
                 hasPlayerBeenInShop = true;
             }
-            
+
+        }
+
+        private int TotalXP()
+        {
+            return killXP + cottonXP;
         }
 
         private void GetWatch(int totalXP)
         {
-            if (totalXP >= 300)
+            if (totalXP >= XPNeededForWatch)
             {
                 TypeWriter.WriteLine($"Hey {cottonUserName} do you want to trade {priceForWatch} Gold for my pocket watch: yes/no", TypeWriter.Speed.Talk);
-                string Awnser = Console.ReadLine();
+                string Awnser = GetAwnserThenTurnLower();
                 if (Awnser == "yes")
                 {
                     TypeWriter.WriteLine();
                     TypeWriter.WriteLine("Great you've got a pocket watch :)", TypeWriter.Speed.Talk);
                     TypeWriter.WriteLine();
-                    Thread.Sleep(100);
+                    Thread.Sleep(200);
                     playerGold -= 150;
                     playerHasWatch = true;
                 }
@@ -688,7 +699,7 @@ namespace game
                     TypeWriter.WriteLine();
                     TypeWriter.WriteLine("Fine just take it");
                     TypeWriter.WriteLine();
-                    Thread.Sleep(100);
+                    Thread.Sleep(200);
                     playerHasWatch = true;
                 }
             }
@@ -722,9 +733,9 @@ namespace game
                     TypeWriter.WriteLine("or (l) to leave", TypeWriter.Speed.Talk);  
                 }
 
-                string playerItemType = Console.ReadLine();
+                string playerItemType = GetAwnserThenTurnLower();
 
-                switch (playerItemType.ToLower())
+                switch (playerItemType)
                 {
                     case "w": BuyWeapon(); break;
                     case "a": BuyArmour(); break;
@@ -749,7 +760,7 @@ namespace game
             if (playerHasSeenMorse == false)
             {
                 TypeWriter.WriteLine(new Text($"Hello {cottonUserName}, you want to hear something cool: yes/no"));
-                string somthingCoolAwnser = Console.ReadLine();
+                string somthingCoolAwnser = GetAwnserThenTurnLower();
 
                 switch (somthingCoolAwnser)
                 {
@@ -769,12 +780,7 @@ namespace game
                         TypeWriter.WriteLine("Sorry but I don't understand");
                         break;
                 }
-            }
-            else
-            {
-                TypeWriter.WriteLine($"Hello {cottonUserName} are you looking for ");
-            }
-           
+            }            
         }
 
         private void morseCodeMessage()
@@ -829,7 +835,7 @@ namespace game
                 }
                 TypeWriter.WriteLine($"[{shopMedicine.Count}] Exit this part of shop",TypeWriter.Speed.List);
 
-                string userMedicineChoice = Console.ReadLine();
+                string userMedicineChoice = GetAwnserThenTurnLower();
                 //making shure that the user inputs a valid awnswer
                 int purchaseChoice = 0;
                 try 
@@ -896,7 +902,7 @@ namespace game
                 }
                 TypeWriter.WriteLine($"[{bunchOfArmour.Count}] Exit this part of shop",TypeWriter.Speed.List);
 
-                string userArmorChoice = Console.ReadLine();
+                string userArmorChoice = GetAwnserThenTurnLower();
 
                 int purchaseChoice = 0;
                 try 
@@ -956,7 +962,7 @@ namespace game
                 }
                 TypeWriter.WriteLine($"[{shopWeapons.Count}] Exit this part of shop",TypeWriter.Speed.List);
 
-                string playerChoiceString = Console.ReadLine();
+                string playerChoiceString = GetAwnserThenTurnLower();
 
                 int playerChoice = 0;
                 try 
@@ -1044,7 +1050,7 @@ namespace game
 
         internal bool End()
         {
-            var totalXP = killXP + cottonXP;
+            var totalXP = TotalXP();
             TypeWriter.WriteLine();
             TypeWriter.WriteLine($"Final score: {totalXP}");
             TypeWriter.WriteLine();
@@ -1054,8 +1060,8 @@ namespace game
             {   
                 TypeWriter.WriteLine($"psst {cottonUserName} do you want to try again: yes / no",TypeWriter.Speed.Talk);
                 
-                string tryAgain = Console.ReadLine();
-                switch(tryAgain.ToLower())
+                string tryAgain = GetAwnserThenTurnLower();
+                switch(tryAgain)
                 {
                     case "yes":
                         playerReset();
@@ -1063,13 +1069,15 @@ namespace game
 
                     default:
                         TypeWriter.WriteLine("bye for now :)", TypeWriter.Speed.Talk);
-                        TypeWriter.WriteLine("");
+                        TypeWriter.WriteLine();
                         UpdateLeaderBoard(totalXP);
                         return false;
                 }
             }
             else
             {
+                TypeWriter.WriteLine();
+                UpdateLeaderBoard(totalXP);
                 return false;
             }   
         }
@@ -1146,7 +1154,8 @@ namespace game
                         string direction = TheGame.showPlayerOptions();
                         Console.Clear();
                         theGame.playerStats();
-                        TypeWriter.WriteLine("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _",TypeWriter.Speed.List);
+                        TypeWriter.WriteLine(new Text("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ",Colours.Speech, TypeWriter.Speed.List));
+                                             new Text("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _",Colours.Speech, TypeWriter.Speed.List);
                         TypeWriter.WriteLine();
                         theGame.Move( direction.ToLower() );
                     }
