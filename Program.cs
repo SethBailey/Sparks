@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using McMaster.Extensions.CommandLineUtils;
 
 namespace game
 {
@@ -23,7 +24,7 @@ namespace game
        bool hasPlayerBeenInShop = false;
        bool playerHasSeenMorse = false;
        int magePayGold = 2000;
-       int killXP = 0;
+       public int killXP = 0;
        int cottonXP = 0;
        bool morseXPAwarded = false;
        int daysTillEnd = 70;
@@ -41,6 +42,9 @@ namespace game
         List<Weapon> shopWeapons = new List<Weapon>();
 
       
+        public TheGame()
+        {
+        }
 
         public void Begin()
         {
@@ -1137,36 +1141,55 @@ namespace game
     {
         static void Main(string[] args)
         {   
-            TheGame theGame = new TheGame();
-             
-            bool replay = true;
+            var app = new CommandLineApplication();
 
-            //replay loop
-            while ( replay )
+            app.HelpOption();
+            var startingGold = app.Option<int>("-g|--gold <VALUE>", "Staring Gold", CommandOptionType.SingleValue);
+            var totalXP = app.Option<int>("-x|--xp <VALUE>", "total XP", CommandOptionType.SingleValue);
+            
+            app.OnExecute(() =>
             {
-                Console.Clear();
-                theGame.Begin(); 
-                try
+                TheGame theGame = new TheGame();
+                if ( startingGold.HasValue() )
                 {
-                    //game loop
-                    while (true)
+                    theGame.playerGold = startingGold.ParsedValue;
+                }
+                if ( totalXP.HasValue())
+                {
+                    theGame.killXP = totalXP.ParsedValue;
+                }
+             
+                bool replay = true;
+
+                //replay loop
+                while ( replay )
+                {
+                    Console.Clear();
+                    theGame.Begin(); 
+                    try
                     {
-                        string direction = TheGame.showPlayerOptions();
-                        Console.Clear();
-                        theGame.playerStats();
-                        TypeWriter.WriteLine(new Text("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ",Colours.Speech, TypeWriter.Speed.List));
-                                             new Text("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _",Colours.Speech, TypeWriter.Speed.List);
-                        TypeWriter.WriteLine();
-                        theGame.Move( direction.ToLower() );
+                        //game loop
+                        while (true)
+                        {
+                            string direction = TheGame.showPlayerOptions();
+                            Console.Clear();
+                            theGame.playerStats();
+                            TypeWriter.WriteLine(new Text("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ",Colours.Speech, TypeWriter.Speed.List));
+                                                new Text("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _",Colours.Speech, TypeWriter.Speed.List);
+                            TypeWriter.WriteLine();
+                            theGame.Move( direction.ToLower() );
+                        }
                     }
+                    catch ( Exception e )
+                    {
+                        TypeWriter.WriteLine( e.Message );
+                    }
+                    replay = theGame.End();
                 }
-                catch ( Exception e )
-                {
-                    TypeWriter.WriteLine( e.Message );
-                }
-                replay = theGame.End();
-            }
-           
+
+            });
+
+            app.Execute(args);
         }
 
     }
