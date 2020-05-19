@@ -15,7 +15,7 @@ namespace game
        public string cottonUserName;
        bool cottonIntro = false;
        int protection;
-       bool canPlayerRun = false;
+       bool canPlayerRun = true;
        bool isPlayerWithMage = false;
        public bool isPlayerNew = true;
        string knightOrMage;
@@ -31,8 +31,16 @@ namespace game
        int priceForWatch = 200;
        bool playerHasWatch = false;
        int XPNeededForWatch = 300;
+       bool hasPlayerSeenBill = false;
+       string billUserName;
+       bool isPlayerWithBill = false;
+       bool doesPlayerHavePrivateKey = false;
+       bool isBillDead = false;
+       int maxDamage = 100;
+       int MinDamage = 1;
+       bool hasPlayerBeenForcedOut = false;
+       bool isPlayerWithDummy = false;
        
-
        Weapon playerWeapon;
        Armour playerArmour;
        private int healing;
@@ -201,6 +209,11 @@ namespace game
                 messsage.Add( new Text("and a "));
                 messsage.Add( new Text($"{playerArmour.name} " ,Colours.Protection));
             }
+            if (doesPlayerHavePrivateKey == true)
+            {
+                messsage.Add( new Text("and a "));
+                messsage.Add( new Text("private Key ", Colours.Bill));
+            }
             if (playerHasWatch == true)
             {
                 messsage.Add( new Text("and a "));
@@ -227,7 +240,7 @@ namespace game
                 int runCost = new Random().Next(1, 201);
                 GetPlayerProtection();
                 
-                if (canPlayerRun == false)
+                if (canPlayerRun == true)
                 {  TypeWriter.WriteLine($"To flee will cost you {runCost} Gold, will you fight?: yes / no",TypeWriter.Speed.List);
                    string playerFlee = GetLowerReply();
                     if (playerFlee.ToLower() == "no")
@@ -307,22 +320,26 @@ namespace game
 
                 if (isPlayerWithMage == false)
                 {
+                    if (isPlayerWithBill == true || isPlayerWithDummy == true)
+                    {
+                        canPlayerRun = true;
+                    }    
+                        int goldReward = new Random().Next(1, 101);
 
-                    int goldReward = new Random().Next(1, 101);
+                        fightDescriptionWin(monster);
+                        TypeWriter.WriteLine("");
 
-                    fightDescriptionWin(monster);
-                    TypeWriter.WriteLine("");
-
-                    List<Text> winMesssage = new List<Text>();
-                    winMesssage.Add(new Text($"{userName} won the fight and got "));
-                    winMesssage.Add(new Text($"{goldReward} Gold coins ", Colours.GoldReward));
-                    playerGold += goldReward;
-                    TypeWriter.WriteLine(winMesssage);
-                    
-                    XPMessage(xpWin);
-                    AwardMedicine();
-                    playerStats();
-                    Console.WriteLine();
+                        List<Text> winMesssage = new List<Text>();
+                        winMesssage.Add(new Text($"{userName} won the fight and got "));
+                        winMesssage.Add(new Text($"{goldReward} Gold coins ", Colours.GoldReward));
+                        playerGold += goldReward;
+                        TypeWriter.WriteLine(winMesssage);
+                        
+                        XPMessage(xpWin);
+                        AwardMedicine();
+                        playerStats();
+                        Console.WriteLine();
+                        
                 }
                 else
                 {
@@ -349,7 +366,6 @@ namespace game
 
         private int GetPlayerMaxDamage()
         {
-            int maxDamage = 100;
             if ( playerWeapon != null )
             {
                 maxDamage += playerWeapon.damage;
@@ -359,7 +375,6 @@ namespace game
 
         private int GetPlayerMinDamage()
         {
-            int MinDamage = 1;
             if ( playerWeapon != null)
             {
                 MinDamage += playerWeapon.damage;
@@ -428,7 +443,9 @@ namespace game
         {
             TypeWriter.WriteLine();
             TypeWriter.WriteLine(new Text("Where would you like to go: north, south, east, west, the "),
-                                 new Text("(sh)shop ",Colours.Cotton),
+                                 new Text("(sh)shop, ",Colours.Cotton),
+                                 new Text("the "),
+                                 new Text("(do)dojo ", Colours.Bill),
                                  new Text("or to the "),
                                  new Text("(bd)black dungeon:",Colours.BlackDungeon,TypeWriter.Speed.List));
             string playerDirection = Console.ReadLine();
@@ -444,6 +461,7 @@ namespace game
             {
                 case "bd": playerDirection = "black dungeon"; break;
                 case "sh": playerDirection = "shop"; break;
+                case "do": playerDirection = "dojo"; break;
             }
 
             TypeWriter.WriteLine($"You have moved to the {playerDirection}", TypeWriter.Speed.List);
@@ -451,6 +469,7 @@ namespace game
             {
                 case "black dungeon": blackDungeon(); break;
                 case "shop": itemShop(); break;
+                case "dojo": dojo(); break;
             }
 
             int monsterGoldOrNothing = new Random().Next(1, 5);
@@ -491,6 +510,251 @@ namespace game
             goldList.Add( new Text("You now have "));
             goldList.Add( new Text($"{playerGold} gold coins", Colours.Gold, TypeWriter.Speed.Talk));
             TypeWriter.WriteLine(goldList);
+        }
+
+        private void dojo()
+        {
+            HasBillBeenKilled();
+            if ( DojoIntro() )
+            {
+                dojoCommonPlace();
+            }
+        }
+
+        private void dojoCommonPlace()
+        {
+            bool loop = true;
+            while (loop)
+            {            
+                TypeWriter.WriteLine(new Text("Do you want to train in ", Colours.Speech , TypeWriter.Speed.Talk),
+                                    new Text("(a)attack ", Colours.Attack, TypeWriter.Speed.Talk),
+                                    new Text("or ", Colours.Speech , TypeWriter.Speed.Talk),
+                                    new Text("(d)defence", Colours.Protection, TypeWriter.Speed.Talk));
+                TypeWriter.WriteLine("or (l) to leave");
+                string dojoTrainingAwnser = GetLowerReply();
+
+                switch (dojoTrainingAwnser)
+                {
+                    case "a": attackTraining(); break;
+                    case "d": defenceTraining(); break;
+                    case "l": 
+                        TypeWriter.WriteLine($"bye {billUserName}", TypeWriter.Speed.Talk);
+                        TypeWriter.WriteLine();
+                        loop = false;
+                        break;
+                    default : 
+                        TypeWriter.WriteLine("sorry but I don't understand", TypeWriter.Speed.Talk);
+                        TypeWriter.WriteLine();
+                        break;        
+                }
+            }
+        }
+
+        private void attackTraining()
+        {
+            bool loop = true;
+            while (loop)
+            {
+                isPlayerWithDummy = true;
+                canPlayerRun = false;
+
+                TypeWriter.WriteLine("Do you want to train at level 1, 2, 3 or (l)leave", TypeWriter.Speed.Talk);
+                string Awnser = GetLowerReply();
+                switch (Awnser)
+                {
+                    case "1": 
+                        Fight(new Monster("Dummy", 0, 0, 50));
+                        maxDamage += 5;
+                        MinDamage += 5;
+                        TypeWriter.WriteLine($"You now deal between {MinDamage} and {maxDamage} damage", TypeWriter.Speed.Talk);
+                        TypeWriter.WriteLine();
+                        break;
+                    case "2":
+                        Fight(new Monster("Dummy", 1, 20, 200));
+                        maxDamage += 10;
+                        MinDamage += 10;
+                        TypeWriter.WriteLine($"You now deal between {MinDamage} and {maxDamage} damage", TypeWriter.Speed.Talk);
+                        TypeWriter.WriteLine();
+                        break;
+                    case "3":
+                        Fight(new Monster("Dummy", 1, 50, 400));
+                        maxDamage += 15;
+                        MinDamage += 15;
+                        TypeWriter.WriteLine($"You now deal between {MinDamage} and {maxDamage} damage", TypeWriter.Speed.Talk);
+                        TypeWriter.WriteLine();
+                        break;  
+                    case "l":
+                        loop = false;
+                        canPlayerRun = true;
+                        break;
+                    default:
+                        TypeWriter.WriteLine("sorry but I don't understand", TypeWriter.Speed.Talk);
+                        TypeWriter.WriteLine();
+                        break;              
+                }
+            }
+        }
+
+        private void defenceTraining()
+        {
+            bool loop = true;
+            while(loop)
+            {
+                isPlayerWithDummy = true;
+                canPlayerRun = false;
+
+                TypeWriter.WriteLine("Do you want to train at level 1, 2 or 3", TypeWriter.Speed.Talk);
+                string Awnser = GetLowerReply();
+                switch (Awnser)
+                {
+                    case "1": 
+                        Fight(new Monster("Dummy", 1, 10, 100));
+                        protection += 10;
+                        TypeWriter.WriteLine($"You can now block {protection} damage", TypeWriter.Speed.Talk);
+                        TypeWriter.WriteLine();
+                        break;
+                    case "2":
+                        Fight(new Monster("Dummy", 1, 50, 200));
+                        protection += 20;
+                        TypeWriter.WriteLine($"You can now block {protection} damage", TypeWriter.Speed.Talk);
+                        TypeWriter.WriteLine();
+                        break;
+                    case "3":
+                        Fight(new Monster("Dummy", 1, 150, 300));
+                        protection += 30;
+                        TypeWriter.WriteLine($"You can now block {protection} damage", TypeWriter.Speed.Talk);
+                        TypeWriter.WriteLine();
+                        break; 
+                    case "l":
+                        loop = false;
+                        canPlayerRun = true;
+                        break;  
+                    default:
+                        TypeWriter.WriteLine("sorry but I don't understand", TypeWriter.Speed.Talk);
+                        TypeWriter.WriteLine();
+                        break;             
+                }
+            }
+        }
+
+        private void HasBillBeenKilled()
+        {
+            if (isBillDead == true)
+            {
+                TypeWriter.WriteLine($"{userName} William is dead don't linger on the past", TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine();
+                return;
+            }
+        }
+
+        private bool DojoIntro()
+        {
+            if (hasPlayerSeenBill == false)
+            {
+                if (hasPlayerBeenForcedOut == true)
+                {
+                    forcedOutEntry();
+                }
+                TypeWriter.WriteLine("yes of course I'll try, I know, I know... got to go", TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine(new Text("Hey there my name is ", Colours.Speech, TypeWriter.Speed.Talk),
+                                     new Text("William ", Colours.Bill, TypeWriter.Speed.Talk),
+                                     new Text("and I run the Dojo", Colours.Speech, TypeWriter.Speed.Talk));
+                TypeWriter.WriteLine("And whats your name?", TypeWriter.Speed.Talk);
+                billUserName = Console.ReadLine();
+                hasPlayerSeenBill = true;
+                TypeWriter.WriteLine($"Nice, well {billUserName} before we start you must take an oath OK: yes/no", TypeWriter.Speed.Talk);
+                string Awnser = GetLowerReply();
+                if (Awnser == "yes")
+                {
+                   theOath();
+                   return false; 
+                }
+                else
+                {
+                    hasPlayerBeenForcedOut = true;
+                    forcedOutOfDojo();
+                    return false;
+                }
+            }
+            else
+            {
+                if (hasPlayerBeenForcedOut == true)
+                {
+                    forcedOutEntry();
+                    return false;
+                }
+                TypeWriter.WriteLine($"Wellcome back {billUserName}", TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine();
+            }
+            return true;
+        }
+
+        private void forcedOutEntry()
+        {
+            bool loop = true;
+            while (loop)
+            {
+                TypeWriter.WriteLine();
+                TypeWriter.WriteLine("will you take the oath now: yes/no", TypeWriter.Speed.Talk);
+                string oathAwnser = GetLowerReply();
+                if (oathAwnser == "yes")
+                {
+                    theOath();
+                    loop = false;
+                }
+                else if (oathAwnser == "no")
+                {
+                    forcedOutOfDojo();
+                    loop = false;
+                }
+                else
+                {
+                    TypeWriter.WriteLine("sorry I don't understand", TypeWriter.Speed.Talk);
+                }
+            }
+        }
+
+        private void theOath()
+        {
+            TypeWriter.WriteLine("1) I will only use these skills in self-defence", TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine("2) I will allways seek the most peacfull solution", TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine("3) I will allways do what I feel is right", TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine("yes/no");
+
+            string oathAwnser = GetLowerReply();
+            if (oathAwnser == "yes")
+            {
+                TypeWriter.WriteLine("Great Well then lets begin", TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine();
+                dojoCommonPlace();
+            }
+            else
+            {
+                TypeWriter.WriteLine("Then I have no choice!", TypeWriter.Speed.Talk);
+                canPlayerRun = false;
+                isPlayerWithBill = true;
+                Fight(new Monster("William", 100, 200, 300));
+                killBillMessage();
+            }
+        }
+
+        private void forcedOutOfDojo()
+        {
+            TypeWriter.WriteLine("Then I cant help you", TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine("You are forced out of the dojo", TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine();
+        }
+
+        private void killBillMessage()
+        {
+            TypeWriter.WriteLine("Sorry", TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine("Please keep this safe", TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine(new Text("William hands you a key with a tag that says ", Colours.Speech ,TypeWriter.Speed.Talk),
+                                 new Text("private", Colours.Bill, TypeWriter.Speed.Talk));
+            doesPlayerHavePrivateKey = true;
+            isBillDead = true;
+            TypeWriter.WriteLine("You leave the dojo", TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine();
         }
 
         private void blackDungeon()
@@ -1043,9 +1307,13 @@ namespace game
             isPlayerWithMage = false;
             killXP = 0;
             playerHasWatch = false;
+            maxDamage = 100;
+            MinDamage = 1; 
+            canPlayerRun = true;
 
             bunchOfArmour.Clear();
-            shopWeapons.Clear();           
+            shopWeapons.Clear();
+                     
         }
 
         internal bool End()
