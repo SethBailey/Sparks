@@ -323,6 +323,8 @@ namespace game
                     if (isPlayerWithBill == true || isPlayerWithDummy == true)
                     {
                         canPlayerRun = true;
+                        XPMessage(xpWin);
+                        return;
                     }    
                         int goldReward = new Random().Next(1, 101);
 
@@ -552,36 +554,77 @@ namespace game
 
         private void attackTraining()
         {
+            int level1Price = 50;
+            int level2Price = 100;
+            int level3Price = 150;
+
             bool loop = true;
             while (loop)
             {
                 isPlayerWithDummy = true;
                 canPlayerRun = false;
 
-                TypeWriter.WriteLine("Do you want to train at level 1, 2, 3 or (l)leave", TypeWriter.Speed.Talk);
+                Console.Clear();
+                playerStats();
+
+                TypeWriter.WriteLine(new Text("Do you want to train at level 1, ", Colours.Speech, TypeWriter.Speed.Talk),
+                                     new Text($"({level1Price} Gold) ", Colours.Gold),
+                                     new Text("2 ", Colours.Speech, TypeWriter.Speed.Talk),
+                                     new Text($"({level2Price} Gold) ", Colours.Gold),
+                                     new Text("or ", Colours.Speech, TypeWriter.Speed.Talk),
+                                     new Text("3 ", Colours.Speech, TypeWriter.Speed.Talk),
+                                     new Text($"({level3Price} Gold)", Colours.Gold, TypeWriter.Speed.Talk));
+                TypeWriter.WriteLine("Or (l to leave)");                     
                 string Awnser = GetLowerReply();
                 switch (Awnser)
                 {
                     case "1": 
-                        Fight(new Monster("Dummy", 0, 0, 50));
-                        maxDamage += 5;
-                        MinDamage += 5;
-                        TypeWriter.WriteLine($"You now deal between {MinDamage} and {maxDamage} damage", TypeWriter.Speed.Talk);
-                        TypeWriter.WriteLine();
+                        if (playerGold >= level1Price)
+                        {
+                            Fight(new Monster("Dummy", 0, 0, 50));
+                            playerGold -= 50; 
+                            maxDamage += 5;
+                            MinDamage += 5;
+                            TypeWriter.WriteLine($"You now deal between {MinDamage} and {maxDamage} damage", TypeWriter.Speed.Talk);
+                            TypeWriter.WriteLine();
+                        }
+                        else
+                        {
+                            TypeWriter.WriteLine("Sorry but you don't have enough Gold");
+                            TypeWriter.WriteLine();
+                        }
                         break;
                     case "2":
-                        Fight(new Monster("Dummy", 1, 20, 200));
-                        maxDamage += 10;
-                        MinDamage += 10;
-                        TypeWriter.WriteLine($"You now deal between {MinDamage} and {maxDamage} damage", TypeWriter.Speed.Talk);
-                        TypeWriter.WriteLine();
+                        if (playerGold >= level2Price)
+                        {
+                            Fight(new Monster("Dummy", 1, 20, 200));
+                            playerGold -= 100;
+                            maxDamage += 10;
+                            MinDamage += 10;
+                            TypeWriter.WriteLine($"You now deal between {MinDamage} and {maxDamage} damage", TypeWriter.Speed.Talk);
+                            TypeWriter.WriteLine();
+                        }
+                        else
+                        {
+                            TypeWriter.WriteLine("Sorry but you don't have enough Gold");
+                            TypeWriter.WriteLine();
+                        }
                         break;
                     case "3":
-                        Fight(new Monster("Dummy", 1, 50, 400));
-                        maxDamage += 15;
-                        MinDamage += 15;
-                        TypeWriter.WriteLine($"You now deal between {MinDamage} and {maxDamage} damage", TypeWriter.Speed.Talk);
-                        TypeWriter.WriteLine();
+                        if (playerGold >= level3Price)
+                        {
+                            Fight(new Monster("Dummy", 1, 50, 400));
+                            playerGold -= 150;
+                            maxDamage += 15;
+                            MinDamage += 15;
+                            TypeWriter.WriteLine($"You now deal between {MinDamage} and {maxDamage} damage", TypeWriter.Speed.Talk);
+                            TypeWriter.WriteLine();
+                        }
+                        else
+                        {
+                            TypeWriter.WriteLine("Sorry but you don't have enough Gold");
+                            TypeWriter.WriteLine();
+                        }
                         break;  
                     case "l":
                         loop = false;
@@ -597,33 +640,74 @@ namespace game
 
         private void defenceTraining()
         {
+            int level1Price = 50;
+            int level2Price = 100;
+            int level3Price = 150;
+
             bool loop = true;
             while(loop)
             {
                 isPlayerWithDummy = true;
                 canPlayerRun = false;
 
-                TypeWriter.WriteLine("Do you want to train at level 1, 2 or 3", TypeWriter.Speed.Talk);
+                Console.Clear();
+                playerStats();
+
+                TypeWriter.WriteLine(new Text("Do you want to train at level 1, ", Colours.Speech, TypeWriter.Speed.Talk),
+                                     new Text($"({level1Price} Gold) ", Colours.Gold),
+                                     new Text("2 ", Colours.Speech, TypeWriter.Speed.Talk),
+                                     new Text($"({level2Price} Gold) ", Colours.Gold),
+                                     new Text("or ", Colours.Speech, TypeWriter.Speed.Talk),
+                                     new Text("3 ", Colours.Speech, TypeWriter.Speed.Talk),
+                                     new Text($"({level3Price} Gold)", Colours.Gold, TypeWriter.Speed.Talk));
+                TypeWriter.WriteLine("Or (l to leave)");                     
                 string Awnser = GetLowerReply();
                 switch (Awnser)
                 {
                     case "1": 
-                        Fight(new Monster("Dummy", 1, 10, 100));
-                        protection += 10;
-                        TypeWriter.WriteLine($"You can now block {protection} damage", TypeWriter.Speed.Talk);
-                        TypeWriter.WriteLine();
+                        if (playerGold >= level1Price)
+                        {
+                            Fight(new Monster("Dummy", 1, 10, 100));
+                            playerGold -= 50;
+                            protection += 10;
+                            TypeWriter.WriteLine($"You can now block {protection} damage", TypeWriter.Speed.Talk);
+                            TypeWriter.WriteLine();
+                        }
+                        else
+                        {
+                            TypeWriter.WriteLine("Sorry but you don't have enough Gold");
+                            TypeWriter.WriteLine();
+                        }
                         break;
                     case "2":
-                        Fight(new Monster("Dummy", 1, 50, 200));
-                        protection += 20;
-                        TypeWriter.WriteLine($"You can now block {protection} damage", TypeWriter.Speed.Talk);
-                        TypeWriter.WriteLine();
+                        if (playerGold >= level2Price)
+                        {
+                            Fight(new Monster("Dummy", 1, 50, 200));
+                            playerGold -= 100;
+                            protection += 20;
+                            TypeWriter.WriteLine($"You can now block {protection} damage", TypeWriter.Speed.Talk);
+                            TypeWriter.WriteLine();
+                        }
+                        else
+                        {
+                            TypeWriter.WriteLine("Sorry but you don't have enough Gold");
+                            TypeWriter.WriteLine();
+                        }
                         break;
                     case "3":
-                        Fight(new Monster("Dummy", 1, 150, 300));
-                        protection += 30;
-                        TypeWriter.WriteLine($"You can now block {protection} damage", TypeWriter.Speed.Talk);
-                        TypeWriter.WriteLine();
+                        if (playerGold >= level3Price)
+                        {
+                            Fight(new Monster("Dummy", 1, 150, 300));
+                            playerGold -= 150;
+                            protection += 30;
+                            TypeWriter.WriteLine($"You can now block {protection} damage", TypeWriter.Speed.Talk);
+                            TypeWriter.WriteLine();
+                        }
+                        else
+                        {
+                            TypeWriter.WriteLine("Sorry but you don't have enough Gold");
+                            TypeWriter.WriteLine();
+                        }
                         break; 
                     case "l":
                         loop = false;
