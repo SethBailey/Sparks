@@ -243,7 +243,7 @@ namespace game
                 if (canPlayerRun == true)
                 {  TypeWriter.WriteLine($"To flee will cost you {runCost} Gold, will you fight?: yes / no",TypeWriter.Speed.List);
                    string playerFlee = GetLowerReply();
-                    if (playerFlee.ToLower() == "no")
+                    if (playerFlee == "no")
                     {
                         if (playerGold < runCost)
                         {
@@ -532,7 +532,7 @@ namespace game
                                     new Text("(a)attack ", Colours.Attack, TypeWriter.Speed.Talk),
                                     new Text("or ", Colours.Speech , TypeWriter.Speed.Talk),
                                     new Text("(d)defence", Colours.Protection, TypeWriter.Speed.Talk));
-                TypeWriter.WriteLine("or (l) to leave");
+                TypeWriter.WriteLine("or (l) to leave", TypeWriter.Speed.Talk);
                 string dojoTrainingAwnser = GetLowerReply();
 
                 switch (dojoTrainingAwnser)
@@ -574,9 +574,9 @@ namespace game
                                      new Text("or ", Colours.Speech, TypeWriter.Speed.Talk),
                                      new Text("3 ", Colours.Speech, TypeWriter.Speed.Talk),
                                      new Text($"({level3Price} Gold)", Colours.Gold, TypeWriter.Speed.Talk));
-                TypeWriter.WriteLine("Or (l to leave)");                     
-                string Awnser = GetLowerReply();
-                switch (Awnser)
+                TypeWriter.WriteLine("Or (l to leave)", TypeWriter.Speed.Talk);                     
+                string answer = GetLowerReply();
+                switch (answer)
                 {
                     case "1": 
                         if (playerGold >= level1Price)
@@ -653,6 +653,7 @@ namespace game
                 Console.Clear();
                 playerStats();
 
+                TypeWriter.WriteLine();
                 TypeWriter.WriteLine(new Text("Do you want to train at level 1, ", Colours.Speech, TypeWriter.Speed.Talk),
                                      new Text($"({level1Price} Gold) ", Colours.Gold),
                                      new Text("2 ", Colours.Speech, TypeWriter.Speed.Talk),
@@ -661,8 +662,8 @@ namespace game
                                      new Text("3 ", Colours.Speech, TypeWriter.Speed.Talk),
                                      new Text($"({level3Price} Gold)", Colours.Gold, TypeWriter.Speed.Talk));
                 TypeWriter.WriteLine("Or (l to leave)");                     
-                string Awnser = GetLowerReply();
-                switch (Awnser)
+                string answer = GetLowerReply();
+                switch (answer)
                 {
                     case "1": 
                         if (playerGold >= level1Price)
@@ -727,7 +728,6 @@ namespace game
             {
                 TypeWriter.WriteLine($"{userName} William is dead don't linger on the past", TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine();
-                return;
             }
         }
 
@@ -747,8 +747,8 @@ namespace game
                 billUserName = Console.ReadLine();
                 hasPlayerSeenBill = true;
                 TypeWriter.WriteLine($"Nice, well {billUserName} before we start you must take an oath OK: yes/no", TypeWriter.Speed.Talk);
-                string Awnser = GetLowerReply();
-                if (Awnser == "yes")
+                string answer = GetLowerReply();
+                if (answer == "yes")
                 {
                    theOath();
                    return false; 
@@ -1485,10 +1485,16 @@ namespace game
         }
     }
 
+    
+
     class Program
     {
+
         static void Main(string[] args)
         {   
+           // DBTest("bob", "'or 1=1 --");
+           // return;
+
             TheGame theGame = new TheGame();
              
             bool replay = true;
