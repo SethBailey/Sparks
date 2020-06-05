@@ -733,6 +733,7 @@ namespace game
 
         private bool DojoIntro()
         {
+            int totalXP = killXP + cottonXP; 
             if (hasPlayerSeenBill == false)
             {
                 if (hasPlayerBeenForcedOut == true)
@@ -769,6 +770,17 @@ namespace game
                 }
                 TypeWriter.WriteLine($"Wellcome back {billUserName}", TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine();
+
+                if (totalXP <= 400)
+                {
+                    TypeWriter.WriteLine();
+                    TypeWriter.WriteLine(new Text("By the way there is something I would like you to have ", Colours.Bill, TypeWriter.Speed.Talk));
+                    TypeWriter.WriteLine(new Text("let's just keep this between you and me ", Colours.Bill, TypeWriter.Speed.Talk));
+                    TypeWriter.WriteLine(new Text("William hands you a key with a tag that says ", Colours.Speech ,TypeWriter.Speed.Talk),
+                    new Text("private", Colours.Bill, TypeWriter.Speed.Talk));
+                    TypeWriter.WriteLine();
+                    doesPlayerHavePrivateKey = true;
+                }
             }
             return true;
         }
@@ -831,8 +843,8 @@ namespace game
 
         private void killBillMessage()
         {
-            TypeWriter.WriteLine("Sorry", TypeWriter.Speed.Talk);
-            TypeWriter.WriteLine("Please keep this safe", TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine(new Text("Sorry", Colours.Bill, TypeWriter.Speed.Talk ));
+            TypeWriter.WriteLine(new Text("Please keep this safe", Colours.Bill, TypeWriter.Speed.Talk));
             TypeWriter.WriteLine(new Text("William hands you a key with a tag that says ", Colours.Speech ,TypeWriter.Speed.Talk),
                                  new Text("private", Colours.Bill, TypeWriter.Speed.Talk));
             doesPlayerHavePrivateKey = true;
