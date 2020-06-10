@@ -1005,6 +1005,20 @@ namespace game
             return Console.ReadLine().ToLower();
         }
 
+        private void shopDescription()
+        {
+            TypeWriter.WriteLine("On a small colbled path leading precisely nowhere you can see a small cottage", TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine("The cottage has a red roof and chimney spouting rhythmic pufs of smoke", TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine("You walk through door and are wellcomed by the sound of an entrence bell and a slight werring", TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine("The engine sound is coming from behind a door labeled 'core'", TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine("Above the door is a clock which makes it's presence known by the irritatingly acrurate ticking", TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine("The room it's self is comfertably full and compleatly wooden", TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine("To the left of the room there are two hallways the first is labeled L1 the second is L2", TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine("On the right side of the room the third hallway L3, at this point the shop keeper walks in", TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine("The first thing you notice is her pink hair, and while ceeping an eye on the clock stands behind the desk", TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine();
+        }
+
         public void itemShop()
         {
             int totalXP = TotalXP();
@@ -1012,6 +1026,7 @@ namespace game
             TypeWriter.WriteLine();
             if (cottonIntro == false)
             {
+                shopDescription();
                 List<Text> cottonList = new List<Text>();
                 cottonList.Add(new Text("hello traveller, I'm ", Colours.Speech, TypeWriter.Speed.Talk));
                 cottonList.Add(new Text("Cotton ", Colours.Cotton, TypeWriter.Speed.Talk));
@@ -1134,14 +1149,17 @@ namespace game
                         morseCodeMessage();
                         Thread.Sleep(1000);
                         TypeWriter.WriteLine("strange huh?... but anyway");
+                        TypeWriter.WriteLine();
                         break;
 
                     case "no":
                         TypeWriter.WriteLine($"O.K {cottonUserName} ");
+                        TypeWriter.WriteLine();
                         break;
 
                     default:
                         TypeWriter.WriteLine("Sorry but I don't understand");
+                        TypeWriter.WriteLine();
                         break;
                 }
             }            
