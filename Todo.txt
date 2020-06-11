@@ -11,9 +11,9 @@ Veersion 1 ( Live )
 
 * magic    
     * possibly magic items
-* EXP
-* leaderboard
 * Direction, I can go anywhere, not one of the options
+* running away give you a time penalty ?
+*map
 
 
 Bugs
@@ -22,8 +22,7 @@ Bugs
 
 In Progress
 -----------
-* Add a time element ( so you only have N days to save the lady)
-    * running away give you a time penalty ?
+    
 
 
 Done
@@ -65,3 +64,6 @@ Done
     * Knight or Mage
 fight Descriptions
 black message
+* Add a time element ( so you only have N days to save the lady)
+* EXP
+* leaderboard
