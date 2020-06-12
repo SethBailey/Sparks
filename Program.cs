@@ -27,7 +27,7 @@ namespace game
        public int killXP = 0;
        int cottonXP = 0;
        bool morseXPAwarded = false;
-       int daysTillEnd = 70;
+       public int daysTillEnd = 70;
        bool isGameCorrupted = false;
        int priceForWatch = 200;
        bool playerHasWatch = false;
@@ -42,6 +42,8 @@ namespace game
        bool hasPlayerBeenForcedOut = false;
        bool isPlayerWithDummy = false;
        
+       List<Item> inventory = new List<Item>();
+
        Weapon playerWeapon;
        Armour playerArmour;
        private int healing;
@@ -202,32 +204,34 @@ namespace game
             messsage.Add( new Text("and "));
             var totalXP = killXP + cottonXP;
             messsage.Add( new Text($"{totalXP} XP ", Colours.XP));
-            
+        
             if (playerWeapon != null )
             {
                 messsage.Add( new Text("and a "));
-                messsage.Add( new Text($"{playerWeapon.name} ",Colours.Attack));
+                messsage.Add( playerWeapon.ItemDescription);
             }
             if (playerArmour != null)
             {
                 messsage.Add( new Text("and a "));
-                messsage.Add( new Text($"{playerArmour.name} " ,Colours.Protection));
-            }
-            if (doesPlayerHavePrivateKey == true)
-            {
-                messsage.Add( new Text("and a "));
-                messsage.Add( new Text("private Key ", Colours.Bill));
-            }
-            if (playerHasWatch == true)
-            {
-                messsage.Add( new Text("and a "));
-                messsage.Add( new Text("pocket watch ", Colours.Cotton));
-                messsage.Add( new Text($"that says: {daysTillEnd} days left"));
+                messsage.Add( playerArmour.ItemDescription);
             }
 
             TypeWriter.WriteLine(messsage);
 
         } 
+
+        private void inventoryPage()
+        {
+            TypeWriter.WriteLine("Iventory page");
+            TypeWriter.WriteLine();
+
+            foreach ( var item in inventory)
+            {  
+                TypeWriter.WriteLine( item.ItemDescription );
+            }
+            Console.ReadLine();
+            TypeWriter.WriteLine();
+        }
 
         public void Fight( Monster monster )
         {
@@ -448,12 +452,13 @@ namespace game
         public static string showPlayerOptions()
         {
             TypeWriter.WriteLine();
-            TypeWriter.WriteLine(new Text("Where would you like to go: north, south, east, west, the "),
+            TypeWriter.WriteLine(new Text("Where would you like to go: (n)north, (s)south, (e)east, (w)west, the "),
                                  new Text("(sh)shop, ",Colours.Cotton),
                                  new Text("the "),
                                  new Text("(do)dojo ", Colours.Bill),
                                  new Text("or to the "),
-                                 new Text("(bd)black dungeon:",Colours.BlackDungeon,TypeWriter.Speed.List));
+                                 new Text("(bd)black dungeon",Colours.BlackDungeon,TypeWriter.Speed.List));
+            TypeWriter.WriteLine("Or i for the inventory page");                     
             string playerDirection = Console.ReadLine();
             return playerDirection;
         }
@@ -465,9 +470,15 @@ namespace game
             //adjust user short cut to full string
             switch (playerDirection)
             {
+                case "n": playerDirection = "north"; break;
+                case "s": playerDirection = "south"; break;
+                case "e": playerDirection = "east"; break;
+                case "w": playerDirection = "west"; break;
                 case "bd": playerDirection = "black dungeon"; break;
                 case "sh": playerDirection = "shop"; break;
                 case "do": playerDirection = "dojo"; break;
+                case "i": inventoryPage(); return;
+                default: TypeWriter.WriteLine("I don't understand"); return;
             }
 
             TypeWriter.WriteLine($"You have moved to the {playerDirection}", TypeWriter.Speed.List);
@@ -782,13 +793,22 @@ namespace game
                     TypeWriter.WriteLine();
                     TypeWriter.WriteLine(new Text("By the way there is something I would like you to have ", Colours.Bill, TypeWriter.Speed.Talk));
                     TypeWriter.WriteLine(new Text("let's just keep this between you and me ", Colours.Bill, TypeWriter.Speed.Talk));
-                    TypeWriter.WriteLine(new Text("William hands you a key with a tag that says ", Colours.Speech ,TypeWriter.Speed.Talk),
+                    TypeWriter.WriteLine(new Text("William hands you a key with a tag that says ", Colours.Speech, TypeWriter.Speed.Talk),
                     new Text("private", Colours.Bill, TypeWriter.Speed.Talk));
                     TypeWriter.WriteLine();
-                    doesPlayerHavePrivateKey = true;
+                    GiveKey();
                 }
             }
             return true;
+        }
+
+        private void GiveKey()
+        {
+            if (doesPlayerHavePrivateKey == false)
+            {
+                doesPlayerHavePrivateKey = true;
+                inventory.Add(new Item { ItemDescription = new Text("private Key ", Colours.Bill) });
+            }
         }
 
         private void forcedOutEntry()
@@ -853,7 +873,7 @@ namespace game
             TypeWriter.WriteLine(new Text("Please keep this safe", Colours.Bill, TypeWriter.Speed.Talk));
             TypeWriter.WriteLine(new Text("William hands you a key with a tag that says ", Colours.Speech ,TypeWriter.Speed.Talk),
                                  new Text("private", Colours.Bill, TypeWriter.Speed.Talk));
-            doesPlayerHavePrivateKey = true;
+            GiveKey();
             isBillDead = true;
             TypeWriter.WriteLine("You leave the dojo", TypeWriter.Speed.Talk);
             TypeWriter.WriteLine();
@@ -1029,6 +1049,7 @@ namespace game
 
             if (cottonIntro == false)
             {
+                TypeWriter.WriteLine();
                 DisplayDescription("./Config/ShopDescription.csv");
                 List<Text> cottonList = new List<Text>();
                 cottonList.Add(new Text("hello traveller, I'm ", Colours.Speech, TypeWriter.Speed.Talk));
@@ -1074,7 +1095,6 @@ namespace game
                     TypeWriter.WriteLine();
                     Thread.Sleep(1000);
                     playerGold -= 150;
-                    playerHasWatch = true;
                 }
                 else
                 {
@@ -1082,7 +1102,12 @@ namespace game
                     TypeWriter.WriteLine("Fine just take it");
                     TypeWriter.WriteLine();
                     Thread.Sleep(1000);
+                }
+
+                if (playerHasWatch == false)
+                {
                     playerHasWatch = true;
+                    inventory.Add( new PocketWatch( this ) );
                 }
             }
         }
@@ -1316,7 +1341,7 @@ namespace game
                 }
 
             
-                //first return any itme you may already have
+                //first return any item you may already have
                 if (playerArmour != null)
                 {
                     bunchOfArmour.Add(playerArmour);
@@ -1329,9 +1354,14 @@ namespace game
 
         private void ArmourChosen(Armour armour)
         {
+            if (playerArmour != null)
+            {
+                inventory.Remove(playerArmour);
+            }
             playerArmour = armour;
+            inventory.Add(playerArmour);
+
             playerGold -= playerArmour.price;
-            
         }
 
         private void BuyWeapon()
@@ -1396,7 +1426,12 @@ namespace game
 
         private void chosenWeapon(Weapon weapon)
         {
+            if (playerWeapon != null)
+            {
+                inventory.Remove( playerWeapon);
+            }
             playerWeapon = weapon;
+            inventory.Add( playerWeapon);
             playerGold -= playerWeapon.price;
         }
 
@@ -1435,6 +1470,7 @@ namespace game
 
             bunchOfArmour.Clear();
             shopWeapons.Clear();
+            inventory.Clear();
                      
         }
 
