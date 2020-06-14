@@ -1,0 +1,14 @@
+northMessage = You hit the end of the world
+southMessage = You hit the end of the world
+westMessage = You hit the railings
+eastMessage = You hit the railings 
+eastLocation = 
+westLocation = 
+southLocation = 
+northLocation = Path4
+
+d= Bridge
+d= 
+d= Made to stand the test of time this bridge is as reliable as any
+d= the bridge it self is very simple with stone railings that come to the waist
+d= the bridge continues to the south 

@@ -463,8 +463,19 @@ namespace game
             return playerDirection;
         }
 
-        public void Move(string playerDirection)
+        public Location GoToLocation( Location location)
         {
+            TypeWriter.WriteLine();
+            location.displayDescription();
+            TypeWriter.WriteLine();
+
+            string playerDirection = showPlayerOptions().ToLower();
+            Console.Clear();
+            playerStats();
+            TypeWriter.WriteLine(new Text("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ",Colours.Speech, TypeWriter.Speed.List));
+                                 new Text("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _",Colours.Speech, TypeWriter.Speed.List);
+            TypeWriter.WriteLine();
+
             endGameCheck();
 
             //adjust user short cut to full string
@@ -477,11 +488,14 @@ namespace game
                 case "bd": playerDirection = "black dungeon"; break;
                 case "sh": playerDirection = "shop"; break;
                 case "do": playerDirection = "dojo"; break;
-                case "i": inventoryPage(); return;
-                default: TypeWriter.WriteLine("I don't understand"); return;
+
+                case "i": inventoryPage();
+                    return location;  
+                      
+                default: TypeWriter.WriteLine("I don't understand"); 
+                    return location;
             }
 
-            TypeWriter.WriteLine($"You have moved to the {playerDirection}", TypeWriter.Speed.List);
             switch (playerDirection)
             {
                 case "black dungeon": blackDungeon(); break;
@@ -497,7 +511,22 @@ namespace game
                 case 3: FoundGold(); break;
                 default: AwardMedicine(); break;
             }
+
+            switch (playerDirection)
+            {
+                case "north": 
+                case "south": 
+                case "east": 
+                case "west": 
+                {   
+                    location = location.GetNextLocation( playerDirection );
+                    break;
+                }
+            }
+
             EndTime();
+
+            return location;
         }
 
         private void EndTime()
@@ -1535,7 +1564,7 @@ namespace game
 
             if (leaderBoard.Count > 9)
             {
-                leaderBoard.RemoveAt(10); 
+                leaderBoard.RemoveAt(leaderBoard.Count - 1); 
             }
             
             //write to file
@@ -1594,15 +1623,10 @@ namespace game
                     try
                     {
                         //game loop
+                        var location = new Location("Spawn point");
                         while (true)
                         {
-                            string direction = TheGame.showPlayerOptions();
-                            Console.Clear();
-                            theGame.playerStats();
-                            TypeWriter.WriteLine(new Text("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ",Colours.Speech, TypeWriter.Speed.List));
-                                                new Text("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _",Colours.Speech, TypeWriter.Speed.List);
-                            TypeWriter.WriteLine();
-                            theGame.Move( direction.ToLower() );
+                            location = theGame.GoToLocation(location);
                         }
                     }
                     catch ( Exception e )

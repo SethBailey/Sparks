@@ -1,0 +1,16 @@
+northMessage = You hit a wall
+southMessage = You hit a wall
+westMessage = You hit a wall
+eastMessage = You hit a wall
+eastLocation = Garden
+westLocation = 
+southLocation = 
+northLocation = 
+
+d= Spawn point
+d= 
+d= You find your self in a tiny box like room
+d= the odd spark falls from the roof
+d= all the walls are within reach  
+d= there is one door to the east
+d= you feel the need leave 

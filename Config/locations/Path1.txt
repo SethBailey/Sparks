@@ -1,0 +1,14 @@
+northMessage = You hit the end of the world
+southMessage = You hit the end of the world
+westMessage = You hit the end of the world
+eastMessage = You hit the end of the world 
+eastLocation = Path2
+westLocation = Path
+southLocation = Field4
+northLocation = 
+
+d= Path
+d= 
+d= The stone path made up of many small peices of cobblestone continues
+d= the path leads to the east and you can see it turn in the distance
+d= you can allso see a field to the south and north

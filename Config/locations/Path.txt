@@ -1,0 +1,15 @@
+northMessage = You hit the end of the world
+southMessage = You hit the end of the world
+westMessage = You hit the end of the world
+eastMessage = You hit the end of the world 
+eastLocation = Path1
+westLocation = Field
+southLocation = Field3
+northLocation = 
+
+d= Path
+d= 
+d= A stone path made up of many small peices of cobblestone 
+d= it looks like it has been here a very long time
+d= if I had to gess I would say 212.5 years
+d= the path leads to the east but you don't know where it ends

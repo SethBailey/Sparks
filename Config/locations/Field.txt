@@ -1,0 +1,15 @@
+northMessage = You hit a wall
+southMessage = You hit a wall
+westMessage = You hit a wall
+eastMessage = You hit a wall
+eastLocation = Path
+westLocation = Field1
+southLocation = Garden
+northLocation = Field2
+
+d= Field
+d= 
+d= here the grass is a little longer but still looked after
+d= you can still here the sound of runing water
+d= far off to the north you can see a forest 
+d= you notice a stone path leading to the east

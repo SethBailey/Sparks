@@ -1,0 +1,15 @@
+northMessage = You hit the end of the world
+southMessage = You hit the end of the world
+westMessage = You hit the end of the world
+eastMessage = You hit the end of the world 
+eastLocation = Field
+westLocation = 
+southLocation = 
+northLocation = 
+
+d= Field
+d= 
+d= from here you can see that where you started was what you thuoght it was
+d= a small but thick concrete cube with one door 
+d= it looks as if it has just been put there randomly
+d= you can still hear runing water to the south

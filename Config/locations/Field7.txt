@@ -1,0 +1,14 @@
+northMessage = You hit the end of the world
+southMessage = You hit the end of the world
+westMessage = You hit the end of the world
+eastMessage = You hit the end of the world 
+eastLocation = 
+westLocation = Path4
+southLocation = 
+northLocation = Field6
+
+d= Field
+d= 
+d= the grass now looks like the rough of a golf corse 
+d= there is a forest far off to the north and a path to the west
+d= there is a river to the south and it dosn't look friendly 
