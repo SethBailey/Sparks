@@ -9,6 +9,6 @@ northLocation = Field6
 
 d= Field
 d= 
-d= the grass now looks like the rough of a golf corse 
-d= there is a forest far off to the north and a path to the west
-d= there is a river to the south and it dosn't look friendly 
+d= The grass now looks like the rough of a golf course. 
+d= There is a forest far off to the North and a path to the West.
+d= There is a river to the South and it doesn't look friendly. 

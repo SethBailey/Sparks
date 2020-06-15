@@ -9,8 +9,8 @@ northLocation = Field
 
 d= Garden
 d= 
-d= You walk out the door and find a small garden
-d= the lawn has been freshly mowed and the plants have been watered
-d= a white fence stands on the out skirts of the garden
-d= the fence has an opening to the north
-d= you can hear the sound of runing water 
+d= You walk out the door and find a small garden.
+d= The lawn has been freshly mowed and the plants have been watered.
+d= A white fence stands on the outskirts of the garden.
+d= The fence has an opening to the North.
+d= You can hear the sound of running water. 

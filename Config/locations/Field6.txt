@@ -9,6 +9,6 @@ northLocation =
 
 d= Field
 d= 
-d= the grass now looks like the rough of a golf corse 
-d= there is a forest far off to the north and a path to the west
-d= you can still hear runing water to the south
+d= The grass now looks like the rough of a golf course. 
+d= There is a forest far off to the North and a path to the West.
+d= You can still hear running water to the South.

@@ -9,8 +9,8 @@ northLocation =
 
 d= Spawn point
 d= 
-d= You find your self in a tiny box like room
-d= the odd spark falls from the roof
-d= all the walls are within reach  
-d= there is one door to the east
-d= you feel the need leave 
+d= You find your self in a tiny box like room,
+d= the odd spark falls from the roof.
+d= All the walls are within reach.  
+d= There is one door to the East
+d= You feel the need leave. 

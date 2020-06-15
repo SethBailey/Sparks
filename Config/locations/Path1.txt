@@ -9,6 +9,6 @@ northLocation =
 
 d= Path
 d= 
-d= The stone path made up of many small peices of cobblestone continues
-d= the path leads to the east and you can see it turn in the distance
-d= you can allso see a field to the south and north
+d= The stone path made up of many small pieces of cobblestone continues
+d= the path leads to the East and you can see it turn in the distance,
+d= you can also see a field to the South and North.

@@ -9,7 +9,7 @@ northLocation = Path2
 
 d= Field
 d= 
-d= The grass is a lot longer but under control 
-d= to the south there is a river and it's quite strong
-d= you not shure if you can swim but you don't want to risk it
-d= the path continues to the north and the east 
+d= The grass is a lot longer but under control.
+d= To the south there is a river and it's quite strong.
+d= You not sure if you can swim but you don't want to risk it.
+d= The path continues to the North and the East. 

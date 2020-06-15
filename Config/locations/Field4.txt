@@ -9,6 +9,6 @@ northLocation = Path1
 
 d= Field
 d= 
-d= The grass is a bit longer but under control 
-d= to the south there is a river and it's quite strong
-d= you not shure if you can swim but you don't want to risk it
+d= The grass is a bit longer but under control. 
+d= To the south there is a river and it's quite strong,
+d= Your not sure if you can swim but you don't want to risk it.

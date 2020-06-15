@@ -9,7 +9,7 @@ northLocation = Field2
 
 d= Field
 d= 
-d= here the grass is a little longer but still looked after
-d= you can still here the sound of runing water
-d= far off to the north you can see a forest 
-d= you notice a stone path leading to the east
+d= Here the grass is a little longer but still looked after.
+d= You can still here the sound of running water.
+d= far off to the North you can see a forest. 
+d= You notice a stone path leading to the East.

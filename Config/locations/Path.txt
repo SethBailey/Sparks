@@ -9,7 +9,7 @@ northLocation =
 
 d= Path
 d= 
-d= A stone path made up of many small peices of cobblestone 
-d= it looks like it has been here a very long time
-d= if I had to gess I would say 212.5 years
-d= the path leads to the east but you don't know where it ends
+d= A stone path made up of many small pieces of cobblestone, 
+d= it looks like it has been here a very long time.
+d= If I had to guess I would say 212.5 years.
+d= The path leads to the East but you don't know where it ends.

@@ -9,6 +9,6 @@ northLocation = Path4
 
 d= Bridge
 d= 
-d= Made to stand the test of time this bridge is as reliable as any
-d= the bridge it self is very simple with stone railings that come to the waist
-d= the bridge continues to the south 
+d= Made to stand the test of time this bridge is as reliable as any.
+d= Rhe bridge itself is very simple with stone railings that come up to the waist.
+d= Rhe bridge continues to the south. 
