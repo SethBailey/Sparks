@@ -549,8 +549,8 @@ namespace game
         {
             int foundGold = new Random().Next(1, 81);
             TypeWriter.WriteLine(new Text("You found "),
-                                 new Text($"{foundGold} gold coins ",Colours.Gold),
-                                 new Text("on the road", Colours.Speech,TypeWriter.Speed.List));
+                                 new Text($"{foundGold} gold coins",Colours.Gold));
+                                 
             playerGold += foundGold;
             List<Text> goldList = new List<Text>();
             goldList.Add( new Text("You now have "));
