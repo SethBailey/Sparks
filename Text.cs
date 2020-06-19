@@ -16,7 +16,7 @@ namespace game
 
         public string text { get; }
 
-        public ConsoleColor ForegroundColor {get;}
+        public ConsoleColor ForegroundColor { get; }
 
         public Speed speed { get; }
         

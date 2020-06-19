@@ -3,7 +3,7 @@ Backlog
 
 
 
-Veersion 1 ( Live )
+Version 1 ( Live )
 ------------
 ===Happy for anyone to play it==
 
@@ -41,14 +41,14 @@ Done
      * find / drop
        * monster reward
 * Add Black Dungeon to "direction", but only after you have enough money
-* different monsters with different strenghts and weaknesses and gold 
+* different monsters with different strength's and weaknesses and gold 
 * What can you do with gold ?
     * buy armour
     * buy weapons
     * buy Medicine 
 * how to fight baddie
-    * how to pay randsom / kill final boss   
-* readabilty (output like a typewriter effect)
+    * how to pay ransoms / kill final boss   
+* readability (output like a typewriter effect)
 *multiple files
 * Making restart possible
 * No final score when the game ends
@@ -66,4 +66,4 @@ fight Descriptions
 black message
 * Add a time element ( so you only have N days to save the lady)
 * EXP
-* leaderboard
+* leader board

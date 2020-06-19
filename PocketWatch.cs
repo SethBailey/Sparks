@@ -7,7 +7,7 @@ namespace game
         public PocketWatch(TheGame game)
         {
             this.game = game;
-            this.name = "Pocket Watch";
+            this.name = new Text("Pocket Watch");
         }
 
         override internal Text ItemDescription{  
