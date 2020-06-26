@@ -1,0 +1,2 @@
+eat=chew,swallow,chomp,consume,gobble,munch,devour
+drop=remove,put down,chuck,bin,get rid of,eliminate,dismiss,let go of,leave

@@ -24,14 +24,14 @@ namespace game
             return true;
         }
         
-        protected bool isSynonymFor(string verb, string synonym)
+        public static bool isSynonymFor(string verb, string synonym)
         {
             if (verb == synonym)
             {
                 return true;
             }
 
-            string[] lines = System.IO.File.ReadAllLines("Synonyms.txt");
+            string[] lines = System.IO.File.ReadAllLines("synonyms.txt");
 
             foreach (var line in lines)
             {

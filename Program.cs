@@ -42,6 +42,7 @@ namespace game
        int MinDamage = 1;
        bool hasPlayerBeenForcedOut = false;
        bool isPlayerWithDummy = false;
+       bool hasPlayerReceivedKey = false;
        
        List<ItemCount> inventory = new List<ItemCount>();
 
@@ -77,9 +78,9 @@ namespace game
                 TypeWriter.WriteLine("You have two options: collect the gold and pay the mage or", TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine("Slay him, take back princess Kafe and rid the land of his vile existence", TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine("But there is a reason he is still alive, are you up for the challenge? time to find out.", TypeWriter.Speed.Talk);
-                TypeWriter.WriteLine(new Text("I will give you "),
-                                     new Text($"{startingGold} gold coins ",Colours.GoldReward),
-                                     new Text("to start you off with"));
+                TypeWriter.WriteLine(new Text("I will give you ",Colours.Speech , TypeWriter.Speed.Talk),
+                                     new Text($"{startingGold} gold coins ",Colours.GoldReward, TypeWriter.Speed.Talk),
+                                     new Text("to start you off with",Colours.Speech, TypeWriter.Speed.Talk));
                 TypeWriter.WriteLine("And a muffin");                    
                 AddToInventory(new Medicine("muffin", 0, 20, "muffin"));                    
             }
@@ -230,7 +231,7 @@ namespace game
 
             foreach ( var item in inventory)
             {  
-                TypeWriter.WriteLine(item.name, new Text($" x{item.Count().ToString()} "));
+                TypeWriter.WriteLine(item.name, new Text($" x {item.Count().ToString()}, "), item.ItemDescription);
                 TypeWriter.WriteLine();
             }
 
@@ -247,19 +248,33 @@ namespace game
             if (inventory.Exists(e => e.name.text == itemName))
             {
                 var item = inventory.Find(e => e.name.text == itemName);
-                if (!item.item.DoVerb( verb, this ))
+                
+                if (Item.isSynonymFor(verb, "drop"))
+                {
+                   RemoveItem(item);
+                   TypeWriter.WriteLine();
+                   TypeWriter.WriteLine($"You drop the {itemName}");
+                   return;
+                }
+
+                if (!item.item.DoVerb(verb, this))
                 {
                     TypeWriter.WriteLine("Sorry but I don't understand");
                     return;
                 }
 
-                item.Decrement();
-                if (item.Count() <= 0)
-                {
-                    inventory.Remove(item);
-                }
+                RemoveItem(item);
             }
             TypeWriter.WriteLine();
+        }
+
+        private void RemoveItem(ItemCount item)
+        {
+            item.Decrement();
+            if (item.Count() <= 0)
+            {
+                inventory.Remove(item);
+            }
         }
 
         public void Fight( Monster monster )
@@ -325,10 +340,14 @@ namespace game
                     int damage = monster.attackPoints - protection;
                     if ( damage < 0 )
                     {
-                        damage = 0;
-                        TypeWriter.WriteLine(new Text($"Your "),
-                                             new Text($"{playerArmour?.name } ",Colours.Protection),
-                                             new Text("deflected the attack", Colours.Speech, TypeWriter.Speed.List));
+                        if (playerArmour != null )
+                        {
+                            damage = 0;
+                            TypeWriter.WriteLine(new Text($"Your "),
+                                                 playerArmour.name,
+                                                 new Text(" deflected the attack", Colours.Speech, TypeWriter.Speed.List));
+                        }                  
+                        
                     }
                     TypeWriter.WriteLine(new Text($"The {monster.spices} strike's a blow and deals "),
                                           new Text($"{damage} damage",Colours.FightDamage));
@@ -496,6 +515,7 @@ namespace game
         {
             TypeWriter.WriteLine();
             location.displayDescription();
+            location.displayItems();
             TypeWriter.WriteLine();
 
             string[] playerOptions = showPlayerOptions().ToLower().Split(" ");
@@ -575,11 +595,34 @@ namespace game
             if (item != null)
             {
                 AddToInventory(item);
+                ItemsTaken(item);
             }
             else
             {
-                TypeWriter.WriteLine($"There is no {itemName} here ??");
+                TypeWriter.WriteLine($"There is no {itemName} here ?");
             }
+        }
+
+        public static bool ItemsTaken(Item item)
+        {
+            // var AddToItemMemory = new List<string>();
+
+            // AddToItemMemory.Add(item.name.text);
+            File.AppendAllText(@".\Data\Item memory.txt", "\r\n" + item.name.text);
+            // File.WriteAllLines(@".\Data\Item memory.txt", AddToItemMemory.ToArray());
+
+            return HasItemBeenTaken(item);
+        }
+
+        public static bool HasItemBeenTaken(Item item)
+        {
+            var stuffInFile = File.ReadAllLines(@".\Data\Item memory.txt").ToList();
+
+            if (stuffInFile.Exists(e => e == item.name.text))
+            {
+                return true;
+            }
+            return false;
         }
 
         private void AddToInventory(Item item)
@@ -610,7 +653,15 @@ namespace game
 
         private static void FoundNothing()
         {
-            TypeWriter.WriteLine("Nothing happend", TypeWriter.Speed.List);
+            int nothingHappend = new Random().Next(1, 4);
+
+            switch (nothingHappend)
+            {
+                case 1: TypeWriter.WriteLine("Nothing of consequence happend"); break;
+                case 2: TypeWriter.WriteLine("Nothing important happend"); break;
+                case 3: TypeWriter.WriteLine("Nothing interesting occurred"); break; 
+            }
+
         }
 
         private void FoundGold()
@@ -887,13 +938,17 @@ namespace game
 
                 if (totalXP <= 400)
                 {
-                    TypeWriter.WriteLine();
-                    TypeWriter.WriteLine(new Text("By the way there is something I would like you to have ", Colours.Bill, TypeWriter.Speed.Talk));
-                    TypeWriter.WriteLine(new Text("let's just keep this between you and me ", Colours.Bill, TypeWriter.Speed.Talk));
-                    TypeWriter.WriteLine(new Text("William hands you a key with a tag that says ", Colours.Speech, TypeWriter.Speed.Talk),
-                    new Text("private", Colours.Bill, TypeWriter.Speed.Talk));
-                    TypeWriter.WriteLine();
-                    GiveKey();
+                    if (hasPlayerReceivedKey == false)
+                    {
+                        TypeWriter.WriteLine();
+                        TypeWriter.WriteLine(new Text("By the way there is something I would like you to have ", Colours.Bill, TypeWriter.Speed.Talk));
+                        TypeWriter.WriteLine(new Text("let's just keep this between you and me ", Colours.Bill, TypeWriter.Speed.Talk));
+                        TypeWriter.WriteLine(new Text("William hands you a key with a tag that says ", Colours.Speech, TypeWriter.Speed.Talk),
+                        new Text("private", Colours.Bill, TypeWriter.Speed.Talk));
+                        TypeWriter.WriteLine();
+                        GiveKey();
+                    }
+                    hasPlayerReceivedKey = true;
                 }
             }
             return true;
@@ -904,7 +959,7 @@ namespace game
             if (doesPlayerHavePrivateKey == false)
             {
                 doesPlayerHavePrivateKey = true;
-                AddToInventory(new Item { ItemDescription = new Text("private Key ", Colours.Bill) });
+                AddToInventory(new Item {name = new Text("private Key"), ItemDescription = new Text("private Key ", Colours.Bill) });
             }
         }
 
@@ -1193,7 +1248,9 @@ namespace game
         {
             if (totalXP >= XPNeededForWatch)
             {
-                TypeWriter.WriteLine($"Hey {cottonUserName} do you want to trade {priceForWatch} Gold for my pocket watch: yes/no", TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine(new Text($"Hey {cottonUserName} do you want to trade ", Colours.Speech, TypeWriter.Speed.Talk),
+                                     new Text("{priceForWatch} Gold ", Colours.Gold, TypeWriter.Speed.Talk),
+                                     new Text("for my pocket watch: yes/no",Colours.Speech ,TypeWriter.Speed.Talk));
                 string Awnser = GetLowerReply();
                 if (Awnser == "yes")
                 {
@@ -1385,7 +1442,7 @@ namespace game
 
         public void MedicineChosen(Medicine medicine)
         {
-            TypeWriter.WriteLine($"Good choice, you use {medicine.name}",TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine("Good choice, you use " + medicine.name);
             healing = medicine.healing;
             playerHP += healing;
             playerGold -= medicine.price;
@@ -1467,7 +1524,7 @@ namespace game
             playerArmour = armour;
             AddToInventory(playerArmour);
             playerGold -= playerArmour.price;
-            TypeWriter.WriteLine($"Good choice, you've got your self a {playerArmour.name}",TypeWriter.Speed.Talk);    
+            TypeWriter.WriteLine($"Good choice, you've got your self a " + playerArmour.name);    
         }
 
         private void BuyWeapon()
@@ -1538,7 +1595,7 @@ namespace game
             playerWeapon = weapon;
             AddToInventory( playerWeapon );
             playerGold -= playerWeapon.price;
-            TypeWriter.WriteLine($"Good choice you've got your self a {playerWeapon.name}", TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine($"Good choice you've got your self a " + playerWeapon.name);
         }
 
         private static void DisplayWeapons(Weapon weapon, int index) 
@@ -1576,7 +1633,6 @@ namespace game
 
             bunchOfArmour.Clear();
             shopWeapons.Clear();
-            inventory.Clear();
                      
         }
 
@@ -1628,7 +1684,7 @@ namespace game
             
             //add to the leaderboard
             var currentGameEntry = new LeaderBoardEntry(userName, totalXP);
-            leaderBoard.Add( currentGameEntry);
+            leaderBoard.Add( currentGameEntry );
 
             //fill the leaderboard will the raw leaderboard
             foreach( var rawEntry in rawLeaderBoard)
@@ -1696,6 +1752,7 @@ namespace game
                 while ( replay )
                 {
                     Console.Clear();
+                    File.WriteAllLines(@".\Data\Item memory.txt",Array.Empty<string>());
                     theGame.Begin(); 
                     try
                     {

@@ -10,5 +10,5 @@ northLocation =
 d= Path
 d= 
 d= The stone path made up of many small pieces of cobblestone turns to the South.
-d= The path leads to the South where you can see a bridge,
+d= The path leads to the South where you can see a far off bridge in the distance,
 d= you can also see a field to the East and North.

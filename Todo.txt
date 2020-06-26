@@ -13,7 +13,7 @@ Version 1 ( Live )
     * possibly magic items
 * Direction, I can go anywhere, not one of the options
 * running away give you a time penalty ?
-*map
+
 
 
 Bugs
@@ -67,3 +67,4 @@ black message
 * Add a time element ( so you only have N days to save the lady)
 * EXP
 * leader board
+*map

@@ -32,8 +32,13 @@ namespace game
                     case "d" : descriptions.Add(value); break; 
                     case "items" : 
                     {
-                        items.Add(new Item{ name = new Text(value), 
-                                            ItemDescription = new Text(values[2].Trim())}); 
+                        var item = new Item{ name = new Text(value),
+                                             ItemDescription = new Text(values[2].Trim())};
+
+                        if (!TheGame.HasItemBeenTaken(item))
+                        {
+                            items.Add(item); 
+                        }
                         break;
                     }     
                 }
@@ -43,9 +48,17 @@ namespace game
 
         internal void displayDescription()
         {
-            foreach ( var line in descriptions)
+            foreach ( var line in descriptions )
             {
                 TypeWriter.WriteLine( "\t" + line );
+            }
+        }
+
+        internal void displayItems()
+        {
+            foreach ( var item in items )
+            {
+                TypeWriter.WriteLine("\t" + item.ItemDescription);
             }
         }
       
@@ -114,9 +127,11 @@ namespace game
             if ( items.Exists(e => e.name == itemName) )
             {
                 Item item = items.Find( e => e.name == itemName );
+                items.Remove(item);
                 return item;
             }
             return null;
         }
+
     }
 }

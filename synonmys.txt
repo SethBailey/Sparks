@@ -1,1 +1,0 @@
-eat=chew,swallow,chomp,consume,gobble,munch,devour
