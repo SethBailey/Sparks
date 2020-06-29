@@ -13,3 +13,4 @@ d= Here the grass is a little longer but still looked after.
 d= You can still here the sound of running water.
 d= far off to the North you can see a forest. 
 d= You notice a stone path leading to the East.
+d= Fair warning, go any further and you may find a monster

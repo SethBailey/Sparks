@@ -12,3 +12,5 @@ d=
 d= The grass is longer but under control. 
 d= To the south there is a river and it's quite strong,
 d= Your not sure if you can swim but you don't want to risk it.
+
+monster = 1/5

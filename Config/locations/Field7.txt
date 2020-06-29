@@ -12,3 +12,5 @@ d=
 d= The grass now looks like the rough of a golf course. 
 d= There is a forest far off to the North and a path to the West.
 d= There is a river to the South and it doesn't look friendly. 
+
+monster = 1/5

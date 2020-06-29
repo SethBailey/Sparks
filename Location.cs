@@ -75,11 +75,17 @@ namespace game
                         if (!TheGame.HasItemBeenTaken(item))
                         {
                             items.Add(item); 
-                        }}
+                        }
+                        break;
+                    } 
+                    case "monster":
+                    {
+                        var monsterChance = value.Split("/");
+                        this.chance = int.Parse(monsterChance[0]);
+                        this.outOf = int.Parse(monsterChance[1]);
                         break;
                     }     
-                   
-
+                }
             }
         }
 
@@ -101,7 +107,6 @@ namespace game
 
         private List<string> descriptions = new List<string>();
         List<Item> items = new List<Item>();
-        private string firstDescription = "";
         private string northMessage = "";
         private string southMessage = "";
         private string westMessage = "";
@@ -111,6 +116,9 @@ namespace game
         private string westLocation = "";
         private string southLocation = "";
         private string northLocation = "";
+
+        public int chance { get; internal set; }
+        public int outOf { get; internal set; }
 
         internal Location GetNextLocation(string playerDirection)
         {

@@ -12,3 +12,5 @@ d=
 d= Made to stand the test of time this bridge is as reliable as any.
 d= The bridge itself is very simple with stone railings that come up to the waist.
 d= The bridge continues to the south. 
+
+monster = 1/10

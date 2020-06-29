@@ -12,3 +12,5 @@ d=
 d= The grass now looks like the rough of a golf course. 
 d= The forest is still far off to the North.
 d= You can still hear running water to the South but not as loud.
+
+monster = 1/5

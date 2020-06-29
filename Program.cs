@@ -518,6 +518,30 @@ namespace game
             location.displayItems();
             TypeWriter.WriteLine();
 
+            bool didFight = false;
+
+            if (location.chance > 0)
+            {
+                var isMonster = new Random().Next(location.chance , location.outOf);
+                if (isMonster <= location.chance)
+                {
+                    Fight(PickMonsterForEveryDayFight());
+                    didFight = true;
+                }
+            }
+
+            if (!didFight)
+            {
+                int monsterGoldOrNothing = new Random().Next(1, 4);
+                switch (monsterGoldOrNothing)
+                {
+                    case 1: FoundNothing(); break;
+                    case 2: FoundGold(); break;
+                    default: AwardMedicine(); break;
+                }
+            }
+            
+
             string[] playerOptions = showPlayerOptions().ToLower().Split(" ");
             string playerOption = playerOptions[0];
 
@@ -554,15 +578,6 @@ namespace game
                 case "shop": itemShop(); break;
                 case "dojo": dojo(); break;
                 case "take" : tryTakeItem(location, playerOptions); break;
-            }
-
-            int monsterGoldOrNothing = new Random().Next(1, 5);
-            switch (monsterGoldOrNothing)
-            {
-                case 1: Fight(PickMonsterForEveryDayFight()); break;
-                case 2: FoundNothing(); break;
-                case 3: FoundGold(); break;
-                default: AwardMedicine(); break;
             }
 
             switch (playerOption)
