@@ -16,7 +16,7 @@ namespace game
        public int playerGold = startingGold;
        public string cottonUserName = "";
        bool cottonIntro = false;
-       int protection = 0;
+       public int protection = 0;
        bool canPlayerRun = true;
        bool isPlayerWithMage = false;
        public bool isPlayerNew = true;
@@ -38,7 +38,7 @@ namespace game
        bool isPlayerWithBill = false;
        bool doesPlayerHavePrivateKey = false;
        bool isBillDead = false;
-       int maxDamage = 100;
+       public int maxDamage = 100;
        int MinDamage = 1;
        bool hasPlayerBeenForcedOut = false;
        bool isPlayerWithDummy = false;
@@ -82,7 +82,7 @@ namespace game
                                      new Text($"{startingGold} gold coins ",Colours.GoldReward, TypeWriter.Speed.Talk),
                                      new Text("to start you off with",Colours.Speech, TypeWriter.Speed.Talk));
                 TypeWriter.WriteLine("And a muffin");                    
-                AddToInventory(new Medicine("muffin", 0, 20, "muffin"));                    
+                AddToInventory(new Medicine("muffin", 0, 20, "muffin",""));                    
             }
             else
             {
@@ -605,11 +605,7 @@ namespace game
 
         public static bool ItemsTaken(Item item)
         {
-            // var AddToItemMemory = new List<string>();
-
-            // AddToItemMemory.Add(item.name.text);
             File.AppendAllText(@".\Data\Item memory.txt", "\r\n" + item.name.text);
-            // File.WriteAllLines(@".\Data\Item memory.txt", AddToItemMemory.ToArray());
 
             return HasItemBeenTaken(item);
         }
@@ -1183,7 +1179,7 @@ namespace game
                                  new Text($"- "),
                                  new Text($"{armour.protection} protection " ,Colours.Protection),
                                  new Text("- "),
-                                 new Text($"{armour.description}"));
+                                armour.ItemDescription);
         }
 
         private string GetLowerReply()
@@ -1458,7 +1454,7 @@ namespace game
                                  new Text($"- "),
                                  new Text($"{medicine.healing} healing ",Colours.Health),
                                  new Text($"- "),
-                                 new Text($"{medicine.description}"));
+                                 medicine.ItemDescription);
         }
 
 
@@ -1606,7 +1602,7 @@ namespace game
                                  new Text($"{weapon.price} Gold ", Colours.Gold), 
                                  new Text("- "),
                                  new Text($"{weapon.damage} Extra Damage ", Colours.Damage),
-                                 new Text($"- {weapon.description}"));
+                                 weapon.ItemDescription);
         }
 
         public void playerReset()

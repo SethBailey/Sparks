@@ -15,4 +15,4 @@ d= A white fence stands on the outskirts of the garden.
 d= The fence has an opening to the North.
 d= You can hear the sound of running water. 
 
-items = frog = so green!
+item = Armour,milk,0,50,looks yummy,You see a milk shake just siting on the ground

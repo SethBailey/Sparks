@@ -29,19 +29,56 @@ namespace game
                     case "southLocation" : southLocation = value; break;
                     case "eastLocation" : eastLocation = value; break;
                     case "westLocation" : westLocation = value; break;              
-                    case "d" : descriptions.Add(value); break; 
-                    case "items" : 
+                    case "d" : descriptions.Add(value); break;
+                    case "item" : 
                     {
-                        var item = new Item{ name = new Text(value),
-                                             ItemDescription = new Text(values[2].Trim())};
+                        Item item = new Item();
+                        var itemPramerters = value.Split(",");
+                        var itemType = itemPramerters[0];
+                        switch( itemType )
+                        {
+                            case "medicine": 
+                            {
+                                var itemName = itemPramerters[1];
+                                int price = int.Parse(itemPramerters[2]);
+                                int healing = int.Parse(itemPramerters[3]);
+                                var description = itemPramerters[4];
+                                var firstDescription = itemPramerters[5];
+
+                                item = new Medicine(itemName, price, healing, description, firstDescription); 
+                                break;
+                            }
+                            case "armour": 
+                            {
+                                var itemName = itemPramerters[1];
+                                int price = int.Parse(itemPramerters[2]);
+                                int protection = int.Parse(itemPramerters[3]);
+                                var description = itemPramerters[4];
+                                var firstDescription = itemPramerters[5];
+
+                                item = new Armour(itemName, price, protection, description, firstDescription); 
+                                break;
+                            }
+                            case "weapon": 
+                            {
+                                var itemName = itemPramerters[1];
+                                int price = int.Parse(itemPramerters[2]);
+                                int damage = int.Parse(itemPramerters[3]);
+                                var description = itemPramerters[4];
+                                var firstDescription = itemPramerters[5];
+
+                                item = new Weapon(itemName, price, damage, description, firstDescription); 
+                                break;
+                            }
+                        }
 
                         if (!TheGame.HasItemBeenTaken(item))
                         {
                             items.Add(item); 
-                        }
+                        }}
                         break;
                     }     
-                }
+                   
 
             }
         }
@@ -58,12 +95,13 @@ namespace game
         {
             foreach ( var item in items )
             {
-                TypeWriter.WriteLine("\t" + item.ItemDescription);
+                TypeWriter.WriteLine("\t" + item.firstDescription);
             }
         }
-      
+
         private List<string> descriptions = new List<string>();
         List<Item> items = new List<Item>();
+        private string firstDescription = "";
         private string northMessage = "";
         private string southMessage = "";
         private string westMessage = "";

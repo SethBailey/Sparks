@@ -5,17 +5,18 @@ namespace game
 {
     class Medicine : Item
     {
-        public Medicine( string name, int price, int healing, string description )
+        public Medicine( string name, int price, int healing, string description, string firstDescription ="" )
         {
             this.name = new Text(name, Colours.Medicine);
             this.price = price;
             this.healing = healing;
-            this.description = description;
+            this.ItemDescription = new Text(description);
+            this.firstDescription = new Text(firstDescription);
+            
         }
 
         public int price { get; }
         public int healing { get; }
-        public string description { get; }
 
         internal override bool DoVerb(string verb, TheGame game)
         {

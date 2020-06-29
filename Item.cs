@@ -9,10 +9,12 @@ namespace game
         {
             this.name = new Text("");
             this.ItemDescription = new Text("");
+            this.firstDescription = new Text("");
         }
 
         virtual internal Text ItemDescription { get; set; }
         internal Text name {get; set;}
+        virtual internal Text firstDescription { get; set; }
 
         public bool Equals(Item other)
         {
