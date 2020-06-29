@@ -9,7 +9,7 @@ northLocation =
 
 d= Field
 d= 
-d= From here you can see that where you started was what you thuoght it was,
+d= From here you can see that where you started was what you thought it was,
 d= a small but thick concrete cube with one door. 
 d= It looks as if it has just been put there randomly.
 d= You can still hear running water to the south.

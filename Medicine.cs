@@ -1,18 +1,36 @@
+using System;
+using System.Linq;
+
 namespace game
 {
-    class Medicine
+    class Medicine : Item
     {
-        public Medicine( string name, int price, int healing, string discription)
+        public Medicine( string name, int price, int healing, string description, string firstDescription ="" )
         {
-            this.name = name;
+            this.name = new Text(name, Colours.Medicine);
             this.price = price;
             this.healing = healing;
-            this.discription = discription;
+            this.ItemDescription = new Text(description);
+            this.firstDescription = new Text(firstDescription);
+            
         }
 
-        public string name { get; }
         public int price { get; }
         public int healing { get; }
-        public string discription { get; }
+
+        internal override bool DoVerb(string verb, TheGame game)
+        {
+            if( isSynonymFor(verb,"eat") )  
+            {
+                TypeWriter.WriteLine();
+                TypeWriter.WriteLine(new Text($"You consume the "),
+                                     name,
+                                     new Text(" and it feels good"));
+                game.playerHP += healing;
+                return true;
+            }
+
+            return false;
+        }
     }
 }

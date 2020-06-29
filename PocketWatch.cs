@@ -7,13 +7,13 @@ namespace game
         public PocketWatch(TheGame game)
         {
             this.game = game;
-            this.name = "Pocket Watch";
+            this.name = new Text("Pocket Watch");
         }
 
         override internal Text ItemDescription{  
             get {
                 int daysTillEnd = game.daysTillEnd; 
-                return new Text($"pocket watch that says: {daysTillEnd} days left", Colours.Cotton ); 
+                return new Text($"That says: {daysTillEnd} days left", Colours.Cotton ); 
             }
         }    
     }

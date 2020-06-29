@@ -2,20 +2,32 @@ namespace game
 {
     class Weapon : Item
     {
-        public Weapon( string name, int price, int damage, string discription)
+        public Weapon( string name, int price, int damage, string description, string firstDescription = "")
         {
-            this.name = name;
+            this.name = new Text(name, Colours.Damage);
             this.price = price;
             this.damage = damage;
-            this.discription = discription;
-
-            this.ItemDescription = new Text($"{name} ",Colours.Attack);
+            this.description = description;
+            this.ItemDescription = new Text(description);
+            this.firstDescription = new Text(firstDescription);
         }
 
         public int price {get;}
         public int damage {get;}
-        public string discription { get; }
+        public string description { get; }
 
-
+        internal override bool DoVerb(string verb, TheGame game)
+        {
+            if( isSynonymFor(verb,"equip") )  
+            {
+                TypeWriter.WriteLine();
+                TypeWriter.WriteLine(new Text($"You use the "),
+                                     name,
+                                     new Text(" and you feel cool"));
+                game.maxDamage += damage;
+                return true;
+            }
+            return false;
+        }
     }
 }
