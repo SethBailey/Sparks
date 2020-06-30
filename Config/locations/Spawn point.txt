@@ -17,3 +17,5 @@ d= You feel the need leave.
 
 item= medicine,spoof,0,50,just a rip off,You see a spoof just siting on the ground
 item= weapon,grindstone,0,20,use it to sharpen your weapons,you see a small grindstone on the floor
+
+monster = 1/1

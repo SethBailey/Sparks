@@ -288,6 +288,7 @@ namespace game
             while (playerHP > 0 && monster.healthPoints > 0)
             {
                 int playerAP = new Random().Next(GetPlayerMinDamage(),GetPlayerMaxDamage());
+                int attackPoints = new Random().Next(monster.attackPointsMin,monster.attackPointsMax);
                 int whoStrikes = new Random().Next(1,3);
                 int runCost = new Random().Next(1, 201);
                 GetPlayerProtection();
@@ -337,7 +338,7 @@ namespace game
                 }
                 else
                 {
-                    int damage = monster.attackPoints - protection;
+                    int damage = attackPoints - protection;
                     if ( damage < 0 )
                     {
                         if (playerArmour != null )
