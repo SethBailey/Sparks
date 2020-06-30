@@ -2,15 +2,15 @@ northMessage = You hit the end of the world
 southMessage = You hit the end of the world
 westMessage = You hit the end of the world
 eastMessage = You hit the end of the world 
-eastLocation = 
-westLocation = Field8
-southLocation = Field
+eastLocation = Field2
+westLocation = 
+southLocation = Field1
 northLocation = 
 
 d= Field
 d= 
 d= The grass now looks like the rough of a golf course. 
 d= The forest is just off to the North.
-d= You can still hear running water to the South but not as loud.
+d= The place you started is now a speck in the distance.
 
 monster = 1/5
