@@ -212,12 +212,12 @@ namespace game
             if (playerWeapon != null )
             {
                 messsage.Add( new Text("and a "));
-                messsage.Add( playerWeapon.ItemDescription);
+                messsage.Add( playerWeapon.name);
             }
             if (playerArmour != null)
             {
                 messsage.Add( new Text("and a "));
-                messsage.Add( playerArmour.ItemDescription);
+                messsage.Add( playerArmour.name);
             }
 
             TypeWriter.WriteLine(messsage);
