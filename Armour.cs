@@ -19,7 +19,7 @@ namespace game
             if( isSynonymFor(verb,"wear") )  
             {
                 TypeWriter.WriteLine();
-                TypeWriter.WriteLine(new Text($"You use the "),
+                TypeWriter.WriteLine(new Text($"You {verb} the "),
                                      name,
                                      new Text(" and you feel safe"));
                 game.protection += protection;

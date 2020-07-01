@@ -5,7 +5,7 @@ eastMessage = You hit the end of the world
 eastLocation = Field6
 westLocation = Path2
 southLocation = Path4
-northLocation = 
+northLocation = Tree
 
 d= Path
 d= 

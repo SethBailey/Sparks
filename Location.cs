@@ -84,7 +84,32 @@ namespace game
                         this.chance = int.Parse(monsterChance[0]);
                         this.outOf = int.Parse(monsterChance[1]);
                         break;
-                    }     
+                    }  
+                    case "gold":
+                    {
+                        var goldChance = value.Split("/");
+                        this.goldChance = int.Parse(goldChance[0]);
+                        this.goldOutOf = int.Parse(goldChance[1]);
+                        this.foundGoldChance = int.Parse(goldChance[2]);
+                        this.foundGoldOutOf = int.Parse(goldChance[3]);
+                        break;
+                    } 
+                    case "medicine":
+                    {
+                        var medChance = value.Split("/");
+                        this.medChance = int.Parse(medChance[0]);
+                        this.medOutOf = int.Parse(medChance[1]);
+                        this.foundMedChance = int.Parse(medChance[2]);
+                        this.foundMedOutOf = int.Parse(medChance[3]);
+                        break;
+                    } 
+                    case "nothing":
+                    {
+                        var nothingChance = value.Split("/");
+                        this.nothingChance = int.Parse(nothingChance[0]);
+                        this.nothingOutOf = int.Parse(nothingChance[1]);
+                        break;
+                    } 
                 }
             }
         }
@@ -119,6 +144,16 @@ namespace game
 
         public int chance { get; internal set; }
         public int outOf { get; internal set; }
+        public int goldChance { get; internal set; }
+        public int goldOutOf { get; internal set; }
+        public int foundGoldChance { get; internal set; }
+        public int foundGoldOutOf { get; internal set; }
+        public int medChance { get; internal set; }
+        public int medOutOf { get; internal set; }
+        public int foundMedChance { get; internal set; }
+        public int foundMedOutOf { get; internal set; }
+        public int nothingChance { get; internal set; }
+        public int nothingOutOf { get; internal set; }
 
         internal Location GetNextLocation(string playerDirection)
         {

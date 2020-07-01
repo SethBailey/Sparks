@@ -304,7 +304,7 @@ namespace game
                         }
                         else
                         {
-                            TypeWriter.WriteLine($"{userName} you ran from the fight and make it back to safety ",TypeWriter.Speed.List);
+                            TypeWriter.WriteLine($"{userName} you pay the {monster.spices} to leave you alone",TypeWriter.Speed.List);
                             TypeWriter.WriteLine(new Text("But you lost "),
                                                  new Text($"{runCost} Gold ", Colours.Gold),
                                                  new Text("by paying the monster to let you go"));
@@ -384,18 +384,17 @@ namespace game
                         return;
                     }    
                         int goldReward = new Random().Next(1, 101);
-
+                        int medReward = new Random().Next(1, 31);
                         fightDescriptionWin(monster);
                         TypeWriter.WriteLine("");
 
                         List<Text> winMesssage = new List<Text>();
                         winMesssage.Add(new Text($"{userName} won the fight and got "));
-                        winMesssage.Add(new Text($"{goldReward} Gold coins ", Colours.GoldReward));
+                        winMesssage.Add(new Text($"{goldReward} Gold coins and {medReward} Medicine", Colours.GoldReward));
                         playerGold += goldReward;
                         TypeWriter.WriteLine(winMesssage);
                         
                         XPMessage(xpWin);
-                        AwardMedicine();
                         playerStats();
                         Console.WriteLine();
                         
@@ -519,37 +518,23 @@ namespace game
             location.displayItems();
             TypeWriter.WriteLine();
 
-            bool didFight = false;
-
-            if (location.chance > 0)
-            {
-                var isMonster = new Random().Next(location.chance , location.outOf);
-                if (isMonster <= location.chance)
-                {
-                    Fight(PickMonsterForEveryDayFight());
-                    didFight = true;
-                }
-            }
-
-            if (!didFight)
-            {
-                int monsterGoldOrNothing = new Random().Next(1, 4);
-                switch (monsterGoldOrNothing)
-                {
-                    case 1: FoundNothing(); break;
-                    case 2: FoundGold(); break;
-                    default: AwardMedicine(); break;
-                }
-            }
+            bool didFight = GetMonster(location);
+            bool gotGold = GetGold(location);
+            bool gotMedicine = GetMedicine(location);
             
+            if (!didFight && !gotGold && !gotMedicine)
+            {
+                NothingHappended(location);
+            }
+
 
             string[] playerOptions = showPlayerOptions().ToLower().Split(" ");
             string playerOption = playerOptions[0];
 
             Console.Clear();
             playerStats();
-            TypeWriter.WriteLine(new Text("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ",Colours.Speech, TypeWriter.Speed.List));
-                                 new Text("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _",Colours.Speech, TypeWriter.Speed.List);
+            TypeWriter.WriteLine(new Text("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ", Colours.Speech, TypeWriter.Speed.List));
+            new Text("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _", Colours.Speech, TypeWriter.Speed.List);
             TypeWriter.WriteLine();
 
             endGameCheck();
@@ -566,10 +551,12 @@ namespace game
                 case "do": playerOption = "dojo"; break;
                 case "take": playerOption = "take"; break;
 
-                case "i": inventoryPage();
-                    return location;  
-                      
-                default: TypeWriter.WriteLine("I don't understand"); 
+                case "i":
+                    inventoryPage();
+                    return location;
+
+                default:
+                    TypeWriter.WriteLine("I don't understand");
                     return location;
             }
 
@@ -578,24 +565,83 @@ namespace game
                 case "black dungeon": blackDungeon(); break;
                 case "shop": itemShop(); break;
                 case "dojo": dojo(); break;
-                case "take" : tryTakeItem(location, playerOptions); break;
+                case "take": tryTakeItem(location, playerOptions); break;
             }
 
             switch (playerOption)
             {
-                case "north": 
-                case "south": 
-                case "east": 
-                case "west": 
-                {   
-                    location = location.GetNextLocation( playerOption );
-                    break;
-                }
+                case "north":
+                case "south":
+                case "east":
+                case "west":
+                    {
+                        location = location.GetNextLocation(playerOption);
+                        break;
+                    }
             }
 
             EndTime();
 
             return location;
+        }
+
+        private bool NothingHappended(Location location)
+        {
+            if (location.nothingChance > 0)
+            {
+                var nothing = new Random().Next(location.nothingChance, location.nothingOutOf);
+                if (nothing <= location.nothingChance)
+                {
+                    FoundNothing();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool GetMedicine(Location location)
+        {
+            if (location.medChance > 0)
+            {
+                var isMed = new Random().Next(location.medChance, location.medOutOf);
+                if (isMed <= location.medChance)
+                {
+                    AwardMedicine(location.foundMedChance, location.foundMedOutOf);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool GetGold(Location location)
+        {
+            if (location.goldChance > 0)
+            {
+                var isGold = new Random().Next(location.goldChance, location.goldOutOf);
+                if (isGold <= location.goldChance)
+                {
+                    FoundGold(location.foundGoldChance, location.foundGoldOutOf);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool GetMonster(Location location)
+        {
+            if (location.chance > 0)
+            {
+                var isMonster = new Random().Next(location.chance, location.outOf);
+                if (isMonster <= location.chance)
+                {
+                    Fight(PickMonsterForEveryDayFight());
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private void tryTakeItem(Location location, string[] playerOptions)
@@ -676,9 +722,9 @@ namespace game
 
         }
 
-        private void FoundGold()
+        private void FoundGold(int foundGoldChance, int foundGoldOutOf)
         {
-            int foundGold = new Random().Next(1, 81);
+            int foundGold = new Random().Next(foundGoldChance, foundGoldOutOf +1);
             TypeWriter.WriteLine(new Text("You found "),
                                  new Text($"{foundGold} gold coins",Colours.Gold));
                                  
@@ -762,6 +808,7 @@ namespace game
                             MinDamage += 5;
                             TypeWriter.WriteLine($"You now deal between {MinDamage} and {maxDamage} damage", TypeWriter.Speed.Talk);
                             TypeWriter.WriteLine();
+                            Thread.Sleep(2000);
                         }
                         else
                         {
@@ -778,6 +825,7 @@ namespace game
                             MinDamage += 10;
                             TypeWriter.WriteLine($"You now deal between {MinDamage} and {maxDamage} damage", TypeWriter.Speed.Talk);
                             TypeWriter.WriteLine();
+                            Thread.Sleep(2000);
                         }
                         else
                         {
@@ -794,6 +842,8 @@ namespace game
                             MinDamage += 15;
                             TypeWriter.WriteLine($"You now deal between {MinDamage} and {maxDamage} damage", TypeWriter.Speed.Talk);
                             TypeWriter.WriteLine();
+                            Thread.Sleep(2000);
+
                         }
                         else
                         {
@@ -848,6 +898,7 @@ namespace game
                             protection += 10;
                             TypeWriter.WriteLine($"You can now block {protection} damage", TypeWriter.Speed.Talk);
                             TypeWriter.WriteLine();
+                            Thread.Sleep(2000);
                         }
                         else
                         {
@@ -863,6 +914,7 @@ namespace game
                             protection += 20;
                             TypeWriter.WriteLine($"You can now block {protection} damage", TypeWriter.Speed.Talk);
                             TypeWriter.WriteLine();
+                            Thread.Sleep(2000);
                         }
                         else
                         {
@@ -878,6 +930,7 @@ namespace game
                             protection += 30;
                             TypeWriter.WriteLine($"You can now block {protection} damage", TypeWriter.Speed.Talk);
                             TypeWriter.WriteLine();
+                            Thread.Sleep(2000);
                         }
                         else
                         {
@@ -1146,13 +1199,13 @@ namespace game
                 }
             }
         }
-        public void AwardMedicine()
+        public void AwardMedicine(int foundMedChance, int foundMedOutOf)
         {
-            int medicine = new Random().Next(1, 30);
+            int foundMed = new Random().Next(foundMedChance, foundMedOutOf +1);
             List<Text> medMessage = new List<Text>();
             medMessage.Add(new Text("You have found some medicine and you gain "));
-            medMessage.Add(new Text($"{medicine} HP", Colours.Medicine));
-            playerHP += medicine;
+            medMessage.Add(new Text($"{foundMed} HP", Colours.Medicine));
+            playerHP += foundMed;
             TypeWriter.WriteLine(medMessage);
             MaxHealthEnforcer();
         }

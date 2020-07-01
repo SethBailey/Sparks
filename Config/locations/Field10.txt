@@ -2,15 +2,15 @@ northMessage = You hit the end of the world
 southMessage = You hit the end of the world
 westMessage = You hit the end of the world
 eastMessage = You hit the end of the world 
-eastLocation = Field9
-westLocation = Field8
-southLocation = Field
+eastLocation = Tree
+westLocation = Sign
+southLocation = Path2
 northLocation = 
 
 d= Field
 d= 
-d= The grass now looks like the rough of a golf course. 
+d= The grass is now unruly. 
 d= The forest is just off to the North.
-d= You can still hear running water to the South but not as loud.
+d= the stone path continues to the south.
 
 monster = 1/5

@@ -1,0 +1,18 @@
+northMessage = You hit the end of the world
+southMessage = You hit the end of the world
+westMessage = You hit the end of the world
+eastMessage = You hit the end of the world 
+eastLocation = Tree
+westLocation = Field10
+southLocation = Path3
+northLocation = 
+
+d= Tree
+d=  
+d= Standing alone in a field is a large tree
+d= with age hardened wood, you feel safe next to this tree
+d= there is a ring of short grass around the tree
+
+item = medicine,apple,0,20,looks good,hanging from one of the branches is a ripe apple
+
+monster = 1/7

@@ -23,7 +23,7 @@ namespace game
             if( isSynonymFor(verb,"eat") )  
             {
                 TypeWriter.WriteLine();
-                TypeWriter.WriteLine(new Text($"You consume the "),
+                TypeWriter.WriteLine(new Text($"You {verb} the "),
                                      name,
                                      new Text(" and it feels good"));
                 game.playerHP += healing;

@@ -21,7 +21,7 @@ namespace game
             if( isSynonymFor(verb,"equip") )  
             {
                 TypeWriter.WriteLine();
-                TypeWriter.WriteLine(new Text($"You use the "),
+                TypeWriter.WriteLine(new Text($"You {verb} the "),
                                      name,
                                      new Text(" and you feel cool"));
                 game.maxDamage += damage;
