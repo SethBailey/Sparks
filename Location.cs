@@ -103,13 +103,6 @@ namespace game
                         this.foundMedOutOf = int.Parse(medChance[3]);
                         break;
                     } 
-                    case "nothing":
-                    {
-                        var nothingChance = value.Split("/");
-                        this.nothingChance = int.Parse(nothingChance[0]);
-                        this.nothingOutOf = int.Parse(nothingChance[1]);
-                        break;
-                    } 
                 }
             }
         }

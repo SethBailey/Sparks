@@ -1,0 +1,16 @@
+northMessage = You hit the end of the world
+southMessage = You hit the end of the world
+westMessage = You hit the railings
+eastMessage = You hit the railings 
+eastLocation = 
+westLocation = 
+southLocation = 
+northLocation = Bridge
+
+d= Viewing point
+d= 
+d= In front of you stands a large and imposing door frame
+d= and through it you can see a market place and houses 
+d= on the floor is written Copper kingdom, sparks fall from the frame
+
+monster = 1/7

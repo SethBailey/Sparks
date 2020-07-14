@@ -5,12 +5,13 @@ eastMessage = You hit the end of the world
 eastLocation = Field10
 westLocation = Field9
 southLocation = Path1
-northLocation = 
+northLocation = Viewing point
 
 d= Sign Post
 d= 
 d= You come too an old wooden sign post with two directions on it 
 d= the first points to the north and is labeled 'Joel's forest'.
-d= The other points south and is labeled 'Copper kingdom' 
+d= The other points south and is labeled 'Copper kingdom'
+d= you notice that to the north there is a viewing point hanging over the cliff 
 
 monster = 1/5

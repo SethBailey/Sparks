@@ -1,7 +1,7 @@
 northMessage = You hit the end of the world
 southMessage = You hit the end of the world
 westMessage = You hit the end of the world
-eastMessage = You hit the end of the world 
+eastMessage = Tell that voice no! 
 eastLocation = 
 westLocation = Path3
 southLocation = Field7
@@ -9,8 +9,10 @@ northLocation = Field11
 
 d= Field
 d= 
+d= You don't know how you missed it but your on a cliff 
+d= you look over the eastern edge and you tell the little voice to be quiet.
 d= The grass now looks like the rough of a golf course. 
-d= There is a forest far off to the North and a path to the West.
+d= there is a path to the West.
 d= You can still hear running water to the South.
 
 monster = 1/5

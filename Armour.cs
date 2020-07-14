@@ -22,10 +22,19 @@ namespace game
                 TypeWriter.WriteLine(new Text($"You {verb} the "),
                                      name,
                                      new Text(" and you feel safe"));
-                game.protection += protection;
+                if (game.playerArmour != null)
+                {
+                    game.AddToInventory(game.playerArmour);                     
+                    game.playerArmour = this;
+                }
+                else
+                {
+                    game.playerArmour = this;
+                }
+                TypeWriter.WriteLine();
+                game.playerStats();                 
                 return true;
             }
-
             return false;
         }
     }

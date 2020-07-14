@@ -1,6 +1,6 @@
-northMessage = You hit the end of the world
+northMessage = I said you tell the little voice to be quiet!
 southMessage = You hit the end of the world
-westMessage = You hit the end of the world
+westMessage = I said you tell the little voice to be quiet!
 eastMessage = You hit the end of the world 
 eastLocation = Field2
 westLocation = 
@@ -9,8 +9,10 @@ northLocation =
 
 d= Field
 d= 
-d= The grass now looks like the rough of a golf course. 
-d= The forest is just off to the North.
+d= You don't know how you missed it but your on a cliff 
+d= you look over the northern and western edge and you tell the little voice to be quiet.
+d= A forest is just off to the North at the bottom of the cliff.
 d= The place you started is now a speck in the distance.
+d= The grass now looks like the rough of a golf course. 
 
 monster = 1/5

@@ -24,7 +24,17 @@ namespace game
                 TypeWriter.WriteLine(new Text($"You {verb} the "),
                                      name,
                                      new Text(" and you feel cool"));
-                game.maxDamage += damage;
+                if (game.playerWeapon != null)
+                {
+                    game.AddToInventory(game.playerWeapon);
+                    game.playerWeapon = this;
+                }
+                else
+                {
+                    game.playerWeapon = this;
+                }
+                TypeWriter.WriteLine();
+                game.playerStats();                        
                 return true;
             }
             return false;

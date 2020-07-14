@@ -1,6 +1,6 @@
 northMessage = You hit the end of the world
-southMessage = You hit the end of the world
-westMessage = You hit the end of the world
+southMessage = You hit the big cube
+westMessage = Tell the voice to be quiet
 eastMessage = You hit the end of the world 
 eastLocation = Field
 westLocation = 
@@ -9,6 +9,8 @@ northLocation = Field8
 
 d= Field
 d= 
+d= You don't know how you missed it but your on a cliff 
+d= you look over the edge and you tell the little voice to be quiet.
 d= From here you can see that where you started was what you thought it was,
 d= a small but thick concrete cube with one door. 
 d= It looks as if it has just been put there randomly.

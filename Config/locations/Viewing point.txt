@@ -1,0 +1,17 @@
+northMessage = You think not
+southMessage = You hit the end of the world
+westMessage = You think not
+eastMessage = You think not 
+eastLocation = 
+westLocation = 
+southLocation = Sign
+northLocation = 
+
+d= Viewing point
+d= 
+d= the view is breath takeing and vast looking down on Joel's forest  
+d= but this is not what you are looking at, in front of you stands
+d= a large door frame and through it you can see dense trees and plants 
+d= on the floor is written Joel's forest, sparks fall from the frame  
+
+monster = 1/5

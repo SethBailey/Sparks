@@ -43,11 +43,12 @@ namespace game
        bool hasPlayerBeenForcedOut = false;
        bool isPlayerWithDummy = false;
        bool hasPlayerReceivedKey = false;
+       bool hasBeen = false;
        
-       List<ItemCount> inventory = new List<ItemCount>();
+       public List<ItemCount> inventory = new List<ItemCount>();
 
-       Weapon? playerWeapon;
-       Armour? playerArmour;
+       public Weapon? playerWeapon;
+       public Armour? playerArmour;
        private int healing;
 
         List<Armour> bunchOfArmour = new List<Armour>();
@@ -60,12 +61,17 @@ namespace game
 
         public void Begin()
         {
-            playerType();
+            if (hasBeen == false)
+            {
+                playerType();
+                hasBeen = true; 
+            }
             FillShopWithArmour();
             FillShopWithWeapons();
  
             if (isPlayerNew)
             {
+                
                 //Do player introductions
                 TypeWriter.WriteLine("Enter your name:", TypeWriter.Speed.Talk);
                 userName = Console.ReadLine();
@@ -212,12 +218,12 @@ namespace game
             if (playerWeapon != null )
             {
                 messsage.Add( new Text("and a "));
-                messsage.Add( playerWeapon.name);
+                messsage.Add( playerWeapon.name + $": {playerWeapon.damage} damage ");
             }
             if (playerArmour != null)
             {
                 messsage.Add( new Text("and a "));
-                messsage.Add( playerArmour.name);
+                messsage.Add( playerArmour.name + $": {playerArmour.protection} protection ");
             }
 
             TypeWriter.WriteLine(messsage);
@@ -231,6 +237,7 @@ namespace game
 
             foreach ( var item in inventory)
             {  
+                
                 TypeWriter.WriteLine(item.name, new Text($" x {item.Count().ToString()}, "), item.ItemDescription);
                 TypeWriter.WriteLine();
             }
@@ -238,7 +245,7 @@ namespace game
             string[] playerOptions = Console.ReadLine().Split(" ");
             if ( playerOptions.Count() < 2 )
             {
-                TypeWriter.WriteLine( "Must be a verb - noun action here");
+                TypeWriter.WriteLine("Must be a verb - noun action here");
                 return;
             }
 
@@ -253,7 +260,7 @@ namespace game
                 {
                    RemoveItem(item);
                    TypeWriter.WriteLine();
-                   TypeWriter.WriteLine($"You drop the {itemName}");
+                   TypeWriter.WriteLine($"You drop the {itemName} and it breaks beyond repare");
                    return;
                 }
 
@@ -517,6 +524,10 @@ namespace game
             location.displayDescription();
             location.displayItems();
             TypeWriter.WriteLine();
+            
+            TypeWriter.WriteLine();
+            TypeWriter.WriteLine("Daily activity //");
+            TypeWriter.WriteLine();
 
             bool didFight = GetMonster(location);
             bool gotGold = GetGold(location);
@@ -524,9 +535,12 @@ namespace game
             
             if (!didFight && !gotGold && !gotMedicine)
             {
-                NothingHappended(location);
+                FoundNothing();
             }
 
+            TypeWriter.WriteLine();
+            TypeWriter.WriteLine("//");
+            TypeWriter.WriteLine();
 
             string[] playerOptions = showPlayerOptions().ToLower().Split(" ");
             string playerOption = playerOptions[0];
@@ -583,20 +597,6 @@ namespace game
             EndTime();
 
             return location;
-        }
-
-        private bool NothingHappended(Location location)
-        {
-            if (location.nothingChance > 0)
-            {
-                var nothing = new Random().Next(location.nothingChance, location.nothingOutOf);
-                if (nothing <= location.nothingChance)
-                {
-                    FoundNothing();
-                    return true;
-                }
-            }
-            return false;
         }
 
         private bool GetMedicine(Location location)
@@ -683,7 +683,7 @@ namespace game
             return false;
         }
 
-        private void AddToInventory(Item item)
+        public void AddToInventory(Item item)
         {
             TypeWriter.WriteLine();
             TypeWriter.WriteLine(new Text("You picked up a "), item.name);
@@ -1284,7 +1284,7 @@ namespace game
                 cottonList.Add(new Text("and this is my shop, whats your name?", Colours.Speech, TypeWriter.Speed.Talk));
                 TypeWriter.WriteLine(cottonList);
                 cottonUserName = GetLowerReply();
-                TypeWriter.WriteLine($"{cottonUserName}, hmm ... nice!");
+                TypeWriter.WriteLine($"{cottonUserName}, hmm ... nice!", TypeWriter.Speed.Talk);
                 cottonIntro = true;
             }
             if (hasPlayerBeenInShop == true)
@@ -1348,7 +1348,7 @@ namespace game
             {
 
                 TypeWriter.WriteLine(new Text($"Hello {cottonUserName} are you looking for "),
-                                    new Text("(w)weapons, ", Colours.Attack, TypeWriter.Speed.Talk),
+                                    new Text("(w)weapons, ", Colours.Damage, TypeWriter.Speed.Talk),
                                     new Text("(a)armour ", Colours.Protection, TypeWriter.Speed.Talk),
                                     new Text("or ", Colours.Speech, TypeWriter.Speed.Talk),
                                     new Text("(m)medicine ", Colours.Health, TypeWriter.Speed.Talk),
@@ -1582,15 +1582,19 @@ namespace game
 
         private void ArmourChosen(Armour armour)
         {
-            if (playerArmour != null)
+            if (playerArmour == null)
             {
-               // inventory.Remove(playerArmour);
+                playerArmour = armour;
             }
-            playerArmour = armour;
-            AddToInventory(playerArmour);
-            playerGold -= playerArmour.price;
-            TypeWriter.WriteLine($"Good choice, you've got your self a " + playerArmour.name);    
-        }
+            else
+            {
+                AddToInventory( armour );
+            }
+
+            playerGold -= armour.price;
+            TypeWriter.WriteLine($"Good choice you've got your self a " + armour.name);
+            Thread.Sleep(1000);
+        }    
 
         private void BuyWeapon()
         {
@@ -1653,14 +1657,17 @@ namespace game
 
         private void chosenWeapon(Weapon weapon)
         {
-            if (playerWeapon != null)
+            if (playerWeapon == null)
             {
-                //inventory.Remove( playerWeapon);
+                playerWeapon = weapon;
             }
-            playerWeapon = weapon;
-            AddToInventory( playerWeapon );
-            playerGold -= playerWeapon.price;
-            TypeWriter.WriteLine($"Good choice you've got your self a " + playerWeapon.name);
+            else
+            {
+                AddToInventory( weapon );
+            }
+            playerGold -= weapon.price;
+            TypeWriter.WriteLine($"Good choice you've got your self a " + weapon.name);
+            Thread.Sleep(1000);
         }
 
         private static void DisplayWeapons(Weapon weapon, int index) 
