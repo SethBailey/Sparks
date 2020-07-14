@@ -16,3 +16,5 @@ d= You can see a large tree to the west.
 d= The grass is now unruly. 
 
 monster = 1/5
+gold = 1/4 / 1/40
+medicine = 1/4 / 1/40

@@ -14,3 +14,5 @@ d= The bridge itself is very simple with stone railings that come up to the wais
 d= The bridge continues to the south where you can see a door. 
 
 monster = 1/7
+gold = 1/4 / 1/40
+medicine = 1/4 / 1/40

@@ -19,3 +19,4 @@ item= medicine,spoof,0,50,just a rip off,You see a spoof just siting on the grou
 item= weapon,grindstone,0,20,use it to sharpen your weapons,and you see a small grindstone on the floor
 
 gold = 1/4 / 50/80
+medicine = 1/4 / 1/40

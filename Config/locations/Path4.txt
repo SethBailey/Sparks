@@ -14,3 +14,5 @@ d= the path leads to the South where you can see a bridge.
 d= You can also see a field to the East and West 
 
 monster = 1/7
+gold = 1/4 / 1/40
+medicine = 1/4 / 1/40

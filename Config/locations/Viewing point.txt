@@ -15,3 +15,5 @@ d= a large door frame and through it you can see dense trees and plants
 d= on the floor is written Joel's forest, sparks fall from the frame  
 
 monster = 1/5
+gold = 1/4 / 1/40
+medicine = 1/4 / 1/40

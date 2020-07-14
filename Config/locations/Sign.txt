@@ -15,3 +15,5 @@ d= The other points south and is labeled 'Copper kingdom'
 d= you notice that to the north there is a viewing point hanging over the cliff 
 
 monster = 1/5
+gold = 1/4 / 1/40
+medicine = 1/4 / 1/40

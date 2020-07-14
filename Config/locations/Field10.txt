@@ -16,3 +16,5 @@ d= the stone path continues to the south.
 d= The grass is now unruly.
 
 monster = 1/5
+gold = 1/4 / 1/40
+medicine = 1/4 / 1/40

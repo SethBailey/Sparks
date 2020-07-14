@@ -16,3 +16,5 @@ d= there is a path to the West.
 d= You can still hear running water to the South.
 
 monster = 1/5
+gold = 1/4 / 1/40
+medicine = 1/4 / 1/40

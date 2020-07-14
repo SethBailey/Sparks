@@ -564,6 +564,7 @@ namespace game
                 case "sh": playerOption = "shop"; break;
                 case "do": playerOption = "dojo"; break;
                 case "take": playerOption = "take"; break;
+                case "pick-up": playerOption = "take"; break;
 
                 case "i":
                     inventoryPage();
@@ -657,6 +658,9 @@ namespace game
             if (item != null)
             {
                 AddToInventory(item);
+                TypeWriter.WriteLine();
+                TypeWriter.WriteLine(new Text("You picked up a "), item.name);
+                TypeWriter.WriteLine();
                 ItemsTaken(item);
             }
             else
@@ -685,9 +689,6 @@ namespace game
 
         public void AddToInventory(Item item)
         {
-            TypeWriter.WriteLine();
-            TypeWriter.WriteLine(new Text("You picked up a "), item.name);
-            TypeWriter.WriteLine();
             if (inventory.Exists(e => e.name == item.name))
             {
                 inventory.Find(e => e.name == item.name).Increment();

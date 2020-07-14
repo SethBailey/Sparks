@@ -14,3 +14,5 @@ d= There is a forest far off to the North and a path to the West.
 d= There is a river to the South and it doesn't look friendly. 
 
 monster = 1/5
+gold = 1/4 / 1/40
+medicine = 1/4 / 1/40

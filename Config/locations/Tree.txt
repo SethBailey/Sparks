@@ -17,3 +17,5 @@ item = medicine,apple,0,20,looks good,hanging from one of the branches is a ripe
 item = weapon,scythe,0,50,engraved in the handle is written master Graham Death,Hanging from one of the high branches is a small scythe 
 
 monster = 1/7
+gold = 1/4 / 1/40
+medicine = 1/4 / 1/40

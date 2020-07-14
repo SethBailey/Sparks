@@ -15,5 +15,8 @@ d= A white fence stands on the outskirts of the garden.
 d= The fence has an opening to the North.
 d= You can hear the sound of running water. 
 
-item = Armour,milk,0,50,looks yummy,You see a milk shake just siting on the ground
-item= weapon,dagger,0,20,oho it's pointy!, you see a dagger pointing out of a bush 
+item = medicine,milkshake,0,50,looks yummy,You see a milk shake just siting on the ground
+item = weapon,dagger,0,20,oho it's pointy!, you see a dagger pointing out of a bush 
+
+gold = 1/4 / 1/40
+medicine = 1/3 / 1/50

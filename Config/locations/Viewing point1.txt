@@ -14,3 +14,5 @@ d= and through it you can see a market place and houses
 d= on the floor is written Copper kingdom, sparks fall from the frame
 
 monster = 1/7
+gold = 1/4 / 1/40
+medicine = 1/4 / 1/40

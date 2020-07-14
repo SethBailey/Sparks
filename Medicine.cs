@@ -27,6 +27,8 @@ namespace game
                                      name,
                                      new Text(" and it feels good"));
                 game.playerHP += healing;
+                TypeWriter.WriteLine();
+                game.playerStats();
                 return true;
             }
 
