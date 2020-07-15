@@ -15,8 +15,5 @@ d= All the walls are within reach.
 d= There is one door to the East
 d= You feel the need leave. 
 
-item= medicine,spoof,0,50,just a rip off,You see a spoof just siting on the ground
-item= weapon,grindstone,0,20,use it to sharpen your weapons,and you see a small grindstone on the floor
-
 gold = 1/4 / 50/80
 medicine = 1/4 / 1/40

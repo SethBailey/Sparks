@@ -727,12 +727,12 @@ namespace game
         {
             int foundGold = new Random().Next(foundGoldChance, foundGoldOutOf +1);
             TypeWriter.WriteLine(new Text("You found "),
-                                 new Text($"{foundGold} gold coins",Colours.Gold));
+                                 new Text($"{foundGold} gold coins",Colours.GoldReward));
                                  
             playerGold += foundGold;
             List<Text> goldList = new List<Text>();
             goldList.Add( new Text("You now have "));
-            goldList.Add( new Text($"{playerGold} gold coins", Colours.Gold, TypeWriter.Speed.Talk));
+            goldList.Add( new Text($"{playerGold} gold coins", Colours.GoldReward, TypeWriter.Speed.Talk));
             TypeWriter.WriteLine(goldList);
         }
 
