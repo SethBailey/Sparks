@@ -1,0 +1,17 @@
+northMessage = You hit a wall
+southMessage = You hit a wall
+westMessage = You hit a wall
+eastMessage = You hit a wall
+eastLocation = 
+westLocation = 
+southLocation = Memory
+northLocation = 
+
+d= Disc
+d= 
+d= You enter a room labeled disc
+d=
+d= file<virus>file<H63ts2>
+d= file<E73bsy7>file<j9JNS0>
+d= file<T2u932>file<H78whi0>  
+d= file<H3u921>file<Hy9j54>

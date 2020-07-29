@@ -9,10 +9,10 @@ namespace game
 {
     class TheGame
     {
-       public int playerHP = 100;
-       int maxHealthpoints = 500;
+       public int playerHP = 100000;
+       int maxHealthpoints = 500000;
        string userName = "";
-       private const int startingGold = 300;
+       private const int startingGold = 3000;
        public int playerGold = startingGold;
        public string cottonUserName = "";
        bool cottonIntro = false;
@@ -28,7 +28,7 @@ namespace game
        public int killXP = 0;
        int cottonXP = 0;
        bool morseXPAwarded = false;
-       public int daysTillEnd = 70;
+       public int daysTillEnd = 200;
        bool isGameCorrupted = false;
        int priceForWatch = 200;
        bool playerHasWatch = false;
@@ -38,12 +38,15 @@ namespace game
        bool isPlayerWithBill = false;
        bool doesPlayerHavePrivateKey = false;
        bool isBillDead = false;
-       public int maxDamage = 100;
+       public int maxDamage = 1000;
        int MinDamage = 1;
        bool hasPlayerBeenForcedOut = false;
        bool isPlayerWithDummy = false;
        bool hasPlayerReceivedKey = false;
        bool hasBeen = false;
+       bool visitTheMage = false;
+       bool theEndHasCome = false;
+       string virusFile = "file<virus>";
        
        public List<ItemCount> inventory = new List<ItemCount>();
 
@@ -258,6 +261,14 @@ namespace game
                 
                 if (Item.isSynonymFor(verb, "drop"))
                 {
+                   if (theEndHasCome == true)
+                   {
+                       if (itemName == virusFile)
+                       {
+                            DisplayDescription("./Config/WinMessage.txt");
+                            throw new Exception("The end");
+                       }
+                   } 
                    RemoveItem(item);
                    TypeWriter.WriteLine();
                    TypeWriter.WriteLine($"You drop the {itemName} and it breaks beyond repare");
@@ -294,13 +305,10 @@ namespace game
 
             while (playerHP > 0 && monster.healthPoints > 0)
             {
-                int playerAP = new Random().Next(GetPlayerMinDamage(),GetPlayerMaxDamage());
-                int attackPoints = new Random().Next(monster.attackPointsMin,monster.attackPointsMax);
-                int whoStrikes = new Random().Next(1,3);
                 int runCost = new Random().Next(1, 201);
                 GetPlayerProtection();
                 
-                if (canPlayerRun == true)
+                if (canPlayerRun == true && isPlayerWithMage == false)
                 {  TypeWriter.WriteLine($"To flee will cost you {runCost} Gold, will you fight?: yes / no",TypeWriter.Speed.List);
                    string playerFlee = GetLowerReply();
                     if (playerFlee == "no")
@@ -326,7 +334,11 @@ namespace game
                     TypeWriter.WriteLine("There is no running",TypeWriter.Speed.Talk);
                     GetLowerReply();
                 }
-              
+
+                int playerAP = new Random().Next(GetPlayerMinDamage(),GetPlayerMaxDamage());
+                int attackPoints = new Random().Next(monster.attackPointsMin,monster.attackPointsMax);
+                int whoStrikes = new Random().Next(1,3);
+                
 
                 if (whoStrikes == 1)
                 {
@@ -382,8 +394,6 @@ namespace game
             {
                 killXP += xpWin;
 
-                if (isPlayerWithMage == false)
-                {
                     if (isPlayerWithBill == true || isPlayerWithDummy == true)
                     {
                         canPlayerRun = true;
@@ -395,25 +405,18 @@ namespace game
                         fightDescriptionWin(monster);
                         TypeWriter.WriteLine("");
 
-                        List<Text> winMesssage = new List<Text>();
-                        winMesssage.Add(new Text($"{userName} won the fight and got "));
-                        winMesssage.Add(new Text($"{goldReward} Gold coins and {medReward} Medicine", Colours.GoldReward));
+                        List<Text> winMessage = new List<Text>();
+                        winMessage.Add(new Text($"{userName} won the fight and got "));
+                        winMessage.Add(new Text($"{goldReward} Gold coins ", Colours.GoldReward));
+                        winMessage.Add(new Text($"and {medReward} Medicine", Colours.Medicine));
                         playerGold += goldReward;
-                        TypeWriter.WriteLine(winMesssage);
+                        TypeWriter.WriteLine(winMessage);
                         
                         XPMessage(xpWin);
                         playerStats();
                         Console.WriteLine();
                         
                 }
-                else
-                {
-                    TypeWriter.WriteLine();
-                    endMessageKill();
-                    throw new Exception("");
-                }
-               
-            }
         }
 
         private int CalcXPWin(Monster monster)
@@ -518,7 +521,7 @@ namespace game
             return playerDirection;
         }
 
-        public Location GoToLocation( Location location)
+        public Location Move( Location location )
         {
             TypeWriter.WriteLine();
             location.displayDescription();
@@ -548,11 +551,17 @@ namespace game
             Console.Clear();
             playerStats();
             TypeWriter.WriteLine(new Text("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ", Colours.Speech, TypeWriter.Speed.List));
-            new Text("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _", Colours.Speech, TypeWriter.Speed.List);
             TypeWriter.WriteLine();
 
-            endGameCheck();
-
+            if (playerOption != "bd")
+            {
+                endGameCheck();
+                if (visitTheMage == true && theEndHasCome == false)
+                {
+                    location = blackDungeon() ?? location; 
+                }
+            }
+            
             //adjust user short cut to full string
             switch (playerOption)
             {
@@ -577,7 +586,10 @@ namespace game
 
             switch (playerOption)
             {
-                case "black dungeon": blackDungeon(); break;
+                case "black dungeon": 
+                    location = blackDungeon() ?? location; 
+                    break;
+                    
                 case "shop": itemShop(); break;
                 case "dojo": dojo(); break;
                 case "take": tryTakeItem(location, playerOptions); break;
@@ -706,6 +718,11 @@ namespace game
             if (daysTillEnd == 0)
             {
                 isGameCorrupted = true;
+                if (theEndHasCome == true)
+                {
+                    DisplayDescription("./Config/LoseMessage.txt");
+                    throw new Exception("The End");
+                }
                 throw new Exception("Game has been corrupted");
             }
         }
@@ -738,10 +755,22 @@ namespace game
 
         private void dojo()
         {
+            endChecker();
+            
             HasBillBeenKilled();
             if ( DojoIntro() )
             {
                 dojoCommonPlace();
+            }
+        }
+
+        private void endChecker()
+        {
+            if (theEndHasCome == true)
+            {
+                TypeWriter.WriteLine("Givin that you are technically allready inside the dojo, you can't warp there", TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine();
+                return;
             }
         }
 
@@ -795,7 +824,8 @@ namespace game
                                      new Text($"({level2Price} Gold) ", Colours.Gold),
                                      new Text("or ", Colours.Speech, TypeWriter.Speed.Talk),
                                      new Text("3 ", Colours.Speech, TypeWriter.Speed.Talk),
-                                     new Text($"({level3Price} Gold)", Colours.Gold, TypeWriter.Speed.Talk));
+                                     new Text($"({level3Price} Gold) ", Colours.Gold, TypeWriter.Speed.Talk));
+                                     new Text("Caution: potentially fatal", Colours.Damage, TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine("Or (l to leave)", TypeWriter.Speed.Talk);                     
                 string answer = GetLowerReply();
                 switch (answer)
@@ -887,6 +917,7 @@ namespace game
                                      new Text("or ", Colours.Speech, TypeWriter.Speed.Talk),
                                      new Text("3 ", Colours.Speech, TypeWriter.Speed.Talk),
                                      new Text($"({level3Price} Gold)", Colours.Gold, TypeWriter.Speed.Talk));
+                                     new Text("Caution: potentially fatal", Colours.Damage, TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine("Or (l to leave)");                     
                 string answer = GetLowerReply();
                 switch (answer)
@@ -1080,7 +1111,7 @@ namespace game
 
         private void forcedOutOfDojo()
         {
-            TypeWriter.WriteLine("Then I cant help you", TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine(new Text("Then I cant help you", Colours.Bill, TypeWriter.Speed.Talk));
             TypeWriter.WriteLine("You are forced out of the dojo", TypeWriter.Speed.Talk);
             TypeWriter.WriteLine();
         }
@@ -1097,15 +1128,24 @@ namespace game
             TypeWriter.WriteLine();
         }
 
-        private void blackDungeon()
+        private Location? blackDungeon()
         {
             canPlayerRun = true;
+
+            if (theEndHasCome == true)
+            {
+                TypeWriter.WriteLine("The gates are shut, you can't enter");
+                TypeWriter.WriteLine();
+                return null;
+            }
 
             DisplayDescription("./Config/BlackDungeonDescription.csv");
 
             TypeWriter.WriteLine("the gates close behind you, there is no runing",TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine();
 
             TypeWriter.WriteLine($"{userName} the time has come, will you kill the mage or pay him?: kill / pay",TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine();
             string killOrPay = GetLowerReply();
             switch (killOrPay)
             {
@@ -1114,27 +1154,49 @@ namespace game
                     TypeWriter.WriteLine("At last, here we go",TypeWriter.Speed.Talk);  
                     TypeWriter.WriteLine();   
                     blackDungeonKill();
-                    break;  
+                    endMessageKill();
+                    openCell();
+                    return meetCotton();
 
                 case "pay":
                     {
-                       blackDungeonPay();
-                       TypeWriter.WriteLine($"Very well {userName}",TypeWriter.Speed.Talk);
-                       TypeWriter.WriteLine();
-                       TypeWriter.WriteLine("You pay the mage",TypeWriter.Speed.Talk);
-                       TypeWriter.WriteLine();
-                       TypeWriter.WriteLine(new Text("User this program may have been infected please stand down", Colours.Hidden, TypeWriter.Speed.Talk)); 
-                       playerStats();
-                       endMessagePay();
-                       throw new Exception("");
+                       blackDungeonPay(); 
+                       return blackDungeon();
                     }
 
                 default:
                     TypeWriter.WriteLine("That was not a option",TypeWriter.Speed.Talk);
-                    blackDungeon();
-                    break;
+                    return blackDungeon();
             }
         }
+
+        private Location meetCotton()
+        {
+
+            theEndHasCome = true;
+            daysTillEnd = 10;
+            DisplayDescription("./Config/CottonMessage.txt");
+            return new Location("Memory");
+        }
+
+        private void openCell()
+        {
+            string Awnser = GetLowerReply();
+            if (Awnser == "yes")
+            {
+                TypeWriter.WriteLine("you insert the key which starts to hum and glow", TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine("then you hear the lock click and you walk inside", TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine();
+            }
+            else
+            {
+                TypeWriter.WriteLine(new Text("You will not stop now", Colours.Damage, TypeWriter.Speed.Talk));
+                TypeWriter.WriteLine("So will you open the door: yes / yes", TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine();
+                openCell();
+            }
+        }
+
         private void blackDungeonKill()
         {
             TypeWriter.WriteLine(new Text("User this program may have been infected please stand down", Colours.Hidden, TypeWriter.Speed.Talk));       
@@ -1145,53 +1207,67 @@ namespace game
         {
             if (playerGold >= magePayGold)
             {
-                playerGold -= magePayGold;
+                endMessagePay();
             }
             else
             {
-                TypeWriter.WriteLine("You do not have the required funds, try that again", TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine("You do not have the required funds, try that again!", TypeWriter.Speed.Talk);
                 blackDungeon();
             }
         }  
 
         private void endMessageKill()
         {
-            TypeWriter.WriteLine($"Very well done {userName}, hats off to you and so on and so forth",TypeWriter.Speed.Talk);
-            TypeWriter.WriteLine("If you were a chess piece you would be a queen, my most powerfull piece",TypeWriter.Speed.Talk);
-            TypeWriter.WriteLine("...",TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine($"Very well done {userName}, a fight worthy of recognition in memory",TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine("Now that he is out of the way there is just one more thing to do",TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine("You must free Kafe",TypeWriter.Speed.Talk);
             TypeWriter.WriteLine(new Text("Downloading... downloading...", Colours.Hidden, TypeWriter.Speed.Talk));
-            TypeWriter.WriteLine("Oh and well done for rescuing Kafe as well",TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine("Allow me to take you to her cell",TypeWriter.Speed.Talk);
             TypeWriter.WriteLine("...",TypeWriter.Speed.Talk);
-            TypeWriter.WriteLine(new Text("Files found... corrupting...", Colours.Hidden, TypeWriter.Speed.Talk));
-            TypeWriter.WriteLine("Why are you still here, you can leave now you have no futher use",TypeWriter.Speed.Talk);
-            TypeWriter.WriteLine(new Text("Check Mate",Colours.Damage,TypeWriter.Speed.Talk));
+            TypeWriter.WriteLine(new Text("Files found... what? there still locked! ... wait", Colours.Hidden, TypeWriter.Speed.Talk));
+            if (doesPlayerHavePrivateKey == true)
+            {
+                TypeWriter.WriteLine("That key that you are carring should do the trick",TypeWriter.Speed.Talk);
+            }
+            else
+            {
+                TypeWriter.WriteLine("I think you dropped this: here's your key back ;)");
+            }
+            TypeWriter.WriteLine(new Text("Unlock door: yes / no",Colours.Damage,TypeWriter.Speed.Talk));
         }
 
         private void endMessagePay()
         {
-            TypeWriter.WriteLine("Congrats you rescued Kafe, all's well and...",TypeWriter.Speed.Talk);
-            TypeWriter.WriteLine("Oh dear! It seems she's been kidnapped again by the mage",TypeWriter.Speed.Talk);
-            TypeWriter.WriteLine(new Text("Downloading... downloading...", Colours.Hidden, TypeWriter.Speed.Talk));
+            TypeWriter.WriteLine("Ha ha very funny ho ho",TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine("No no no you have come way to far to give up now",TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine(new Text("Don't make this harder than it needs to be", Colours.Hidden, TypeWriter.Speed.Talk));
             List<Text> endList = new List<Text>();
-            endList.Add( new Text("Next time you should just ", Colours.Speech, TypeWriter.Speed.Talk));
-            endList.Add( new Text("kill him! ", Colours.Damage, TypeWriter.Speed.Talk));
-            endList.Add( new Text("and then you won't have this problem", Colours.Speech, TypeWriter.Speed.Talk));
+            endList.Add( new Text("I gave you plenty of time to prepare yourself ", Colours.Speech, TypeWriter.Speed.Talk));
+            endList.Add( new Text("now do what is right ", Colours.Damage, TypeWriter.Speed.Talk));
+            endList.Add( new Text("and destroy this monster like all the others", Colours.Speech, TypeWriter.Speed.Talk));
             TypeWriter.WriteLine(endList);
-            TypeWriter.WriteLine(new Text("Files could not be reached... anti-mallware sill in place", Colours.Hidden, TypeWriter.Speed.Talk));
-            TypeWriter.WriteLine("Until we meet again",TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine(new Text("I just can't reach... stupid anti-mallware", Colours.Hidden, TypeWriter.Speed.Talk));
+            TypeWriter.WriteLine("Now lets try that again, it's time to free Kafe",TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine();
         }
 
         public void endGameCheck()
         {
+            if (theEndHasCome == true)
+            {
+                return;
+            }
             if (playerGold >= 2000)
             {
 
-                TypeWriter.WriteLine($"{userName} you have the required funds to confront the high dark mage",TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine($"{userName} you have the required funds to confront the high dark mage in the black dungeon",TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine("Are you ready: yes / no",TypeWriter.Speed.Talk);
                 string playerAwnser = GetLowerReply(); 
-                if (playerAwnser == "yes")
+                if (playerAwnser == "yes" || playerAwnser == "ok")
                 {
-                    TypeWriter.WriteLine("He is located in the black dungeon",TypeWriter.Speed.Talk);
+                    visitTheMage = true;
+                    TypeWriter.WriteLine("wind rushes wildly as you drift into the void and you hear sound of reving",TypeWriter.Speed.Talk);
+                    TypeWriter.WriteLine();
                 }
                 else
                 {
@@ -1274,6 +1350,14 @@ namespace game
         public void itemShop()
         {
             int totalXP = TotalXP();
+            if (theEndHasCome == true)
+            {
+                TypeWriter.WriteLine("You walk through the door and see that the desk at the shop is empty", TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine("you see a small note hanging from a piece of string, it reads:", TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine(new Text("You have more important things to do than shopping, don't you?", Colours.Cotton, TypeWriter.Speed.Talk));
+                TypeWriter.WriteLine();
+                return;
+            }
 
             if (cottonIntro == false)
             {
@@ -1833,7 +1917,7 @@ namespace game
                         var location = new Location("Spawn point");
                         while (true)
                         {
-                            location = theGame.GoToLocation(location);
+                            location = theGame.Move(location);
                         }
                     }
                     catch ( Exception e )
