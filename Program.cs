@@ -9,10 +9,10 @@ namespace game
 {
     class TheGame
     {
-       public int playerHP = 100000;
-       int maxHealthpoints = 500000;
+       public int playerHP = 100;
+       int maxHealthpoints = 500;
        string userName = "";
-       private const int startingGold = 3000;
+       private const int startingGold = 300;
        public int playerGold = startingGold;
        public string cottonUserName = "";
        bool cottonIntro = false;
@@ -38,7 +38,7 @@ namespace game
        bool isPlayerWithBill = false;
        bool doesPlayerHavePrivateKey = false;
        bool isBillDead = false;
-       public int maxDamage = 1000;
+       public int maxDamage = 100;
        int MinDamage = 1;
        bool hasPlayerBeenForcedOut = false;
        bool isPlayerWithDummy = false;
