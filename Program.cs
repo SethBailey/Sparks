@@ -1187,6 +1187,7 @@ namespace game
                 TypeWriter.WriteLine("you insert the key which starts to hum and glow", TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine("then you hear the lock click and you walk inside", TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine();
+                Thread.Sleep(2000);
             }
             else
             {

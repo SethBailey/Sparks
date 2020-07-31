@@ -1,0 +1,20 @@
+northMessage = You hit a wall
+southMessage = You hit a wall
+westMessage = You hit a wall
+eastMessage = You hit a wall
+eastLocation = Memory6
+westLocation = Memory
+southLocation = 
+northLocation = 
+
+d= Hard drive
+d= 
+d= You enter a room labeled hard drive
+d= you take more files off the floor
+d=
+d= file<23mpi4>file<2nox8>
+d= file<5mg99c>file<o32m9cm>
+d= file<d293j0>file<3k0fk0>  
+d= file<s3m8x>file<cn3o9em>
+d=
+d= the corridor continues to the east 

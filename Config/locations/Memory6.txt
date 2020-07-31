@@ -1,0 +1,19 @@
+northMessage = You hit a wall
+southMessage = You hit a wall
+westMessage = You hit a wall
+eastMessage = You hit a wall
+eastLocation = Memory7
+westLocation = Memory5
+southLocation = 
+northLocation = 
+
+d= Hard drive
+d= 
+d= you take more files off the floor
+d=
+d= file<mvi40m>file<32d2oc>
+d= file<3ic4e3>file<323c9e>
+d= file<0vjr4v>file<32cb9c>  
+d= file<m504djv>file<32d92c>
+d=
+d= the corridor continues to the east 

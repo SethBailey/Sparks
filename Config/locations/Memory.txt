@@ -2,18 +2,19 @@ northMessage = You hit a wall
 southMessage = You hit a wall
 westMessage = You hit a wall
 eastMessage = You hit a wall
-eastLocation = 
-westLocation = 
-southLocation = 
+eastLocation = Memory5
+westLocation = Memory4
+southLocation = Memory2
 northLocation = Memory1
 
 d= Main memory
 d= 
-d= You open your eyes to find yourself in a labyrinth of files
+d= You open your eyes to find yourself in a labyrinth
+d= there are files all over the floor you pick up a hand full and read
 d=
-d= file<virus>file<H63ts2>
+d= file<S3ue8n>file<H63ts2>
 d= file<E73bsy7>file<j9JNS0>
 d= file<T2u932>file<H78whi0>  
 d= file<H3u921>file<Hy9j54>
-
-item = weapon,file<virus>,0,5000,on the top of the paper is labeled file<virus>,out of the corner of you eye you see something labeled file<virus>  
+d= 
+d= you hope the file you are looking for will be easier to spot   

@@ -1,0 +1,20 @@
+northMessage = You hit a wall
+southMessage = You hit a wall
+westMessage = You hit a wall
+eastMessage = You hit a wall
+eastLocation = 
+westLocation = 
+southLocation = 
+northLocation = Memory
+
+d= Flash
+d= 
+d= You enter a room labeled flash
+d= you take more files off the floor
+d=
+d= file<fh0enx>file<2d8hec2>
+d= file<239d0j>file<1u34e4>
+d= file<32k0ece>file<32d0cn>  
+d= file<r453txt>file<32kd9c>
+d=
+d= the only way is back 
