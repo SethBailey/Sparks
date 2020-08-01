@@ -452,10 +452,9 @@ namespace game
 
         private int GetPlayerProtection()
         {
-            protection = 0;
             if ( playerArmour != null)
             {
-                protection += playerArmour.protection;
+                return protection + playerArmour.protection;
             }
             return protection;
         }
@@ -1400,7 +1399,7 @@ namespace game
             if (totalXP >= XPNeededForWatch)
             {
                 TypeWriter.WriteLine(new Text($"Hey {cottonUserName} do you want to trade ", Colours.Speech, TypeWriter.Speed.Talk),
-                                     new Text("{priceForWatch} Gold ", Colours.Gold, TypeWriter.Speed.Talk),
+                                     new Text($"{priceForWatch} Gold ", Colours.Gold, TypeWriter.Speed.Talk),
                                      new Text("for my pocket watch: yes/no",Colours.Speech ,TypeWriter.Speed.Talk));
                 string Awnser = GetLowerReply();
                 if (Awnser == "yes")
@@ -1891,6 +1890,9 @@ namespace game
             app.HelpOption();
             var startingGold = app.Option<int>("-g|--gold <VALUE>", "Staring Gold", CommandOptionType.SingleValue);
             var totalXP = app.Option<int>("-x|--xp <VALUE>", "total XP", CommandOptionType.SingleValue);
+            var maxDamage = app.Option<int>("-d|--damage <VALUE>", "max Damage", CommandOptionType.SingleValue);
+            var protection = app.Option<int>("-p|--protection <VALUE>", "protection", CommandOptionType.SingleValue);
+            var health = app.Option<int>("-h|--health <VALUE>", "health", CommandOptionType.SingleValue);
             
             app.OnExecute(() =>
             {
@@ -1902,6 +1904,18 @@ namespace game
                 if ( totalXP.HasValue())
                 {
                     theGame.killXP = totalXP.ParsedValue;
+                }
+                if ( maxDamage.HasValue())
+                {
+                    theGame.maxDamage = maxDamage.ParsedValue;
+                }
+                if ( protection.HasValue())
+                {
+                    theGame.protection = protection.ParsedValue;
+                }
+                if ( health.HasValue())
+                {
+                    theGame.playerHP = health.ParsedValue;
                 }
              
                 bool replay = true;
