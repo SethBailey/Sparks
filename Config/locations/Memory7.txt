@@ -18,4 +18,4 @@ d= file<d31nu4f>file<m93vno>
 d= file<320nc5g>file<wcc43fbc4>
 d=
 
-item = weapon,file<virus>,0,5000,on the top of the paper is labeled file<virus>,something labeled file<virus> with markings saying "possibly suspicious" 
+item = weapon,file<virus>,0,5000,on the top of the paper is labeled file<virus>,file<virus>file<BCy9ci3>
