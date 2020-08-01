@@ -16,6 +16,5 @@ d= file<3d29bc>file<3n0h9vr>
 d= file<f302bv>file<5ec9bc>
 d= file<d31nu4f>file<m93vno>  
 d= file<320nc5g>file<wcc43fbc4>
-d=
 
 item = weapon,file<virus>,0,5000,on the top of the paper is labeled file<virus>,file<virus>file<BCy9ci3>
