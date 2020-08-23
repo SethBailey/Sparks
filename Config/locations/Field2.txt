@@ -16,5 +16,5 @@ d= You can still hear running water to the South but not as loud.
 d= The grass now looks like the rough of a golf course. 
 
 monster = 1/5
-gold = 1/4 / 1/40
+gold = 1/4 / 1/100
 medicine = 1/4 / 1/40

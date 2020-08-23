@@ -1,4 +1,4 @@
-eat=chew,swallow,chomp,consume,gobble,munch,devour,drink,down,slurp,sip
+eat=chew,swallow,chomp,consume,gobble,munch,devour,drink,down,slurp,sip,buy,
 drop=remove,put down,chuck,bin,get rid of,eliminate,dismiss,let go of,leave,toss,remove,destroy,delete
-wear=don,put on,use,equip,drink
-equip=don,put on,use,drink
+wear=don,put on,use,equip,drink,buy,
+equip=don,put on,use,drink,buy,

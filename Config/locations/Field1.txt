@@ -17,5 +17,5 @@ d= It looks as if it has just been put there randomly.
 d= You can still hear running water to the south.
 
 monster = 1/5
-gold = 1/4 / 1/40
+gold = 1/4 / 1/100
 medicine = 1/4 / 1/40

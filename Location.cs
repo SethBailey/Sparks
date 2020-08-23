@@ -7,6 +7,7 @@ namespace game
     {
         public Location(string name)
         {
+            this.name = name;
             string[] lines = System.IO.File.ReadAllLines($"./Config/locations/{name}.txt");
 
             foreach (string line in lines)
@@ -147,6 +148,7 @@ namespace game
         public int foundMedOutOf { get; internal set; }
         public int nothingChance { get; internal set; }
         public int nothingOutOf { get; internal set; }
+        public string name { get; internal set; }
 
         internal Location GetNextLocation(string playerDirection)
         {

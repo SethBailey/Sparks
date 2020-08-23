@@ -1,0 +1,20 @@
+northMessage = You hit the end of the world
+southMessage = You hit the end of the world
+westMessage = You hit the railings
+eastMessage = You hit the railings 
+eastLocation = 
+westLocation = 
+southLocation = Market1
+northLocation = Viewing point2
+
+d= Market
+d= 
+d= You are walking stone path with 
+d= stalls on either side of you 
+
+monster = 1/7
+gold = 1/4 / 1/100
+medicine = 1/4 / 1/40
+
+item = medicine,apple,20,30,You know what they say: an apple a day keeps the reaper away,a shop keeper is selling apples for 20 gold
+item = weapon,mace,300,70.Very heavy and very macho,And a shop keeper is selling a mace for 300 gold

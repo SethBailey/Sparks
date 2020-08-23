@@ -14,5 +14,5 @@ d= You can still here the sound of running water.
 d= You notice a stone path leading to the East.
 d= Fair warning, go any further and you may find a monster
 
-gold = 1/4 / 1/50
+gold = 1/4 / 1/100
 medicine = 1/4 / 1/40

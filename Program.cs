@@ -47,19 +47,20 @@ namespace game
        bool visitTheMage = false;
        bool theEndHasCome = false;
        string virusFile = "file<virus>";
+       private int healing;
        
        public List<ItemCount> inventory = new List<ItemCount>();
 
        public Weapon? playerWeapon;
        public Armour? playerArmour;
-       private int healing;
-
+       
         List<Armour> bunchOfArmour = new List<Armour>();
         List<Weapon> shopWeapons = new List<Weapon>();
-
+        private Bank bank;
       
         public TheGame()
         {
+            bank = new Bank(this);
         }
 
         public void Begin()
@@ -578,6 +579,13 @@ namespace game
                     inventoryPage();
                     return location;
 
+                case "b":
+                    if (location.name == "Spawn point")
+                    {
+                       playerOption = "bank";
+                    }
+                    break;
+
                 default:
                     TypeWriter.WriteLine("I don't understand");
                     return location;
@@ -591,6 +599,7 @@ namespace game
                     
                 case "shop": itemShop(); break;
                 case "dojo": dojo(); break;
+                case "bank": Bank(); break;
                 case "take": tryTakeItem(location, playerOptions); break;
             }
 
@@ -609,6 +618,11 @@ namespace game
             EndTime();
 
             return location;
+        }
+
+        private void Bank()
+        {  
+            bank.Start();
         }
 
         private bool GetMedicine(Location location)
@@ -1328,7 +1342,7 @@ namespace game
                                 armour.ItemDescription);
         }
 
-        private string GetLowerReply()
+        public string GetLowerReply()
         {
             return Console.ReadLine().ToLower();
         }

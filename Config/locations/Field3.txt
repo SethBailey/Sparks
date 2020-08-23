@@ -14,5 +14,5 @@ d= To the south there is a river and it's quite strong,
 d= Your not sure if you can swim but you don't want to risk it.
 
 monster = 1/5
-gold = 1/4 / 1/40
+gold = 1/4 / 1/100
 medicine = 1/4 / 1/40

@@ -21,5 +21,7 @@ namespace game
         public static ConsoleColor Sparks { get {return ConsoleColor.DarkCyan;}}
         public static ConsoleColor Monsterhealth { get {return ConsoleColor.DarkGreen;}}
         public static ConsoleColor XP { get {return ConsoleColor.Cyan;}}
+        public static ConsoleColor Withdrawal { get {return ConsoleColor.DarkYellow;}}
+        public static ConsoleColor Deposit { get {return ConsoleColor.Yellow;}}
     }
 }

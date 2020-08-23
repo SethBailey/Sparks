@@ -14,5 +14,5 @@ d= The path leads to the East and you can see it turn soon.
 d= you can also see a field to the South and North
 
 monster = 1/7
-gold = 1/4 / 1/40
+gold = 1/4 / 1/100
 medicine = 1/4 / 1/40

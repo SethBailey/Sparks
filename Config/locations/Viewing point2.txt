@@ -1,0 +1,20 @@
+northMessage = You hit the end of the world
+southMessage = You hit the end of the world
+westMessage = You hit the railings
+eastMessage = You hit the railings 
+eastLocation = 
+westLocation = 
+southLocation = Market
+northLocation = Viewing point1
+
+d= Copper kingdom
+d= 
+d= The town is fairly clean and the bricks are of some 
+d= sandy shade of orange.  
+d= To the south you can see a thriving market place
+d= with stalls set up on the sides of the path.
+d= In the distant west and east you can see two buildings
+
+monster = 1/7
+gold = 1/4 / 1/100
+medicine = 1/4 / 1/40

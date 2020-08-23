@@ -4,12 +4,12 @@ westMessage = You hit the railings
 eastMessage = You hit the railings 
 eastLocation = 
 westLocation = 
-southLocation = 
+southLocation = Viewing point2 
 northLocation = Bridge
 
 d= Viewing point
 d= 
-d= In front of you stands a large and imposing door frame
+d= To the south stands a large and imposing door frame
 d= and through it you can see a market place and houses 
 d= on the floor is written Copper kingdom, sparks fall from the frame
 
