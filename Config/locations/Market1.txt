@@ -1,0 +1,21 @@
+northMessage = You hit the end of the world
+southMessage = You hit the end of the world
+westMessage = You hit the a shop
+eastMessage = You hit a shop
+eastLocation = 
+westLocation = 
+southLocation = Market2
+northLocation = Market
+
+d= Market
+d= 
+d= You are walking on a stone path with 
+d= stalls on either side of you.
+d= You are now in the middle of the market 
+
+monster = 1/7
+gold = 1/4 / 1/100
+medicine = 1/4 / 1/40
+
+item = armour,chain-mail,200,35,A trench coat of shiny chains,a shop keeper is selling chain-mail for 200 gold
+item = medicine,cake,50,70,Chocolate my favorite,And a baker is selling a cake for 50 gold
