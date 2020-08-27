@@ -573,6 +573,7 @@ namespace game
                 case "sh": playerOption = "shop"; break;
                 case "do": playerOption = "dojo"; break;
                 case "take": playerOption = "take"; break;
+                case "buy": playerOption = "take"; break;
                 case "pick-up": playerOption = "take"; break;
 
                 case "i":
@@ -580,7 +581,7 @@ namespace game
                     return location;
 
                 case "b":
-                    if (location.name == "Spawn point")
+                    if (location.name == "Bank1")
                     {
                        playerOption = "bank";
                     }
@@ -662,7 +663,7 @@ namespace game
                 var isMonster = new Random().Next(location.chance, location.outOf);
                 if (isMonster <= location.chance)
                 {
-                    Fight(PickMonsterForEveryDayFight());
+                    Fight(PickMonsterForEveryDayFight(location));
                     return true;
                 }
             }
@@ -679,7 +680,7 @@ namespace game
             }
 
             string itemName = playerOptions[1];
-            Item? item = location.tryTakeItem(new Text(itemName));
+            Item? item = location.tryTakeItem(itemName, this);
             if (item != null)
             {
                 AddToInventory(item);
@@ -687,10 +688,7 @@ namespace game
                 TypeWriter.WriteLine(new Text("You picked up a "), item.name);
                 TypeWriter.WriteLine();
                 ItemsTaken(item);
-            }
-            else
-            {
-                TypeWriter.WriteLine($"There is no {itemName} here ?");
+                playerStats();
             }
         }
 
@@ -1310,11 +1308,11 @@ namespace game
             }
         }
 
-        public Monster PickMonsterForEveryDayFight()
+        public Monster PickMonsterForEveryDayFight(Location location)
         {
             List<Monster> monsters = new List<Monster>();
            
-            var lines = LoadCSVFile("./Config/Monsters.csv");
+            var lines = LoadCSVFile($"./Config/{location.monsterClass}.csv");            
             foreach (var values in lines)
             {
                 var name = values[0];
@@ -1943,7 +1941,7 @@ namespace game
                     try
                     {
                         //game loop
-                        var location = new Location("Spawn point");
+                        var location = new Location("Market");
                         while (true)
                         {
                             location = theGame.Move(location);

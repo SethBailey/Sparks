@@ -4,15 +4,15 @@ westMessage = You hit the a shop
 eastMessage = You hit a shop
 eastLocation = 
 westLocation = 
-southLocation = Market2
-northLocation = Market
+southLocation = Town Center
+northLocation = Market1
 monsterClass = CK-Monsters
 
 d= Market
 d= 
 d= You are walking on a stone path with 
 d= stalls on either side of you.
-d= You are now in the middle of the market 
+d= You can see the town center to the south 
 
 monster = 1/7
 gold = 1/4 / 1/100

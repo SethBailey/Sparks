@@ -1,0 +1,19 @@
+northMessage = You hit the wall of some building
+southMessage = You hit the wall of some building
+westMessage = You hit the a shop
+eastMessage = You hit a shop
+eastLocation = bank1
+westLocation = Town center
+southLocation = 
+northLocation = 
+monsterClass = CK-Monsters
+
+d= bank street
+d= 
+d= You can see one end of the bank from here  
+d= and what a bank it is, with gold inscriptions
+d= on the side, you can see the door to the west
+
+monster = 1/4
+gold = 1/4 / 1/100
+medicine = 1/4 / 1/40 

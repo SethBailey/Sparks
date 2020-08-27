@@ -6,6 +6,7 @@ eastLocation =
 westLocation = 
 southLocation = Market
 northLocation = Viewing point1
+monsterClass = CK-Monsters
 
 d= Copper kingdom
 d= 

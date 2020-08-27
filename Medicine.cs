@@ -34,5 +34,19 @@ namespace game
 
             return false;
         }
+
+        internal override bool ItemPriceDecisions(TheGame game)
+        {
+            if (game.playerGold < price)
+            {
+                TypeWriter.WriteLine("Sorry but you don't have the required gold");
+                return false;
+            }
+            else
+            {
+                game.playerGold -= price;
+                return true;
+            }
+        }
     }
 }

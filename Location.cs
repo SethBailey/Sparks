@@ -31,6 +31,7 @@ namespace game
                     case "eastLocation" : eastLocation = value; break;
                     case "westLocation" : westLocation = value; break;              
                     case "d" : descriptions.Add(value); break;
+                    case "monsterClass" : monsterClass = value; break;
                     case "item" : 
                     {
                         Item item = new Item();
@@ -130,11 +131,11 @@ namespace game
         private string southMessage = "";
         private string westMessage = "";
         private string eastMessage = "";
-        
         private string eastLocation = "";
         private string westLocation = "";
         private string southLocation = "";
         private string northLocation = "";
+        public string monsterClass = "Monsters";
 
         public int chance { get; internal set; }
         public int outOf { get; internal set; }
@@ -198,13 +199,20 @@ namespace game
             return this;
         }
 
-        internal Item? tryTakeItem(Text itemName)
+        internal Item? tryTakeItem(string itemName, TheGame game)
         {
-            if ( items.Exists(e => e.name == itemName) )
+            if ( items.Exists(e => e.name.text == itemName) )
             {
-                Item item = items.Find( e => e.name == itemName );
-                items.Remove(item);
-                return item;
+                Item item = items.Find( e => e.name.text == itemName );
+                if (item.ItemPriceDecisions(game))
+                {
+                    items.Remove(item);
+                    return item;
+                }
+            }
+            else
+            {
+                TypeWriter.WriteLine($"There is no {itemName} here ?");
             }
             return null;
         }

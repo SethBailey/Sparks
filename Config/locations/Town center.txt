@@ -1,0 +1,32 @@
+northMessage = You hit the end of the world
+southMessage = You hit the end of the world
+westMessage = You hit the shop
+eastMessage = You hit a shop
+eastLocation = bank
+westLocation = 
+southLocation = 
+northLocation = Market2
+monsterClass = CK-Monsters
+
+d= Town center
+d= 
+d= In the center of the center you can  
+d= see a large fountain full of coins and
+d= no, you can't take any!
+d=
+d= From here you can see all the major aspects
+d= of the kingdom, including a huge castle to the 
+d= distant south
+d=
+d= You find a sign post which reads:
+d= north -> Market place
+d= south -> Castle
+d= east -> Restaurant
+d= west -> Bank 
+d=
+
+monster = 1/12
+gold = 1/4 / 1/100
+medicine = 1/4 / 1/40
+
+item = armour,coin,-1,2,Does this count as stealing?,fine you can take one coin :) 

@@ -13,16 +13,8 @@ namespace game
         }
 
         public string spices { get; }
-
         public readonly int attackPointsMin;
         public readonly int attackPointsMax;
-
-        // public int attackPoints 
-        // { 
-            // get {
-                // return new Random().Next(attackPointsMin,attackPointsMax);
-            // } 
-        // }
         public int healthPoints { get; set; }
     } 
 }

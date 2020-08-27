@@ -25,6 +25,11 @@ namespace game
         {
             return true;
         }
+
+        internal virtual bool ItemPriceDecisions(TheGame game)
+        {
+            return true;
+        }
         
         public static bool isSynonymFor(string verb, string synonym)
         {

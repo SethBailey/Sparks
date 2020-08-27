@@ -7,14 +7,14 @@ Version 1 ( Live )
 ------------
 ===Happy for anyone to play it==
 
-*multiple levels
-
-* magic    
-    * possibly magic items
-* Direction, I can go anywhere, not one of the options
-* running away give you a time penalty ?
-
-
+* Copper Kingdom
+    * restaurant
+    * armoury
+    * castle
+    * inn
+    * bank
+    * map
+* Joel's forest
 
 Bugs
 ----
