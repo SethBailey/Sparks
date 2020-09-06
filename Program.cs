@@ -1922,9 +1922,19 @@ namespace game
 
     class Program
     {
-
+        
         static void Main(string[] args)
         {   
+
+            var fight = new Fight();
+            var player = new Player();
+            player.AddAttack( new Attack("punch", 10) );
+            player.AddAttack( new Attack("fire ball", 20) );
+            var monster = new Monster("frog", 1, 40, 100);
+            bool didPlayerWin = fight.Combat( player, monster );
+
+           return;
+
             var app = new CommandLineApplication();
 
             app.HelpOption();

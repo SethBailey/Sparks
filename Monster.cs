@@ -13,8 +13,16 @@ namespace game
         }
 
         public string spices { get; }
+
+        internal void TakeAttack(Attack attack)
+        {
+            healthPoints -= attack.damage;
+            TypeWriter.WriteLine($"The monster now has {healthPoints}");
+        }
+
         public readonly int attackPointsMin;
         public readonly int attackPointsMax;
         public int healthPoints { get; set; }
+        public int reaction { get; internal set; }
     } 
 }
