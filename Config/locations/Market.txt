@@ -1,6 +1,6 @@
 northMessage = You hit the end of the world
 southMessage = You hit the end of the world
-westMessage = You hit the a shop
+westMessage = You hit a shop
 eastMessage = You hit a shop
 eastLocation = 
 westLocation = 
@@ -19,4 +19,4 @@ gold = 1/4 / 1/100
 medicine = 1/4 / 1/40
 
 item = medicine,banana,20,30,You know what they say: a banana a day keeps the reaper away,a shop keeper is selling banana for 20 gold
-item = weapon,mace,300,70,Very heavy and very macho,And a shop keeper is selling a mace for 300 gold
+item = weapon,mace,300,45,Very heavy and very macho,And a shop keeper is selling a mace for 300 gold

@@ -1,0 +1,30 @@
+northMessage = You hit a wall
+southMessage = You hit a restaurant window
+westMessage = You hit the wall
+eastMessage = You hit a wall
+eastLocation = 
+westLocation = 
+southLocation = Restaurant2
+northLocation =  
+monsterClass = CK-Monsters
+
+d= the Panacea
+d= 
+d= With it's low hanging beams and dimly  
+d= lit paintings you feel cosey and at home 
+d= here. One of the waiters (Stella) hands you the  
+d= menu which reads as follows;
+d= 
+
+gold = 1/4 / 1/100
+medicine = 1/4 / 1/40
+
+item = medicine,chips,10,15,a good mix of the fluffy ones and the crispy ones,Starter: home made chips with tomato sauce. 10 gold
+item = medicine,salad,15,18,you should probably eat around some of the more healthy looking things,Starter: a healthy salad full of veg with odd colours. 15 gold
+item = medicine,dough-balls,20,20,everything thing a dough-ball should be,Starter: some puffy squishy tasty dough-balls. 20 gold
+item = medicine,soup,30,27,take care it is really hot!,Main: lovely hot soup with bread for dipping. 30 gold
+item = medicine,burger,50,35,watch out for the wooden spike in the middles,Main: delicious burger with all the trimmings. 50 gold
+item = medicine,pizza,80,50,yes it's hawaiian get over it,Main: stone baked pizza straight (30 days) from Italy. 80 gold
+item = medicine,ice-cream,30,25,you should probably eat this now,Pudding: three large scoops of ice-cream. 30 gold
+item = medicine,brownie,40,30,looks like a used sponge... yum,Pudding: warm comforting brownie covered in syrup. 40 gold
+item = medicine,malva,50,40,basically the South African version of sticky toffee pudding,Pudding: a nice malva full of apricot jam. 50 gold

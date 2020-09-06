@@ -1,0 +1,20 @@
+northMessage = You hit a restaurant
+southMessage = You hit a restaurant window
+westMessage = You hit the shop
+eastMessage = You hit a shop
+eastLocation = Restaurant
+westLocation = Restaurant2
+southLocation = 
+northLocation = Panacea 
+monsterClass = CK-Monsters
+
+d= Restaurant street
+d= 
+d= From here you can see a very nice 
+d= restaurant called the panacea 
+d= to the north.  
+d= The street continues to the east and west 
+
+monster = 1/7
+gold = 1/4 / 1/100
+medicine = 1/4 / 1/40 

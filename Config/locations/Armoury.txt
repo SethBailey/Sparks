@@ -1,0 +1,19 @@
+northMessage = You hit a wall
+southMessage = You hit a wall
+westMessage = You hit a house
+eastMessage = You hit a house
+eastLocation = Armoury1
+westLocation = Castle
+southLocation = 
+northLocation = 
+monsterClass = CK-Monsters
+
+d= Armoury street
+d= 
+d= Armoury
+d=
+d=
+
+monster = 1/12
+gold = 1/4 / 1/100
+medicine = 1/4 / 1/40

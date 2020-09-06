@@ -1,0 +1,19 @@
+northMessage = You hit the end of the world
+southMessage = You hit the end of the world
+westMessage = You hit a house
+eastMessage = You hit a house
+eastLocation = 
+westLocation = The inn of inn street
+southLocation = Inn2
+northLocation = Inn
+monsterClass = CK-Monsters
+
+d= Inn street
+d= 
+d= Here inside Inn street you spot an interesting looking
+d= inn to the west; the inn's name is the Inn of Inn street.
+d= The road continues to the north and south
+
+monster = 1/12
+gold = 1/4 / 1/100
+medicine = 1/4 / 1/40

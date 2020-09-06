@@ -57,10 +57,14 @@ namespace game
         List<Armour> bunchOfArmour = new List<Armour>();
         List<Weapon> shopWeapons = new List<Weapon>();
         private Bank bank;
+
+        private HealthBar healthBar;
+
       
         public TheGame()
         {
             bank = new Bank(this);
+            healthBar = new HealthBar(maxHealthpoints, 21, 51);
         }
 
         public void Begin()
@@ -231,7 +235,8 @@ namespace game
             }
 
             TypeWriter.WriteLine(messsage);
-
+            healthBar.Display(playerHP);
+            TypeWriter.WriteLine();
         } 
 
         private void inventoryPage()
@@ -395,29 +400,31 @@ namespace game
             {
                 killXP += xpWin;
 
-                    if (isPlayerWithBill == true || isPlayerWithDummy == true)
-                    {
-                        canPlayerRun = true;
-                        XPMessage(xpWin);
-                        return;
-                    }    
-                        int goldReward = new Random().Next(1, 101);
-                        int medReward = new Random().Next(1, 31);
-                        fightDescriptionWin(monster);
-                        TypeWriter.WriteLine("");
+                if (isPlayerWithBill == true || isPlayerWithDummy == true)
+                {
+                    canPlayerRun = true;
+                    XPMessage(xpWin);
+                    return;
+                }    
 
-                        List<Text> winMessage = new List<Text>();
-                        winMessage.Add(new Text($"{userName} won the fight and got "));
-                        winMessage.Add(new Text($"{goldReward} Gold coins ", Colours.GoldReward));
-                        winMessage.Add(new Text($"and {medReward} Medicine", Colours.Medicine));
-                        playerGold += goldReward;
-                        TypeWriter.WriteLine(winMessage);
-                        
-                        XPMessage(xpWin);
-                        playerStats();
-                        Console.WriteLine();
-                        
-                }
+                int goldReward = new Random().Next(1, 101);
+                int medReward = new Random().Next(1, 31);
+                fightDescriptionWin(monster);
+                TypeWriter.WriteLine("");
+
+                playerGold += goldReward;
+
+                List<Text> winMessage = new List<Text>();
+                winMessage.Add(new Text($"{userName} won the fight and got "));
+                winMessage.Add(new Text($"{goldReward} Gold coins ", Colours.GoldReward));
+                winMessage.Add(new Text($"and {medReward} Medicine", Colours.Medicine));
+                TypeWriter.WriteLine(winMessage);
+                
+                XPMessage(xpWin);
+                playerStats();
+                Console.WriteLine();
+                    
+            }
         }
 
         private int CalcXPWin(Monster monster)
@@ -479,9 +486,15 @@ namespace game
         {
             if (knightOrMage == "m")
             {
-                var lines = LoadCSVFile("./Config/WinDescriptions-Mage.csv");
+                var fileName = "./Config/WinDescriptions-Mage.csv";
+                var lines = LoadCSVFile(fileName);
                 int pick = new Random().Next(0,lines.Count);
                 var values = lines[pick];
+
+                if (values.Length != 3)
+                {
+                    Console.WriteLine($"ERROR: You silly programer you forgot one of your commers in the {lines} in file {fileName}");
+                }
 
                 var mageIntroduction = values[0].Replace("{monster.spices}",$"{monster.spices}");
                 var mageWinWay = values[1].Replace("{monster.spices}",$"{monster.spices}");
@@ -493,9 +506,15 @@ namespace game
             }
             else if (knightOrMage == "k")
             {
-                var lines = LoadCSVFile("./Config/WinDescriptions-Knight.csv");
+                var fileName = "./Config/WinDescriptions-Knight.csv";
+                var lines = LoadCSVFile(fileName);
                 int pick = new Random().Next(0,lines.Count);
                 var values = lines[pick];
+
+                if (values.Length != 3)
+                {
+                    Console.WriteLine($"ERROR: You silly programer you forgot one of your commers in the {lines} in file {fileName}");
+                }
 
                 var knightIntroduction = values[0].Replace("{monster.spices}",$"{monster.spices}");
                 var knightWinWay = values[1].Replace("{monster.spices}",$"{monster.spices}");
@@ -507,15 +526,19 @@ namespace game
             }                                                                   
         }
 
-        public static string showPlayerOptions()
+        public string showPlayerOptions()
         {
             TypeWriter.WriteLine();
             TypeWriter.WriteLine(new Text("Where would you like to go: (n)north, (s)south, (e)east, (w)west, the "),
                                  new Text("(sh)shop, ",Colours.Cotton),
-                                 new Text("the "),
-                                 new Text("(do)dojo ", Colours.Bill),
-                                 new Text("or to the "),
-                                 new Text("(bd)black dungeon",Colours.BlackDungeon,TypeWriter.Speed.List));
+                                 new Text("or the "),
+                                 new Text("(do)dojo ", Colours.Bill));
+            if (playerGold >= 2000)
+            {
+                TypeWriter.WriteLine(new Text("or to the "),
+                                     new Text("(bd)black dungeon", Colours.BlackDungeon));
+            }
+
             TypeWriter.WriteLine($"Or i for the inventory page");                     
             string playerDirection = Console.ReadLine();
             return playerDirection;
@@ -1321,6 +1344,11 @@ namespace game
                 var MinHealthPoints = int.Parse(values[3]);
                 var MaxHealthpoints = int.Parse(values[4]);
                 monsters.Add(new Monster(name, MinDamage, MaxDamage, new Random().Next(MinHealthPoints, MaxHealthpoints)));
+
+                if (values.Length != 5)
+                {
+                    Console.WriteLine($"ERROR: You silly programer you forgot one of your commers in the monster class file");
+                }
             }
 
             int monsterPick = new Random().Next(0, monsters.Count);
@@ -1904,7 +1932,7 @@ namespace game
             var totalXP = app.Option<int>("-x|--xp <VALUE>", "total XP", CommandOptionType.SingleValue);
             var maxDamage = app.Option<int>("-d|--damage <VALUE>", "max Damage", CommandOptionType.SingleValue);
             var protection = app.Option<int>("-p|--protection <VALUE>", "protection", CommandOptionType.SingleValue);
-            var health = app.Option<int>("-h|--health <VALUE>", "health", CommandOptionType.SingleValue);
+            var health = app.Option<int>("-l|--health <VALUE>", "health", CommandOptionType.SingleValue);
             
             app.OnExecute(() =>
             {

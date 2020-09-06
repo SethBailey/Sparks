@@ -1,0 +1,21 @@
+northMessage = You hit the end of the world
+southMessage = You hit the end of the world
+westMessage = You hit a house
+eastMessage = You hit a house
+eastLocation = 
+westLocation = 
+southLocation = Inn1
+northLocation = Town center
+monsterClass = CK-Monsters
+
+d= Inn street
+d= 
+d= You notice that Inn street is much cleaner
+d= than the other streets, this is probably because 
+d= the castle in the distance which is at the end of
+d= this road.
+d= The town center is to the north and the road continues the the south 
+
+monster = 1/12
+gold = 1/4 / 1/100
+medicine = 1/4 / 1/40

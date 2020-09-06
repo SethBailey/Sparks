@@ -1,0 +1,19 @@
+northMessage = You hit a wall
+southMessage = You hit a wall
+westMessage = You hit a house
+eastMessage = You hit a house
+eastLocation = Castle
+westLocation = Police1
+southLocation = 
+northLocation = 
+monsterClass = CK-Monsters
+
+d= Police street
+d= 
+d= Police
+d=
+d=
+
+monster = 1/12
+gold = 1/4 / 1/100
+medicine = 1/4 / 1/40

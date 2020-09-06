@@ -1,6 +1,6 @@
 northMessage = You hit the end of the world
 southMessage = You hit the end of the world
-westMessage = You hit the a shop
+westMessage = You hit a shop
 eastMessage = You hit a shop
 eastLocation = 
 westLocation = 

@@ -1,0 +1,16 @@
+northMessage = You hit a wall
+southMessage = You hit a wall
+westMessage = You hit a wall
+eastMessage = You hit a wall
+eastLocation = Inn1
+westLocation = 
+southLocation = 
+northLocation = 
+monsterClass = CK-Monsters
+
+d= Inn street
+d= 
+d= The inn of inn street
+
+gold = 1/4 / 1/100
+medicine = 1/4 / 1/40

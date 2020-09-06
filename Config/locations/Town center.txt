@@ -2,9 +2,9 @@ northMessage = You hit the end of the world
 southMessage = You hit the end of the world
 westMessage = You hit the shop
 eastMessage = You hit a shop
-eastLocation = bank
-westLocation = 
-southLocation = 
+eastLocation = Bank
+westLocation = Restaurant
+southLocation = Inn
 northLocation = Market2
 monsterClass = CK-Monsters
 
@@ -21,8 +21,8 @@ d=
 d= You find a sign post which reads:
 d= north -> Market place
 d= south -> Castle
-d= east -> Restaurant
-d= west -> Bank 
+d= east -> Bank
+d= west -> Restaurant 
 d=
 
 monster = 1/12

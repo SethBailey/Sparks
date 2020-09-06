@@ -1,0 +1,22 @@
+northMessage = You hit the wall of some building
+southMessage = You hit the wall of some building
+westMessage = You hit the a shop
+eastMessage = You hit a shop
+eastLocation = Bank2
+westLocation = Bank
+southLocation = 
+northLocation = 
+monsterClass = CK-Monsters
+
+d= bank street
+d= 
+d= You now stand at the entrance of the bank.  
+d= The door is wedged between two white pillars 
+d= and written just above in gold paint is an inscription
+d= that reads "BANK OF MONEY".
+d= It seems that someone has put a sign in the ground saying 
+d= press b to enter the bank
+
+monster = 1/4
+gold = 1/4 / 1/100
+medicine = 1/4 / 1/40 

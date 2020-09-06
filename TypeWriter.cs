@@ -17,7 +17,6 @@ namespace game
         {
             Console.WriteLine();
         }
-
         static public void WriteLine(List<Text> texts)
         {
             WriteLine(texts.ToArray());
@@ -44,7 +43,7 @@ namespace game
             Console.WriteLine();
         }
 
-        private static void Type(string text, Speed speed)
+        public static void Type(string text, Speed speed)
         {
             foreach (var c in text)
             {

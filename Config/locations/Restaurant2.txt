@@ -1,0 +1,20 @@
+northMessage = You hit a restaurant
+southMessage = You hit a restaurant window
+westMessage = You hit the shop
+eastMessage = You hit a shop
+eastLocation = Restaurant1
+westLocation = 
+southLocation = 
+northLocation = 
+monsterClass = CK-Monsters
+
+d= Restaurant street
+d= 
+d= You can see many odd restaurants
+d= none of which you like the look of 
+d= but you can see one nice one to the east
+d= and you can see a museum to the west 
+
+monster = 1/7
+gold = 1/4 / 1/100
+medicine = 1/4 / 1/40 

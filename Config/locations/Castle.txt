@@ -1,0 +1,19 @@
+northMessage = You hit the end of the world
+southMessage = You hit the end of the world
+westMessage = You hit a house
+eastMessage = You hit a house
+eastLocation = Armoury
+westLocation = Police
+southLocation = 
+northLocation = Inn2
+monsterClass = CK-Monsters
+
+d= Castle gates
+d= 
+d= Castle
+d=
+d=
+
+monster = 1/12
+gold = 1/4 / 1/100
+medicine = 1/4 / 1/40

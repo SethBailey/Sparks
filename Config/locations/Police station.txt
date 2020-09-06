@@ -1,0 +1,19 @@
+northMessage = You hit a wall
+southMessage = You hit a wall
+westMessage = You hit a house
+eastMessage = You hit a house
+eastLocation = Police1
+westLocation = 
+southLocation = 
+northLocation = Museum1
+monsterClass = CK-Monsters
+
+d= Museum street
+d= 
+d= Museum
+d=
+d=
+
+monster = 1/12
+gold = 1/4 / 1/100
+medicine = 1/4 / 1/40
