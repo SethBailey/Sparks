@@ -1,13 +1,13 @@
-Thief, 1, 101, 1,101
-Drunkard, 1, 80, 1,50
-Assassin, 20, 150, 1,171
-Gangster, 1, 121, 10,121
-Politician, 40, 201, 50, 301
-Starving Villager, 1, 81, 1, 101
-Unsavory character, 21, 51, 1, 101 
-Pick pocket, 1, 51, 1, 81
-Knight, 1, 100, 1, 120
-Prisoner, 1, 190, 1, 101
-Mob boss, 20, 200, 1, 250
-Jerk, 1, 50, 1, 50
-Grim Reaper, 200, 500, 100, 550
+Thief, 1, 101, 1,101, 10
+Drunkard, 1, 80, 1, 50, 10
+Assassin, 20, 150, 1, 171, 10
+Gangster, 1, 121, 10, 121, 10
+Politician, 40, 201, 50, 301, 10
+Starving Villager, 1, 81, 1, 101, 10 
+Unsavory character, 21, 51, 1, 101, 10 
+Pick pocket, 1, 51, 1, 81, 10
+Knight, 1, 100, 1, 120, 10
+Prisoner, 1, 190, 1, 101, 10
+Mob boss, 20, 200, 1, 250, 10
+Jerk, 1, 50, 1, 50, 10
+Grim Reaper, 200, 500, 100, 550, 10

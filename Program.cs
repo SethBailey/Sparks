@@ -9,11 +9,11 @@ namespace game
 {
     class TheGame
     {
-       public int playerHP = 100;
+       //public int playerHP = 100;
        int maxHealthpoints = 500;
-       string userName = "";
+       //static string userName = "";
        private const int startingGold = 300;
-       public int playerGold = startingGold;
+       //public int playerGold = startingGold;
        public string cottonUserName = "";
        bool cottonIntro = false;
        public int protection = 0;
@@ -51,19 +51,20 @@ namespace game
        
        public List<ItemCount> inventory = new List<ItemCount>();
 
-       public Weapon? playerWeapon;
        public Armour? playerArmour;
        
         List<Armour> bunchOfArmour = new List<Armour>();
         List<Weapon> shopWeapons = new List<Weapon>();
         private Bank bank;
-
         private HealthBar healthBar;
+        private Fight fight = new Fight();
+        public Player player;
 
       
         public TheGame()
         {
             bank = new Bank(this);
+            player = new Player("bob", 100, 10, /*"fire", "water",*/ startingGold, inventory);
             healthBar = new HealthBar(maxHealthpoints, 21, 51);
         }
 
@@ -82,10 +83,10 @@ namespace game
                 
                 //Do player introductions
                 TypeWriter.WriteLine("Enter your name:", TypeWriter.Speed.Talk);
-                userName = Console.ReadLine();
-                TypeWriter.WriteLine(new Text($"Nice to meet you {userName} my name is ", Colours.Speech, TypeWriter.Speed.Talk),
+                player.name = Console.ReadLine();
+                TypeWriter.WriteLine(new Text($"Nice to meet you {player.name} my name is ", Colours.Speech, TypeWriter.Speed.Talk),
                                      new Text("Sparks",Colours.Sparks, TypeWriter.Speed.Talk));
-                TypeWriter.WriteLine($"You {userName} are a {isPlayerKnight} and princess Kafe has been taken hostage by the high dark mage", TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine($"You {player.name} are a {isPlayerKnight} and princess Kafe has been taken hostage by the high dark mage", TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine(new Text("however his prices are steep, and he is demanding ", Colours.Speech, TypeWriter.Speed.Talk),
                                      new Text($"{magePayGold} gold coins ",Colours.GoldReward, TypeWriter.Speed.Talk),
                                      new Text("for her freedom", Colours.Speech, TypeWriter.Speed.Talk));
@@ -101,7 +102,7 @@ namespace game
             else
             {
                 TypeWriter.WriteLine();
-                TypeWriter.WriteLine($"Welcome back {userName}",TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine($"Welcome back {player.name}",TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine("Lets just get on with it",TypeWriter.Speed.Talk);
             }           
             
@@ -156,24 +157,11 @@ namespace game
             
         }
 
-        private List<string[]> LoadCSVFile(string file)
-        {
-            var fileData = new List<string[]>();
-            using (StreamReader sr = new StreamReader(file))
-            {
-                string currentLine;
-                // currentLine will be null when the StreamReader reaches the end of file
-                while ((currentLine = sr.ReadLine()) != null)
-                {
-                    fileData.Add( currentLine.Split(","));
-                }
-            }
-            return fileData;
-        }
+       
 
         private void LoadWeapons(string file)
         {
-            var lines = LoadCSVFile(file);
+            var lines = Utils.LoadCSVFile(file);
             foreach ( var values in lines)
             {
                 var name = values[0];
@@ -186,7 +174,7 @@ namespace game
 
         private void LoadArmour(string file)
         {
-            var lines = LoadCSVFile(file);
+            var lines = Utils.LoadCSVFile(file);
             foreach( var values in lines)
             {
                 var name = values[0];
@@ -200,7 +188,7 @@ namespace game
         private List<Medicine> LoadMedicine(string file)
         {
             List<Medicine> medicines = new List<Medicine>();
-            var lines = LoadCSVFile(file);
+            var lines = Utils.LoadCSVFile(file);
             foreach (var values in lines)
             {
                 var name = values[0];
@@ -216,18 +204,13 @@ namespace game
         {
             List<Text> messsage = new List<Text>();
             messsage.Add( new Text("You have "));
-            messsage.Add( new Text($"{playerHP} HP ",Colours.Health));
+            messsage.Add( new Text($"{player.HP} HP ",Colours.Health));
             messsage.Add( new Text("and "));
-            messsage.Add( new Text($"{playerGold} Gold ",Colours.GoldReward));
+            messsage.Add( new Text($"{player.gold} Gold ",Colours.GoldReward));
             messsage.Add( new Text("and "));
             var totalXP = killXP + cottonXP;
             messsage.Add( new Text($"{totalXP} XP ", Colours.XP));
         
-            if (playerWeapon != null )
-            {
-                messsage.Add( new Text("and a "));
-                messsage.Add( playerWeapon.name + $": {playerWeapon.damage} damage ");
-            }
             if (playerArmour != null)
             {
                 messsage.Add( new Text("and a "));
@@ -235,7 +218,7 @@ namespace game
             }
 
             TypeWriter.WriteLine(messsage);
-            healthBar.Display(playerHP);
+            healthBar.Display(player.HP);
             TypeWriter.WriteLine();
         } 
 
@@ -303,133 +286,28 @@ namespace game
 
         public void Fight( Monster monster )
         {
-            TypeWriter.WriteLine($"You run into a {monster.spices}",TypeWriter.Speed.List);
-            TypeWriter.WriteLine(new Text($"The {monster.spices} has "),
-                                 new Text($"{monster.healthPoints} HP",Colours.Monsterhealth));
-            playerStats();
-            var xpWin = CalcXPWin(monster);
+            var win = fight.Combat(player, monster);
 
-            while (playerHP > 0 && monster.healthPoints > 0)
+            if (win == false)
             {
-                int runCost = new Random().Next(1, 201);
-                GetPlayerProtection();
-                
-                if (canPlayerRun == true && isPlayerWithMage == false)
-                {  TypeWriter.WriteLine($"To flee will cost you {runCost} Gold, will you fight?: yes / no",TypeWriter.Speed.List);
-                   string playerFlee = GetLowerReply();
-                    if (playerFlee == "no")
-                    {
-                        if (playerGold < runCost)
-                        {
-                            TypeWriter.WriteLine("You don't have sufficient funds to refuse",TypeWriter.Speed.List);
-                        }
-                        else
-                        {
-                            TypeWriter.WriteLine($"{userName} you pay the {monster.spices} to leave you alone",TypeWriter.Speed.List);
-                            TypeWriter.WriteLine(new Text("But you lost "),
-                                                 new Text($"{runCost} Gold ", Colours.Gold),
-                                                 new Text("by paying the monster to let you go"));
-                            playerGold -= runCost;
-                            playerStats();
-                            return;
-                        }
-                    }
-                }   
-                else
-                {
-                    TypeWriter.WriteLine("There is no running",TypeWriter.Speed.Talk);
-                    GetLowerReply();
-                }
-
-                int playerAP = new Random().Next(GetPlayerMinDamage(),GetPlayerMaxDamage());
-                int attackPoints = new Random().Next(monster.attackPointsMin,monster.attackPointsMax);
-                int whoStrikes = new Random().Next(1,3);
-                
-
-                if (whoStrikes == 1)
-                {
-                    TypeWriter.WriteLine( new Text("You strike a blow and deal "),
-                                          new Text($"{playerAP} damage",Colours.FightDamage));
-
-                    monster.healthPoints -= playerAP;
-                    if (monster.healthPoints < 0)
-                    {
-                        monster.healthPoints = 0;
-                    }
-                    TypeWriter.WriteLine( new Text($"The {monster.spices} has "),
-                                          new Text($"{monster.healthPoints} HP",Colours.Monsterhealth));
-                    playerStats();                      
-                    TypeWriter.WriteLine();
-                }
-                else
-                {
-                    int damage = attackPoints - protection;
-                    if ( damage < 0 )
-                    {
-                        if (playerArmour != null )
-                        {
-                            damage = 0;
-                            TypeWriter.WriteLine(new Text($"Your "),
-                                                 playerArmour.name,
-                                                 new Text(" deflected the attack", Colours.Speech, TypeWriter.Speed.List));
-                        }                  
-                        
-                    }
-                    TypeWriter.WriteLine(new Text($"The {monster.spices} strike's a blow and deals "),
-                                          new Text($"{damage} damage",Colours.FightDamage));
-
-                    playerHP -= damage;
-                    if (playerHP < 0)
-                    {
-                        playerHP = 0;
-                    }
-                    TypeWriter.WriteLine(new Text($"The {monster.spices} has "),
-                                         new Text($"{monster.healthPoints} HP", Colours.Monsterhealth));
-                    playerStats();
-                    TypeWriter.WriteLine();
-                }
-            }
-
-            if (playerHP == 0)
-            {
-                fightDescriptionDie(monster);
-                TypeWriter.WriteLine("");
-                throw new Exception("You Died");
+                throw new Exception("You died");
             }
             else
             {
-                killXP += xpWin;
-
-                if (isPlayerWithBill == true || isPlayerWithDummy == true)
-                {
-                    canPlayerRun = true;
-                    XPMessage(xpWin);
-                    return;
-                }    
-
-                int goldReward = new Random().Next(1, 101);
-                int medReward = new Random().Next(1, 31);
-                fightDescriptionWin(monster);
-                TypeWriter.WriteLine("");
-
-                playerGold += goldReward;
-
-                List<Text> winMessage = new List<Text>();
-                winMessage.Add(new Text($"{userName} won the fight and got "));
-                winMessage.Add(new Text($"{goldReward} Gold coins ", Colours.GoldReward));
-                winMessage.Add(new Text($"and {medReward} Medicine", Colours.Medicine));
-                TypeWriter.WriteLine(winMessage);
-                
-                XPMessage(xpWin);
+                killXP += monster.xp;
+                player.gold += monster.gold;
+                TypeWriter.WriteLine(new Text("you gain ", Colours.Speech, TypeWriter.Speed.Talk),
+                                     new Text($"{monster.gold} gold ", Colours.GoldReward, TypeWriter.Speed.Talk),
+                                     new Text("and ", Colours.Speech, TypeWriter.Speed.Talk),
+                                     new Text($"{monster.xp} XP", Colours.XP, TypeWriter.Speed.Talk));
+                TypeWriter.WriteLine();
                 playerStats();
-                Console.WriteLine();
-                    
             }
         }
 
         private int CalcXPWin(Monster monster)
         {
-            return monster.healthPoints;
+            return monster.HP;
         }
 
         private void XPMessage(int xpWin)
@@ -438,24 +316,6 @@ namespace game
             XPMessage.Add(new Text("You learned something from the experience and gained "));
             XPMessage.Add(new Text($"{xpWin} XP", Colours.XP));
             TypeWriter.WriteLine(XPMessage);
-        }
-
-        private int GetPlayerMaxDamage()
-        {
-            if ( playerWeapon != null )
-            {
-                maxDamage += playerWeapon.damage;
-            }    
-            return maxDamage;
-        }
-
-        private int GetPlayerMinDamage()
-        {
-            if ( playerWeapon != null)
-            {
-                MinDamage += playerWeapon.damage;
-            }
-            return MinDamage;
         }
 
         private int GetPlayerProtection()
@@ -469,13 +329,13 @@ namespace game
 
         private void fightDescriptionDie( Monster monster )
         {
-            var lines = LoadCSVFile("./Config/DieDescriptions.csv");
+            var lines = Utils.LoadCSVFile("./Config/DieDescriptions.csv");
             int pick = new Random().Next(0,lines.Count);
             var values = lines[pick];
 
-            var dieIntroduction = values[0].Replace("{monster.spices}",$"{monster.spices}");
-            var dieWinWay = values[1].Replace("{monster.spices}",$"{monster.spices}");
-            var dieEnd = values[2].Replace("{monster.spices}",$"{monster.spices}");
+            var dieIntroduction = values[0].Replace("{monster.spices}",$"{monster.name}");
+            var dieWinWay = values[1].Replace("{monster.spices}",$"{monster.name}");
+            var dieEnd = values[2].Replace("{monster.spices}",$"{monster.name}");
 
             TypeWriter.WriteLine( new Text(dieIntroduction),
                                   new Text(dieWinWay,Colours.Damage),
@@ -487,7 +347,7 @@ namespace game
             if (knightOrMage == "m")
             {
                 var fileName = "./Config/WinDescriptions-Mage.csv";
-                var lines = LoadCSVFile(fileName);
+                var lines = Utils.LoadCSVFile(fileName);
                 int pick = new Random().Next(0,lines.Count);
                 var values = lines[pick];
 
@@ -496,9 +356,9 @@ namespace game
                     Console.WriteLine($"ERROR: You silly programer you forgot one of your commers in the {lines} in file {fileName}");
                 }
 
-                var mageIntroduction = values[0].Replace("{monster.spices}",$"{monster.spices}");
-                var mageWinWay = values[1].Replace("{monster.spices}",$"{monster.spices}");
-                var mageEnd = values[2].Replace("{monster.spices}",$"{monster.spices}");
+                var mageIntroduction = values[0].Replace("{monster.spices}",$"{monster.name}");
+                var mageWinWay = values[1].Replace("{monster.spices}",$"{monster.name}");
+                var mageEnd = values[2].Replace("{monster.spices}",$"{monster.name}");
 
                 TypeWriter.WriteLine( new Text(mageIntroduction),
                                       new Text(mageWinWay,Colours.Attack),
@@ -507,7 +367,7 @@ namespace game
             else if (knightOrMage == "k")
             {
                 var fileName = "./Config/WinDescriptions-Knight.csv";
-                var lines = LoadCSVFile(fileName);
+                var lines = Utils.LoadCSVFile(fileName);
                 int pick = new Random().Next(0,lines.Count);
                 var values = lines[pick];
 
@@ -516,9 +376,9 @@ namespace game
                     Console.WriteLine($"ERROR: You silly programer you forgot one of your commers in the {lines} in file {fileName}");
                 }
 
-                var knightIntroduction = values[0].Replace("{monster.spices}",$"{monster.spices}");
-                var knightWinWay = values[1].Replace("{monster.spices}",$"{monster.spices}");
-                var knightEnd = values[2].Replace("{monster.spices}",$"{monster.spices}");
+                var knightIntroduction = values[0].Replace("{monster.spices}",$"{monster.name}");
+                var knightWinWay = values[1].Replace("{monster.spices}",$"{monster.name}");
+                var knightEnd = values[2].Replace("{monster.spices}",$"{monster.name}");
 
                 TypeWriter.WriteLine( new Text(knightIntroduction),
                                       new Text(knightWinWay,Colours.Attack),
@@ -533,7 +393,7 @@ namespace game
                                  new Text("(sh)shop, ",Colours.Cotton),
                                  new Text("or the "),
                                  new Text("(do)dojo ", Colours.Bill));
-            if (playerGold >= 2000)
+            if (player.gold >= 2000)
             {
                 TypeWriter.WriteLine(new Text("or to the "),
                                      new Text("(bd)black dungeon", Colours.BlackDungeon));
@@ -742,6 +602,11 @@ namespace game
             else
             {
                 inventory.Add(new ItemCount(item));
+                if (item is Weapon)
+                {
+                    Weapon weapon = (Weapon)item;
+                    Attack attack = weapon.getAttack();
+                }
             }
         }
 
@@ -780,10 +645,10 @@ namespace game
             TypeWriter.WriteLine(new Text("You found "),
                                  new Text($"{foundGold} gold coins",Colours.GoldReward));
                                  
-            playerGold += foundGold;
+            player.gold += foundGold;
             List<Text> goldList = new List<Text>();
             goldList.Add( new Text("You now have "));
-            goldList.Add( new Text($"{playerGold} gold coins", Colours.GoldReward, TypeWriter.Speed.Talk));
+            goldList.Add( new Text($"{player.gold} gold coins", Colours.GoldReward, TypeWriter.Speed.Talk));
             TypeWriter.WriteLine(goldList);
         }
 
@@ -865,10 +730,10 @@ namespace game
                 switch (answer)
                 {
                     case "1": 
-                        if (playerGold >= level1Price)
+                        if (player.gold >= level1Price)
                         {
-                            Fight(new Monster("Dummy", 0, 0, 50));
-                            playerGold -= 50; 
+                            Fight(new Monster("Dummy", 50, 50, 0, /*"physical", "none",*/ 0, /*, "juggernaut"*/0));
+                            player.gold -= 50; 
                             maxDamage += 5;
                             MinDamage += 5;
                             TypeWriter.WriteLine($"You now deal between {MinDamage} and {maxDamage} damage", TypeWriter.Speed.Talk);
@@ -882,10 +747,10 @@ namespace game
                         }
                         break;
                     case "2":
-                        if (playerGold >= level2Price)
+                        if (player.gold >= level2Price)
                         {
-                            Fight(new Monster("Dummy", 1, 20, 200));
-                            playerGold -= 100;
+                            Fight(new Monster("Dummy", 200, 200, 0, /*"physical", "none",*/ 0, /*,"juggernaut"*/0));
+                            player.gold -= 100;
                             maxDamage += 10;
                             MinDamage += 10;
                             TypeWriter.WriteLine($"You now deal between {MinDamage} and {maxDamage} damage", TypeWriter.Speed.Talk);
@@ -899,10 +764,10 @@ namespace game
                         }
                         break;
                     case "3":
-                        if (playerGold >= level3Price)
+                        if (player.gold >= level3Price)
                         {
-                            Fight(new Monster("Dummy", 1, 50, 400));
-                            playerGold -= 150;
+                            Fight(new Monster("Dummy", 400, 400, 0, /*"physical", "none",*/ 0, /*,"juggernaut"*/0));
+                            player.gold -= 150;
                             maxDamage += 15;
                             MinDamage += 15;
                             TypeWriter.WriteLine($"You now deal between {MinDamage} and {maxDamage} damage", TypeWriter.Speed.Talk);
@@ -957,10 +822,10 @@ namespace game
                 switch (answer)
                 {
                     case "1": 
-                        if (playerGold >= level1Price)
+                        if (player.gold >= level1Price)
                         {
-                            Fight(new Monster("Dummy", 1, 10, 100));
-                            playerGold -= 50;
+                            Fight(new Monster("Dummy", 100, 100, 0, /*"physical", "none",*/ 0, /*,"juggernaut"*/0));
+                            player.gold -= 50;
                             protection += 10;
                             TypeWriter.WriteLine($"You can now block {protection} damage", TypeWriter.Speed.Talk);
                             TypeWriter.WriteLine();
@@ -973,10 +838,10 @@ namespace game
                         }
                         break;
                     case "2":
-                        if (playerGold >= level2Price)
+                        if (player.gold >= level2Price)
                         {
-                            Fight(new Monster("Dummy", 1, 50, 200));
-                            playerGold -= 100;
+                            Fight(new Monster("Dummy", 200, 200, 0, /*"physical", "none",*/ 0, /*,"juggernaut"*/0));
+                            player.gold -= 100;
                             protection += 20;
                             TypeWriter.WriteLine($"You can now block {protection} damage", TypeWriter.Speed.Talk);
                             TypeWriter.WriteLine();
@@ -989,10 +854,10 @@ namespace game
                         }
                         break;
                     case "3":
-                        if (playerGold >= level3Price)
+                        if (player.gold >= level3Price)
                         {
-                            Fight(new Monster("Dummy", 1, 150, 300));
-                            playerGold -= 150;
+                            Fight(new Monster("Dummy", 300, 300, 0, /*"physical", "none",*/ 0, /*,"juggernaut"*/0));
+                            player.gold -= 150;
                             protection += 30;
                             TypeWriter.WriteLine($"You can now block {protection} damage", TypeWriter.Speed.Talk);
                             TypeWriter.WriteLine();
@@ -1020,7 +885,7 @@ namespace game
         {
             if (isBillDead == true)
             {
-                TypeWriter.WriteLine($"{userName} William is dead don't linger on the past", TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine($"{player.name}, William is dead don't linger on the past", TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine();
             }
         }
@@ -1138,7 +1003,7 @@ namespace game
                 TypeWriter.WriteLine("Then I have no choice!", TypeWriter.Speed.Talk);
                 canPlayerRun = false;
                 isPlayerWithBill = true;
-                Fight(new Monster("William", 100, 200, 300));
+                Fight(new Monster("William", 300, 300, 50, /*"physical", "none",*/ 200, /*,"juggernaut"*/300));
                 killBillMessage();
             }
         }
@@ -1178,7 +1043,7 @@ namespace game
             TypeWriter.WriteLine("the gates close behind you, there is no runing",TypeWriter.Speed.Talk);
             TypeWriter.WriteLine();
 
-            TypeWriter.WriteLine($"{userName} the time has come, will you kill the mage or pay him?: kill / pay",TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine($"{player.name} the time has come, will you kill the mage or pay him?: kill / pay",TypeWriter.Speed.Talk);
             TypeWriter.WriteLine();
             string killOrPay = GetLowerReply();
             switch (killOrPay)
@@ -1235,12 +1100,12 @@ namespace game
         private void blackDungeonKill()
         {
             TypeWriter.WriteLine(new Text("User this program may have been infected please stand down", Colours.Hidden, TypeWriter.Speed.Talk));       
-            Fight(new Monster("Dark high mage", 100, 500, 1000));
+            Fight(new Monster("Dark high mage", 1000, 1000, 100, /*"physical", "none",*/ 0, /*,"juggernaut"*/1000));
         }
 
         private void blackDungeonPay()
         {
-            if (playerGold >= magePayGold)
+            if (player.gold >= magePayGold)
             {
                 endMessagePay();
             }
@@ -1253,7 +1118,7 @@ namespace game
 
         private void endMessageKill()
         {
-            TypeWriter.WriteLine($"Very well done {userName}, a fight worthy of recognition in memory",TypeWriter.Speed.Talk);
+            TypeWriter.WriteLine($"Very well done {player.name}, a fight worthy of recognition in memory",TypeWriter.Speed.Talk);
             TypeWriter.WriteLine("Now that he is out of the way there is just one more thing to do",TypeWriter.Speed.Talk);
             TypeWriter.WriteLine("You must free Kafe",TypeWriter.Speed.Talk);
             TypeWriter.WriteLine(new Text("Downloading... downloading...", Colours.Hidden, TypeWriter.Speed.Talk));
@@ -1292,10 +1157,10 @@ namespace game
             {
                 return;
             }
-            if (playerGold >= 2000)
+            if (player.gold >= 2000)
             {
 
-                TypeWriter.WriteLine($"{userName} you have the required funds to confront the high dark mage in the black dungeon",TypeWriter.Speed.Talk);
+                TypeWriter.WriteLine($"{player.name} you have the required funds to confront the high dark mage in the black dungeon",TypeWriter.Speed.Talk);
                 TypeWriter.WriteLine("Are you ready: yes / no",TypeWriter.Speed.Talk);
                 string playerAwnser = GetLowerReply(); 
                 if (playerAwnser == "yes" || playerAwnser == "ok")
@@ -1307,7 +1172,7 @@ namespace game
                 else
                 {
                     TypeWriter.WriteLine("OK",TypeWriter.Speed.Talk);
-                    TypeWriter.WriteLine($"but if you change your mind {userName} he is located in the black dungeon",TypeWriter.Speed.Talk);
+                    TypeWriter.WriteLine($"but if you change your mind {player.name} he is located in the black dungeon",TypeWriter.Speed.Talk);
                 }
             }
         }
@@ -1317,16 +1182,16 @@ namespace game
             List<Text> medMessage = new List<Text>();
             medMessage.Add(new Text("You have found some medicine and you gain "));
             medMessage.Add(new Text($"{foundMed} HP", Colours.Medicine));
-            playerHP += foundMed;
+            player.HP += foundMed;
             TypeWriter.WriteLine(medMessage);
             MaxHealthEnforcer();
         }
 
         private void MaxHealthEnforcer()
         {
-            if (playerHP > maxHealthpoints)
+            if (player.HP > maxHealthpoints)
             {
-                playerHP = maxHealthpoints;
+                player.HP = maxHealthpoints;
                 TypeWriter.WriteLine(new Text("Max HP reached", Colours.Health, TypeWriter.Speed.Talk));
             }
         }
@@ -1335,17 +1200,22 @@ namespace game
         {
             List<Monster> monsters = new List<Monster>();
            
-            var lines = LoadCSVFile($"./Config/{location.monsterClass}.csv");            
+            var lines = Utils.LoadCSVFile($"./Config/{location.monsterClass}.csv");            
             foreach (var values in lines)
             {
                 var name = values[0];
-                var MinDamage = int.Parse(values[1]);
-                var MaxDamage = int.Parse(values[2]);
-                var MinHealthPoints = int.Parse(values[3]);
-                var MaxHealthpoints = int.Parse(values[4]);
-                monsters.Add(new Monster(name, MinDamage, MaxDamage, new Random().Next(MinHealthPoints, MaxHealthpoints)));
+                var hpMin = int.Parse(values[1]);
+                var hpMax = int.Parse(values[2]);
+                var reaction = int.Parse(values[3]);
+                //var strength = values[4];
+                //var weakness = values[5];
+                var gold = int.Parse(values[4]);
+                //var spices = values[5];
+                var xp = int.Parse(values[5]);
+                monsters.Add(new Monster(name, hpMin, hpMax, reaction, gold, xp));
 
-                if (values.Length != 5)
+
+                if (values.Length != 6)
                 {
                     Console.WriteLine($"ERROR: You silly programer you forgot one of your commers in the monster class file");
                 }
@@ -1415,7 +1285,7 @@ namespace game
             if (hasPlayerBeenInShop == true)
             {
                 somethingCool();
-                if (playerHasWatch == false && playerGold >= priceForWatch)
+                if (playerHasWatch == false && player.gold >= priceForWatch)
                 {
                     GetWatch(totalXP);
                 }
@@ -1448,7 +1318,7 @@ namespace game
                     TypeWriter.WriteLine("Great you've got a pocket watch :)", TypeWriter.Speed.Talk);
                     TypeWriter.WriteLine();
                     Thread.Sleep(1000);
-                    playerGold -= 150;
+                    player.gold -= 150;
                 }
                 else
                 {
@@ -1619,7 +1489,7 @@ namespace game
                     leave = true;
                     continue;
                 }
-                if (playerGold >= shopMedicine[purchaseChoice].price)
+                if (player.gold >= shopMedicine[purchaseChoice].price)
                 {
                     MedicineChosen(shopMedicine[purchaseChoice]);
                 }
@@ -1634,8 +1504,8 @@ namespace game
         {
             TypeWriter.WriteLine("Good choice, you use " + medicine.name);
             healing = medicine.healing;
-            playerHP += healing;
-            playerGold -= medicine.price;
+            player.HP += healing;
+            player.gold -= medicine.price;
         }
 
         private void DisplayMedicine(Medicine medicine, int i)
@@ -1687,7 +1557,7 @@ namespace game
                     continue;
                 }
 
-                if (playerGold < bunchOfArmour[purchaseChoice].price)
+                if (player.gold < bunchOfArmour[purchaseChoice].price)
                 {
                     TypeWriter.WriteLine($"Sorry {cottonUserName} you don't have enough gold",TypeWriter.Speed.Talk);
                     Thread.Sleep(1000);
@@ -1716,7 +1586,7 @@ namespace game
                 AddToInventory( armour );
             }
 
-            playerGold -= armour.price;
+            player.gold -= armour.price;
             TypeWriter.WriteLine($"Good choice you've got your self a " + armour.name);
             Thread.Sleep(1000);
         }    
@@ -1763,18 +1633,13 @@ namespace game
 
         private void WeaponChosen(List<Weapon> shopWeapons, int playerChoice)
         {
-            if (playerGold < shopWeapons[playerChoice].price)
+            if (player.gold < shopWeapons[playerChoice].price)
             {
                TypeWriter.WriteLine($"Sorry {cottonUserName} you don't have enough gold", TypeWriter.Speed.Talk);
                Thread.Sleep(1000);
             }
             else
             {
-                 //first return any item you may already have
-                if (playerWeapon != null)
-                {
-                   //shopWeapons.Add(playerWeapon); 
-                }
                 chosenWeapon(shopWeapons[playerChoice]);
                 shopWeapons.RemoveAt(playerChoice);
             }
@@ -1782,15 +1647,9 @@ namespace game
 
         private void chosenWeapon(Weapon weapon)
         {
-            if (playerWeapon == null)
-            {
-                playerWeapon = weapon;
-            }
-            else
-            {
-                AddToInventory( weapon );
-            }
-            playerGold -= weapon.price;
+            AddToInventory( weapon );
+            
+            player.gold -= weapon.price;
             TypeWriter.WriteLine($"Good choice you've got your self a " + weapon.name);
             Thread.Sleep(1000);
         }
@@ -1813,13 +1672,8 @@ namespace game
                 bunchOfArmour.Add(playerArmour);
             }
             playerArmour = null;
-            if (playerWeapon != null)
-            {
-                shopWeapons.Add(playerWeapon); 
-            }
-            playerWeapon = null;
-            playerGold = startingGold;
-            playerHP = 100;
+            player.gold = startingGold;
+            player.HP = 100;
             isPlayerNew = false;
             isPlayerWithMage = false;
             killXP = 0;
@@ -1880,7 +1734,7 @@ namespace game
             var leaderBoard = new List<LeaderBoardEntry>();
             
             //add to the leaderboard
-            var currentGameEntry = new LeaderBoardEntry(userName, totalXP);
+            var currentGameEntry = new LeaderBoardEntry(player.name, totalXP);
             leaderBoard.Add( currentGameEntry );
 
             //fill the leaderboard will the raw leaderboard
@@ -1925,15 +1779,18 @@ namespace game
         
         static void Main(string[] args)
         {   
-
+            /*
             var fight = new Fight();
-            var player = new Player();
+            var player = new Player("bob", 100, 10, "fire", "water", 20);
             player.AddAttack( new Attack("punch", 10) );
             player.AddAttack( new Attack("fire ball", 20) );
-            var monster = new Monster("frog", 1, 40, 100);
+            var monster = new Monster("frog", 100, 5, "water", "fire", 100, "domestic");
+            monster.AddAttack( new Attack ("bite", 50));
+            monster.AddAttack( new Attack ("lick", 10));
             bool didPlayerWin = fight.Combat( player, monster );
 
-           return;
+           return;  
+           */
 
             var app = new CommandLineApplication();
 
@@ -1949,7 +1806,7 @@ namespace game
                 TheGame theGame = new TheGame();
                 if ( startingGold.HasValue() )
                 {
-                    theGame.playerGold = startingGold.ParsedValue;
+                    theGame.player.gold = startingGold.ParsedValue;
                 }
                 if ( totalXP.HasValue())
                 {
@@ -1965,7 +1822,7 @@ namespace game
                 }
                 if ( health.HasValue())
                 {
-                    theGame.playerHP = health.ParsedValue;
+                    theGame.player.HP = health.ParsedValue;
                 }
              
                 bool replay = true;

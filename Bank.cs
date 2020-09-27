@@ -86,7 +86,7 @@ namespace game
                 if (balance >= withdrawNumber)
                 {
                     balance -= withdrawNumber;
-                    theGame.playerGold += withdrawNumber;
+                    theGame.player.gold += withdrawNumber;
 
                     TypeWriter.WriteLine($"Your withdrawal of {withdrawNumber} gold has been made");
                     TypeWriter.WriteLine();
@@ -137,7 +137,7 @@ namespace game
                     continue;
                 }
 
-                if (theGame.playerGold < depositNumber)
+                if (theGame.player.gold < depositNumber)
                 {
                     TypeWriter.WriteLine("Sorry, but you don't have that amount of gold");
                     TypeWriter.WriteLine();
@@ -145,7 +145,7 @@ namespace game
                 else
                 {
                     balance =+ depositNumber;
-                    theGame.playerGold -= depositNumber;
+                    theGame.player.gold -= depositNumber;
 
                     TypeWriter.WriteLine($"Your deposit of {depositNumber} gold has been made");
                     TypeWriter.WriteLine();

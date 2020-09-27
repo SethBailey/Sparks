@@ -1,15 +1,15 @@
-Goblin, 1, 101, 1,101
-Hobgoblin, 20, 151, 50,151
-Skeleton, 1, 101, 1,171
-Giant Spider, 1, 101, 10,121
-Troll, 40, 201, 50, 301
-Starving Villager, 1, 81, 1, 101
-Giant, 60, 301, 80, 401
-Dark Knight, 20, 100, 50, 150
-Zombie, 1, 50, 1, 50
-Lesser Dragon, 50, 150, 1, 100
-Dragon, 50, 200, 100, 250
-Fairy, 1, 50, 1, 50
-Knight, 1, 100, 1, 120
-Grim Reaper, 200, 500, 100, 550
-Dwarf, 1, 151, 1, 101
+Goblin, 1, 101, 1, 30, 10
+Hobgoblin, 20, 151, 50,151, 10
+Skeleton, 1, 101, 1,171, 10
+Giant Spider, 1, 101, 10,121, 10
+Troll, 40, 201, 50, 301, 10
+Starving Villager, 1, 81, 1, 101, 10
+Giant, 60, 301, 80, 401, 10
+Dark Knight, 20, 100, 50, 150, 10
+Zombie, 1, 50, 1, 50, 10
+Lesser Dragon, 50, 150, 1, 100, 10
+Dragon, 50, 200, 100, 250, 10
+Fairy, 1, 50, 1, 50, 10
+Knight, 1, 100, 1, 120, 10
+Grim Reaper, 200, 500, 100, 550, 10
+Dwarf, 1, 151, 1, 101, 10

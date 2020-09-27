@@ -4,10 +4,17 @@ using game;
 
 internal class Attack
 {
-
-    public Attack(string name, int damage)
+    public enum AttackResult
     {
-        this.name = name;
+        Null,
+        Dead,
+        Damaged,
+        Deflected    
+    } 
+
+    public Attack(string attackName, int damage)
+    {
+        this.name = attackName;
         this.damage = damage;
     }
 

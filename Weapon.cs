@@ -1,3 +1,5 @@
+using System;
+
 namespace game
 {
     class Weapon : Item
@@ -16,42 +18,23 @@ namespace game
         public int damage {get;}
         public string description { get; }
 
-        internal override bool DoVerb(string verb, TheGame game)
-        {
-            if( isSynonymFor(verb,"equip") )  
-            {
-                TypeWriter.WriteLine();
-                TypeWriter.WriteLine(new Text($"You {verb} the "),
-                                     name,
-                                     new Text(" and you feel cool"));
-                if (game.playerWeapon != null)
-                {
-                    game.AddToInventory(game.playerWeapon);
-                    game.playerWeapon = this;
-                }
-                else
-                {
-                    game.playerWeapon = this;
-                }
-                TypeWriter.WriteLine();
-                game.playerStats();                        
-                return true;
-            }
-            return false;
-        }
-
         internal override bool ItemPriceDecisions(TheGame game)
         {
-            if (game.playerGold < price)
+            if (game.player.gold < price)
             {
                 TypeWriter.WriteLine("Sorry but you don't have the required gold");
                 return false;
             }
             else
             {
-                game.playerGold -= price;
+                game.player.gold -= price;
                 return true;
             }
+        }
+
+        internal Attack getAttack()
+        {
+            return new Attack(this.name.text,this.damage);
         }
     }
 }

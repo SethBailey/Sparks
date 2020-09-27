@@ -8,16 +8,59 @@ internal class Fight
 {
     internal bool Combat(Player player, Monster monster)
     {
-        TypeWriter.WriteLine($"You run into a {monster.spices}");
+        TypeWriter.WriteLine($"You run into a {monster.name}: {monster.HP} HP");
+        Character attacker;
+        Character defender;
+
         if (player.reaction >= monster.reaction)
         {
-            //player go's first
-            var attack = GetPlayerAttack(player);
-            monster.TakeAttack(attack);
+            attacker = player;
+            defender = monster;        
+        }
+        else
+        {
+            attacker = monster;
+            defender = player;
         }
 
-        return true;
+        Attack.AttackResult result = Attack.AttackResult.Null;
+        while ( result != Attack.AttackResult.Dead)
+        {
+            result = doStrike(attacker,defender);
+            if ( result != Attack.AttackResult.Dead)
+            {
+                //swap attacker and defender
+                (attacker, defender) = (defender, attacker);
+            }
+        }
+
+        if (attacker == player)
+        {
+            //player wins
+            TypeWriter.WriteLine(new Text("congratulations you win", Colours.Speech, TypeWriter.Speed.Talk));
+            return true;
+        }
+        else
+        {
+            //monsert wins
+            TypeWriter.WriteLine("you loose");
+        }
+        
+        return false;
     }
+
+        private Attack GetMonsterAttack(Monster monster)
+        {
+            List<Attack> monsterAttacks = monster.GetAttacks();
+            int count = monsterAttacks.Count;
+
+            //Let the monster Choose
+            Random rnd = new Random();
+            int monsterChoice = rnd.Next(0, count);
+
+            //return his choice
+            return monsterAttacks[monsterChoice];
+        }
 
         private Attack GetPlayerAttack(Player player)
         {
@@ -37,6 +80,12 @@ internal class Fight
             //return his choice
             return attacks[playerChoice-1];
         }
-    }
 
+        private Attack.AttackResult doStrike(Character attacker, Character defender)
+        {
+            //player go's first
+            var attack = attacker.displayAttack();
+            return defender.TakeAttack(attack);
+        }
+    }
 }

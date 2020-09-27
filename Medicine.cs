@@ -26,7 +26,7 @@ namespace game
                 TypeWriter.WriteLine(new Text($"You {verb} the "),
                                      name,
                                      new Text(" and it feels good"));
-                game.playerHP += healing;
+                game.player.HP += healing;
                 TypeWriter.WriteLine();
                 game.playerStats();
                 return true;
@@ -37,14 +37,14 @@ namespace game
 
         internal override bool ItemPriceDecisions(TheGame game)
         {
-            if (game.playerGold < price)
+            if (game.player.gold < price)
             {
                 TypeWriter.WriteLine("Sorry but you don't have the required gold");
                 return false;
             }
             else
             {
-                game.playerGold -= price;
+                game.player.gold -= price;
                 return true;
             }
         }
